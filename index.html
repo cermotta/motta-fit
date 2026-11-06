@@ -185,7 +185,7 @@
                     <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
                 </div>
 
-                <div id="auth-error" class="hidden p-3 bg-fit-redAccent/10 border border-fit-redAccent/20 rounded-xl text-fit-redAccent text-xs"></div>
+                <div id="auth-error" class="hidden p-3 bg-fit-redAccent/10 border border-fit-redAccent/20 rounded-xl text-fit-redAccent text-xs font-mono"></div>
 
                 <button type="submit" id="auth-submit-btn" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg shadow-fit-accent/10">
                     <i data-lucide="check" class="w-4 h-4"></i>
@@ -504,41 +504,22 @@
 
             hideSplashScreenNow();
 
-            // Limpa dados antigos em cache para forçar os links atualizados do GifDoTreino
-            if (!localStorage.getItem('motta_fit_version_fix_v4')) {
+            if (!localStorage.getItem('motta_fit_version_fix_v5')) {
                 localStorage.removeItem('motta_fit_active_plan');
-                localStorage.setItem('motta_fit_version_fix_v4', 'true');
+                localStorage.setItem('motta_fit_version_fix_v5', 'true');
             }
 
-            // Verificar sessão local salva
-            const localUser = localStorage.getItem('motta_fit_local_user');
-            if (localUser) {
-                try {
-                    currentUser = JSON.parse(localUser);
-                    triggerPostLoginSync(() => {
-                        document.getElementById('auth-section').classList.add('hidden');
-                        document.getElementById('btn-logout').classList.remove('hidden');
-                        if (currentUser.displayName) {
-                            document.getElementById('user-name').value = currentUser.displayName;
-                        }
-                        loadSavedLocalWorkout();
-                    });
-                } catch(err) {}
-            }
-
-            // Monitorar Firebase Auth
+            // Monitorar Firebase Auth em tempo real
             if (auth) {
                 auth.onAuthStateChanged(user => {
-                    if (user && !currentUser) {
+                    if (user) {
                         currentUser = user;
-                        triggerPostLoginSync(() => {
-                            document.getElementById('auth-section').classList.add('hidden');
-                            document.getElementById('btn-logout').classList.remove('hidden');
-                            if (user.displayName) {
-                                document.getElementById('user-name').value = user.displayName;
-                            }
-                            loadUserWorkoutFromFirebase(user.uid);
-                        });
+                        document.getElementById('auth-section').classList.add('hidden');
+                        document.getElementById('btn-logout').classList.remove('hidden');
+                        if (user.displayName) {
+                            document.getElementById('user-name').value = user.displayName;
+                        }
+                        loadUserWorkoutFromFirebase(user.uid);
                     }
                 });
             }
@@ -584,10 +565,10 @@
                         if (typeof onComplete === 'function') onComplete();
                     }, 400);
                 }
-            }, 50);
+            }, 40);
         }
 
-        // 3. AUTENTICAÇÃO
+        // 3. AUTENTICAÇÃO COM FIREBASE AUTH CORRIGIDA
         function toggleAuthMode() {
             isSignUpMode = !isSignUpMode;
             const title = document.getElementById('auth-title');
@@ -596,6 +577,7 @@
             const nameContainer = document.getElementById('auth-name-container');
             const errorDiv = document.getElementById('auth-error');
             errorDiv.classList.add('hidden');
+            errorDiv.innerText = '';
 
             if (isSignUpMode) {
                 title.innerText = "Criar Nova Conta";
@@ -617,6 +599,13 @@
             const password = document.getElementById('auth-password').value;
             const errorDiv = document.getElementById('auth-error');
             errorDiv.classList.add('hidden');
+            errorDiv.innerText = '';
+
+            if (!auth) {
+                errorDiv.innerText = "Erro: Firebase Auth não inicializado.";
+                errorDiv.classList.remove('hidden');
+                return;
+            }
 
             try {
                 if (isSignUpMode) {
@@ -626,24 +615,10 @@
                         return;
                     }
                     
-                    let authedUser = null;
-                    if (auth) {
-                        try {
-                            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                            await userCredential.user.updateProfile({ displayName: name });
-                            authedUser = userCredential.user;
-                        } catch (firebaseErr) {
-                            console.warn("Firebase Auth falhou, usando autenticação local:", firebaseErr);
-                        }
-                    }
+                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                    await userCredential.user.updateProfile({ displayName: name });
+                    currentUser = userCredential.user;
 
-                    if (!authedUser) {
-                        authedUser = { uid: 'local_' + Date.now(), displayName: name, email: email };
-                    }
-
-                    currentUser = authedUser;
-                    localStorage.setItem('motta_fit_local_user', JSON.stringify(currentUser));
-                    
                     triggerPostLoginSync(() => {
                         document.getElementById('user-name').value = name;
                         document.getElementById('auth-section').classList.add('hidden');
@@ -652,44 +627,30 @@
                     });
 
                 } else {
-                    let loggedUser = null;
-                    if (auth) {
-                        try {
-                            const cred = await auth.signInWithEmailAndPassword(email, password);
-                            loggedUser = cred.user;
-                        } catch (firebaseErr) {
-                            console.warn("Login Firebase falhou, verificando credencial local:", firebaseErr);
-                        }
-                    }
+                    const cred = await auth.signInWithEmailAndPassword(email, password);
+                    currentUser = cred.user;
 
-                    if (!loggedUser) {
-                        const localUser = localStorage.getItem('motta_fit_local_user');
-                        if (localUser) {
-                            loggedUser = JSON.parse(localUser);
-                        }
-                    }
-
-                    if (loggedUser) {
-                        currentUser = loggedUser;
-                        triggerPostLoginSync(() => {
-                            document.getElementById('auth-section').classList.add('hidden');
-                            document.getElementById('btn-logout').classList.remove('hidden');
-                            loadSavedLocalWorkout();
-                        });
-                    } else {
-                        errorDiv.innerText = "Credenciais inválidas ou conta não encontrada.";
-                        errorDiv.classList.remove('hidden');
-                    }
+                    triggerPostLoginSync(() => {
+                        document.getElementById('auth-section').classList.add('hidden');
+                        document.getElementById('btn-logout').classList.remove('hidden');
+                        loadSavedLocalWorkout();
+                    });
                 }
             } catch (error) {
-                errorDiv.innerText = error.message || "Erro na autenticação.";
-                errorDiv.classList.add('hidden');
+                console.error("Erro Firebase Auth:", error);
+                let msg = error.message;
+                if (error.code === 'auth/email-already-in-use') msg = "Este e-mail já está cadastrado. Faça login.";
+                if (error.code === 'auth/invalid-credential') msg = "E-mail ou senha incorretos.";
+                if (error.code === 'auth/weak-password') msg = "A senha deve ter pelo menos 6 caracteres.";
+                if (error.code === 'auth/invalid-email') msg = "E-mail com formato inválido.";
+                
+                errorDiv.innerText = `[${error.code}] ${msg}`;
+                errorDiv.classList.remove('hidden');
             }
         }
 
         function logoutUser() {
             if (auth) auth.signOut().catch(() => {});
-            localStorage.removeItem('motta_fit_local_user');
             localStorage.removeItem('motta_fit_active_plan');
             location.reload();
         }
@@ -738,7 +699,7 @@
             }
         }
 
-        // 5. GERADOR DE TREINOS COM PADRÃO EXATO DE NOMENCLATURA DO SITE
+        // 5. GERADOR DE TREINOS COM LINKS 100% CORRETOS DO GIFDOTREINO
         function selectExperience(exp) {
             selectedExperience = exp;
             document.querySelectorAll('.exp-btn').forEach(btn => {
@@ -964,7 +925,7 @@
 
         function openSettingsModal() { 
             const apiKeyInput = document.getElementById('custom-api-key');
-            if (apiKeyInput) apiKeyInput.value = localStorage.getItem('motta_fit_api_key') || '';
+            if (apiKeyInput) apiKeyInput.value = localStorage.getItem('motta_fit_api_key'] || '';
             document.getElementById('settings-modal').classList.remove('hidden'); 
         }
         function closeSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }

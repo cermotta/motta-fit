@@ -42,7 +42,7 @@
     <!-- FontAwesome & Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- FIREBASE SDKs (Compatiblity Version) -->
+    <!-- FIREBASE SDKs (Compatibility Version) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -159,7 +159,7 @@
             </button>
         </div>
 
-        <!-- SEÇÃO DE AUTENTICAÇÃO (LOGIN / REGISTRO) -->
+        <!-- SEÇÃO DE AUTENTICAÇÃO (LOGIN / REGISTRO COM NOME) -->
         <section id="auth-section" class="bg-fit-card border border-fit-border rounded-2xl p-5 shadow-xl">
             <div class="flex items-center space-x-2 pb-4 border-b border-fit-border">
                 <i data-lucide="log-in" class="w-5 h-5 text-fit-accent"></i>
@@ -167,6 +167,12 @@
             </div>
 
             <form id="auth-form" onsubmit="handleAuth(event)" class="mt-4 space-y-4">
+                <!-- CAMPO NOME (VISÍVEL APENAS NO CADASTRO) -->
+                <div id="auth-name-container" class="hidden">
+                    <label class="block text-xs font-semibold text-fit-subtext mb-1">Nome Completo</label>
+                    <input type="text" id="auth-name" placeholder="Ex: Eduardo Motta" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
+                </div>
+
                 <div>
                     <label class="block text-xs font-semibold text-fit-subtext mb-1">E-mail</label>
                     <input type="email" id="auth-email" required placeholder="seu@email.com" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
@@ -474,16 +480,16 @@
     <!-- LÓGICA JAVASCRIPT INTEGRADA AO FIREBASE -->
     <script>
         // ----------------------------------------------------
-        // 1. INICIALIZAÇÃO E CONFIGURAÇÃO DO FIREBASE
+        // 1. CHAVES OFICIAIS DO SEU PROJETO FIREBASE (motta-fit)
         // ----------------------------------------------------
-        // SUBSTITUA OS DADOS ABAIXO PELAS CREDENCIAIS DO SEU PROJETO NO FIREBASE
         const firebaseConfig = {
-            apiKey: "SUA_API_KEY_AQUI",
-            authDomain: "seu-projeto.firebaseapp.com",
-            projectId: "seu-projeto",
-            storageBucket: "seu-projeto.appspot.com",
-            messagingSenderId: "1234567890",
-            appId: "1:1234567890:web:abc123def456"
+            apiKey: "AIzaSyDxdtYxjSv6Y8pq8_80-_3Bm2Ts3LQCMlw",
+            authDomain: "motta-fit.firebaseapp.com",
+            projectId: "motta-fit",
+            storageBucket: "motta-fit.firebasestorage.app",
+            messagingSenderId: "1053816668656",
+            appId: "1:1053816668656:web:2803b44142fd6137d7dd35",
+            measurementId: "G-Y99436N0BG"
         };
 
         let auth, db;
@@ -495,7 +501,7 @@
             auth = firebase.auth();
             db = firebase.firestore();
         } catch (e) {
-            console.error("Erro ao conectar com Firebase: Verifique a variável firebaseConfig.", e);
+            console.error("Erro ao inicializar Firebase:", e);
         }
 
         // ----------------------------------------------------
@@ -547,6 +553,12 @@
                         currentUser = user;
                         document.getElementById('auth-section').classList.add('hidden');
                         document.getElementById('btn-logout').classList.remove('hidden');
+                        
+                        // Pré-preencher o nome no onboarding caso exista
+                        if (user.displayName) {
+                            document.getElementById('user-name').value = user.displayName;
+                        }
+                        
                         loadUserWorkoutFromFirebase(user.uid);
                     } else {
                         currentUser = null;
@@ -567,36 +579,47 @@
             const title = document.getElementById('auth-title');
             const btnText = document.getElementById('auth-btn-text');
             const toggleBtn = document.getElementById('auth-toggle-btn');
+            const nameContainer = document.getElementById('auth-name-container');
             const errorDiv = document.getElementById('auth-error');
             errorDiv.classList.add('hidden');
 
             if (isSignUpMode) {
                 title.innerText = "Criar Nova Conta";
                 btnText.innerText = "Cadastrar Aluno";
+                nameContainer.classList.remove('hidden');
                 toggleBtn.innerHTML = 'Já possui uma conta? <strong class="text-fit-accent">Faça Login</strong>';
             } else {
                 title.innerText = "Entrar na sua Conta";
                 btnText.innerText = "Entrar";
+                nameContainer.classList.add('hidden');
                 toggleBtn.innerHTML = 'Não tem uma conta? <strong class="text-fit-accent">Cadastre-se aqui</strong>';
             }
         }
 
         async function handleAuth(e) {
             e.preventDefault();
+            const name = document.getElementById('auth-name').value;
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
             const errorDiv = document.getElementById('auth-error');
             errorDiv.classList.add('hidden');
 
             if (!auth) {
-                errorDiv.innerText = "Firebase não foi configurado corretamente no código HTML.";
+                errorDiv.innerText = "Erro: Firebase não configurado corretamente.";
                 errorDiv.classList.remove('hidden');
                 return;
             }
 
             try {
                 if (isSignUpMode) {
-                    await auth.createUserWithEmailAndPassword(email, password);
+                    if (!name.trim()) {
+                        errorDiv.innerText = "Por favor, digite seu nome completo.";
+                        errorDiv.classList.remove('hidden');
+                        return;
+                    }
+                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                    // Salvar Nome no perfil do usuário Firebase
+                    await userCredential.user.updateProfile({ displayName: name });
                 } else {
                     await auth.signInWithEmailAndPassword(email, password);
                 }
@@ -673,7 +696,7 @@
         }
 
         async function generateWorkoutWithAI() {
-            const userName = document.getElementById('user-name').value || 'Aluno';
+            const userName = document.getElementById('user-name').value || (currentUser ? currentUser.displayName : 'Aluno');
             const userAge = document.getElementById('user-age').value || '25';
             const userGender = document.getElementById('user-gender').value;
             const userGoal = document.getElementById('user-goal').value;

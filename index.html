@@ -53,13 +53,13 @@
             0% { opacity: 0; transform: scale(0.9); }
             100% { opacity: 1; transform: scale(1); }
         }
-        .splash-animate { animation: fadeInScale 0.8s ease-out forwards; }
+        .splash-animate { animation: fadeInScale 1.2s ease-out forwards; }
     </style>
 </head>
 <body class="h-full flex flex-col justify-between custom-scrollbar selection:bg-fit-accent selection:text-black">
 
-    <!-- TELA DE ABERTURA INICIAL (SPLASH TOP) -->
-    <div id="splash-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 transition-opacity duration-700">
+    <!-- TELA DE ABERTURA INICIAL (SPLASH TOP - ~7 SEGUNDOS) -->
+    <div id="splash-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 transition-opacity duration-1000">
         <div class="splash-animate flex flex-col items-center space-y-6 text-center max-w-xs w-full">
             <div class="w-24 h-24 bg-fit-card border-2 border-fit-accent/50 rounded-3xl flex items-center justify-center p-3 shadow-2xl shadow-fit-accent/20">
                 <svg viewBox="0 0 300 150" class="w-full h-full">
@@ -84,8 +84,8 @@
         </div>
     </div>
 
-    <!-- TELA DE CARREGAMENTO PÓS-LOGIN / CADASTRO COM PROGRESSO -->
-    <div id="loading-sync-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 hidden transition-opacity duration-700">
+    <!-- TELA DE CARREGAMENTO PÓS-LOGIN / CADASTRO (~7 SEGUNDOS COM ETAPAS) -->
+    <div id="loading-sync-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 hidden transition-opacity duration-1000">
         <div class="splash-animate flex flex-col items-center space-y-6 text-center max-w-xs w-full">
             <div class="w-24 h-24 bg-fit-card border-2 border-fit-accent/50 rounded-3xl flex items-center justify-center p-3 shadow-2xl shadow-fit-accent/20">
                 <svg viewBox="0 0 300 150" class="w-full h-full">
@@ -114,7 +114,7 @@
                     <span id="sync-percentage">0%</span>
                 </div>
                 <div class="w-full h-2 bg-fit-card border border-fit-border rounded-full overflow-hidden p-0.5">
-                    <div id="sync-progress-bar" class="h-full bg-fit-accent rounded-full transition-all duration-150" style="width: 0%;"></div>
+                    <div id="sync-progress-bar" class="h-full bg-fit-accent rounded-full transition-all duration-300" style="width: 0%;"></div>
                 </div>
             </div>
         </div>
@@ -459,28 +459,28 @@
         let restTimerInterval = null;
         let restTimeRemaining = 60;
 
-        // Splash Inicial com tempo ideal e controlado
+        // Splash Inicial com exatos ~7 segundos de duração
         function hideSplashSmoothly() {
             const splash = document.getElementById('splash-screen');
             if (splash && splash.style.display !== 'none') {
                 splash.style.opacity = '0';
-                setTimeout(() => splash.style.display = 'none', 700);
+                setTimeout(() => splash.style.display = 'none', 1000);
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
 
-            if (!localStorage.getItem('motta_fit_version_fix_v14')) {
+            if (!localStorage.getItem('motta_fit_version_fix_v15')) {
                 localStorage.removeItem('motta_fit_active_plan');
-                localStorage.setItem('motta_fit_version_fix_v14', 'true');
+                localStorage.setItem('motta_fit_version_fix_v15', 'true');
             }
 
-            // Garante tempo elegante para ver o Splash Top inicial (1.6 segundos)
+            // Splash inicial visível por exatamente 7 segundos
             setTimeout(() => {
                 hideSplashSmoothly();
                 checkLocalActiveUser();
-            }, 1600);
+            }, 7000);
         });
 
         function checkLocalActiveUser() {
@@ -502,7 +502,7 @@
             }
         }
 
-        // TELA DE CARREGAMENTO / SINCRONIZAÇÃO COMPLETA (com as etapas solicitadas)
+        // TELA DE CARREGAMENTO / SINCRONIZAÇÃO DE ~7 SEGUNDOS (Com as etapas detalhadas)
         function triggerPostLoginSync(onComplete) {
             const syncScreen = document.getElementById('loading-sync-screen');
             if (syncScreen) syncScreen.classList.remove('hidden');
@@ -519,14 +519,16 @@
                 { at: 100, text: "Tudo pronto!" }
             ];
 
+            // Intervalo calculado para durar cerca de 7 segundos (70 passos de 100ms = 7000ms)
             const interval = setInterval(() => {
-                progress += 5;
+                progress += 1.45; 
                 if (progress > 100) progress = 100;
 
-                if (progressBar) progressBar.style.width = progress + '%';
-                if (progressText) progressText.innerText = progress + '%';
+                const displayProgress = Math.floor(progress);
+                if (progressBar) progressBar.style.width = displayProgress + '%';
+                if (progressText) progressText.innerText = displayProgress + '%';
 
-                const currentStepObj = steps.find(s => progress <= s.at);
+                const currentStepObj = steps.find(s => displayProgress <= s.at);
                 if (currentStepObj && statusText) {
                     statusText.innerText = currentStepObj.text;
                 }
@@ -536,15 +538,15 @@
                     setTimeout(() => {
                         if (syncScreen) {
                             syncScreen.style.opacity = '0';
-                            setTimeout(() => syncScreen.style.display = 'none', 500);
+                            setTimeout(() => syncScreen.style.display = 'none', 1000);
                         }
                         if (typeof onComplete === 'function') onComplete();
-                    }, 400);
+                    }, 500);
                 }
-            }, 40);
+            }, 100);
         }
 
-        // AUTENTICAÇÃO LOCAL BLINDADA CONTRA ERROS DE API
+        // AUTENTICAÇÃO LOCAL BLINDADA
         function toggleAuthMode() {
             isSignUpMode = !isSignUpMode;
             const title = document.getElementById('auth-title');
@@ -586,6 +588,7 @@
             currentUser = { uid: "local_" + Date.now(), email: email, displayName: finalName };
             localStorage.setItem('motta_fit_local_user', JSON.stringify(currentUser));
 
+            // Dispara o Splash de Sincronização de ~7 segundos no Login/Cadastro
             triggerPostLoginSync(() => {
                 document.getElementById('user-name').value = finalName;
                 document.getElementById('auth-section').classList.add('hidden');

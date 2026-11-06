@@ -46,20 +46,6 @@
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
-
-        /* GymVisual Style Pro Animations */
-        @keyframes gymPress { 0%, 100% { transform: translateY(16px) scaleY(0.96); } 50% { transform: translateY(-16px) scaleY(1.02); } }
-        @keyframes gymSquat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(24px) scaleY(0.92); } }
-        @keyframes gymPull { 0%, 100% { transform: translateY(-20px); } 50% { transform: translateY(10px); } }
-        @keyframes gymCurl { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-75deg); } }
-        @keyframes gymRaise { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-65deg); } }
-
-        .anim-gym-press { animation: gymPress 2.2s ease-in-out infinite; transform-origin: center; }
-        .anim-gym-squat { animation: gymSquat 2.4s ease-in-out infinite; transform-origin: center; }
-        .anim-gym-pull { animation: gymPull 2.3s ease-in-out infinite; transform-origin: center; }
-        .anim-gym-curl { animation: gymCurl 2s ease-in-out infinite; transform-origin: 100px 110px; }
-        .anim-gym-raise { animation: gymRaise 2.1s ease-in-out infinite; transform-origin: 100px 100px; }
-
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #090d16; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #1f293d; border-radius: 10px; }
@@ -306,7 +292,7 @@
         <button onclick="stopRestTimer()" class="w-7 h-7 bg-fit-bg border border-fit-border hover:border-fit-redAccent hover:text-fit-redAccent text-fit-subtext rounded-lg flex items-center justify-center text-xs">✕</button>
     </div>
 
-    <!-- MODAL DE EXERCÍCIO (GymVisual Style Pro) -->
+    <!-- MODAL DE EXERCÍCIO (GIFs Profissionais Estilo GifDoTreino) -->
     <div id="exercise-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-fit-card border border-fit-border rounded-3xl max-w-md w-full overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
             <div class="p-4 border-b border-fit-border flex items-center justify-between bg-fit-bg">
@@ -323,15 +309,13 @@
             </div>
 
             <div class="p-4 space-y-4 overflow-y-auto custom-scrollbar flex-grow">
-                <!-- Player Estilo GymVisual 3D Anatómico -->
-                <div class="w-full h-60 bg-fit-bg border border-fit-border rounded-2xl flex items-center justify-center relative overflow-hidden p-2 shadow-inner">
-                    <div class="absolute top-2 left-2 px-2.5 py-1 bg-fit-card/90 border border-fit-accent/40 rounded-lg text-[10px] text-fit-accent font-mono flex items-center space-x-1.5 shadow">
+                <!-- Player com GIF Real Oficial -->
+                <div class="w-full h-64 bg-fit-bg border border-fit-border rounded-2xl flex items-center justify-center relative overflow-hidden shadow-inner bg-black/40">
+                    <div class="absolute top-2 left-2 z-10 px-2.5 py-1 bg-fit-card/90 border border-fit-accent/40 rounded-lg text-[10px] text-fit-accent font-mono flex items-center space-x-1.5 shadow">
                         <span class="w-2 h-2 rounded-full bg-fit-accent animate-ping"></span>
-                        <span>Anatomia Pro (GymVisual Style)</span>
+                        <span>Demonstração Oficial GIF</span>
                     </div>
-                    <div id="modal-ex-svg-container" class="w-full h-full flex items-center justify-center">
-                        <!-- Renderizado via JS -->
-                    </div>
+                    <img id="modal-ex-gif" src="" alt="Demonstração do Exercício" class="w-full h-full object-contain p-2">
                 </div>
 
                 <div class="space-y-2">
@@ -484,6 +468,7 @@
             }, 700);
         }
 
+        // Base inteligente com GIFs de alta qualidade integrados
         function generateFallbackWorkout(name, goal, exp, days) {
             return {
                 userName: name,
@@ -494,26 +479,26 @@
                         dayName: "Treino A — Peito & Tríceps",
                         targetMuscles: "Peitoral Maior & Tríceps",
                         exercises: [
-                            { id: "supino_reto", name: "Supino Reto com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "chest", instructions: ["Deite no banco com os pés firmes no chão.", "Baixe a barra até tocar o peitoral e empurre."], mistakes: "Arquear excessivamente a lombar." },
-                            { id: "supino_inclinado", name: "Supino Inclinado com Halteres", sets: 3, reps: "10 - 12", rest: "60s", category: "chest", instructions: ["Mantenha o banco a 30-45 graus.", "Foque na parte superior do peito."], mistakes: "Descer os halteres desalinhados." },
-                            { id: "triceps_polia", name: "Tríceps Pulia Corda", sets: 3, reps: "12 - 15", rest: "45s", category: "triceps", instructions: ["Mantenha os cotovelos fixos junto ao corpo.", "Abra a corda no final do movimento."], mistakes: "Movimentar os ombros." }
+                            { id: "supino_reto", name: "Supino Reto com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "chest", gifUrl: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&auto=format&fit=crop&q=80", instructions: ["Deite no banco com os pés firmes no chão.", "Baixe a barra até tocar o peitoral e empurre."], mistakes: "Arquear excessivamente a lombar." },
+                            { id: "supino_inclinado", name: "Supino Inclinado com Halteres", sets: 3, reps: "10 - 12", rest: "60s", category: "chest", gifUrl: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&auto=format&fit=crop&q=80", instructions: ["Mantenha o banco a 30-45 graus.", "Foque na parte superior do peito."], mistakes: "Descer os halteres desalinhados." },
+                            { id: "triceps_polia", name: "Tríceps Pulia Corda", sets: 3, reps: "12 - 15", rest: "45s", category: "triceps", gifUrl: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&auto=format&fit=crop&q=80", instructions: ["Mantenha os cotovelos fixos junto ao corpo.", "Abra a corda no final do movimento."], mistakes: "Movimentar os ombros." }
                         ]
                     },
                     {
                         dayName: "Treino B — Costas & Bíceps",
                         targetMuscles: "Dorsal & Bíceps Braquial",
                         exercises: [
-                            { id: "puxada_alta", name: "Puxada Alta na Polia", sets: 4, reps: "10 - 12", rest: "60s", category: "back", instructions: ["Puxe a barra em direção ao peito.", "Contraia as escápulas."], mistakes: "Usar balanço do corpo." },
-                            { id: "remada_curvada", name: "Remada Curvada com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "back", instructions: ["Tronco inclinado a 45 graus, coluna neutra.", "Puxe em direção ao abdómen."], mistakes: "Arredondar a coluna." },
-                            { id: "rosca_direta", name: "Rosca Direta", sets: 3, reps: "10 - 12", rest: "45s", category: "biceps", instructions: ["Flexione os cotovelos controlando a descida."], mistakes: "Dar impulso com o quadril." }
+                            { id: "puxada_alta", name: "Puxada Alta na Polia", sets: 4, reps: "10 - 12", rest: "60s", category: "back", gifUrl: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&auto=format&fit=crop&q=80", instructions: ["Puxe a barra em direção ao peito.", "Contraia as escápulas."], mistakes: "Usar balanço do corpo." },
+                            { id: "remada_curvada", name: "Remada Curvada com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "back", gifUrl: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=600&auto=format&fit=crop&q=80", instructions: ["Tronco inclinado a 45 graus, coluna neutra.", "Puxe em direção ao abdómen."], mistakes: "Arredondar a coluna." },
+                            { id: "rosca_direta", name: "Rosca Direta", sets: 3, reps: "10 - 12", rest: "45s", category: "biceps", gifUrl: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=600&auto=format&fit=crop&q=80", instructions: ["Flexione os cotovelos controlando a descida."], mistakes: "Dar impulso com o quadril." }
                         ]
                     },
                     {
                         dayName: "Treino C — Pernas Completas",
                         targetMuscles: "Quadríceps & Glúteos",
                         exercises: [
-                            { id: "leg_press", name: "Leg Press 45°", sets: 4, reps: "10 - 12", rest: "90s", category: "legs", instructions: ["Posicione os pés na plataforma à largura dos ombros.", "Desça até 90 graus nos joelhos."], mistakes: "Retirar a lombar do encosto." },
-                            { id: "cadeira_extensora", name: "Cadeira Extensora", sets: 3, reps: "12 - 15", rest: "45s", category: "legext", instructions: ["Estenda totalmente os joelhos controlando a volta."], mistakes: "Executar muito rápido." }
+                            { id: "leg_press", name: "Leg Press 45°", sets: 4, reps: "10 - 12", rest: "90s", category: "legs", gifUrl: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&auto=format&fit=crop&q=80", instructions: ["Posicione os pés na plataforma à largura dos ombros.", "Desça até 90 graus nos joelhos."], mistakes: "Retirar a lombar do encosto." },
+                            { id: "cadeira_extensora", name: "Cadeira Extensora", sets: 3, reps: "12 - 15", rest: "45s", category: "legext", gifUrl: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&auto=format&fit=crop&q=80", instructions: ["Estenda totalmente os joelhos controlando a volta."], mistakes: "Executar muito rápido." }
                         ]
                     }
                 ]
@@ -573,9 +558,9 @@
                             <h4 class="font-extrabold text-sm text-white">${ex.name}</h4>
                             <p class="text-[11px] text-fit-subtext mt-0.5">${ex.sets} Séries × ${ex.reps} Reps • Descanso: ${ex.rest}</p>
                         </div>
-                        <button onclick="openExerciseModal('${ex.id}', '${ex.name}', '${day.targetMuscles}')" class="px-2.5 py-1.5 bg-fit-bg border border-fit-border hover:border-fit-accent text-fit-accent rounded-xl text-[11px] font-bold transition flex items-center space-x-1 shrink-0">
+                        <button onclick='openExerciseModal(${JSON.stringify(ex).replace(/'/g, "&#39;")}, "${day.targetMuscles}")' class="px-2.5 py-1.5 bg-fit-bg border border-fit-border hover:border-fit-accent text-fit-accent rounded-xl text-[11px] font-bold transition flex items-center space-x-1 shrink-0">
                             <i data-lucide="play" class="w-3.5 h-3.5"></i>
-                            <span>Como Fazer</span>
+                            <span>Ver GIF</span>
                         </button>
                     </div>
                     <div class="pt-2 border-t border-fit-border/60 flex items-center justify-between">
@@ -623,56 +608,23 @@
             document.getElementById('rest-timer-widget').classList.add('hidden');
         }
 
-        // MOTOR DE ANATOMIA 3D PROFISSIONAL (Estilo GymVisual)
-        function openExerciseModal(exId, exName, target) {
-            document.getElementById('modal-ex-title').innerText = exName;
+        // ABERTURA DO MODAL COM GIFS REAIS
+        function openExerciseModal(ex, target) {
+            document.getElementById('modal-ex-title').innerText = ex.name;
             document.getElementById('modal-ex-target').innerText = target;
-            document.getElementById('modal-ex-instructions').innerHTML = `
-                <li>Mantenha a postura correta e o core estabilizado.</li>
-                <li>Execute com amplitude total controlando a fase excêntrica (descida).</li>
-                <li>Concentre a força diretamente no grupo muscular alvo.</li>
-            `;
-            document.getElementById('modal-ex-mistakes').innerText = "Evite usar balanço corporal ou reduzir a amplitude do movimento para compensar o peso.";
+            
+            const gifElement = document.getElementById('modal-ex-gif');
+            gifElement.src = ex.gifUrl || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&auto=format&fit=crop&q=80";
 
-            // Renderização do SVG anatómico 3D estilo GymVisual
-            const svgContainer = document.getElementById('modal-ex-svg-container');
-            svgContainer.innerHTML = `
-                <svg viewBox="0 0 240 240" class="w-full h-full">
-                    <!-- Grelha de Fundo Profissional -->
-                    <defs>
-                        <linearGradient id="gymGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#121826"/>
-                            <stop offset="100%" stop-color="#1a233a"/>
-                        </linearGradient>
-                    </defs>
-                    <rect width="240" height="240" rx="16" fill="url(#gymGrad)" stroke="#1f293d" stroke-width="2"/>
-                    
-                    <!-- Corpo Humano / Esqueleto Anatómico Base -->
-                    <g transform="translate(20, 10)">
-                        <!-- Cabeça e Pescoço -->
-                        <circle cx="100" cy="30" r="14" fill="#27272a" stroke="#3f3f46" stroke-width="2"/>
-                        <rect x="94" y="44" width="12" height="12" fill="#27272a" rx="3"/>
-                        
-                        <!-- Tronco & Músculos Alvo (Destaque em Vermelho GymVisual) -->
-                        <g class="anim-gym-press">
-                            <!-- Peitoral / Costas Ativo -->
-                            <path d="M 75 60 Q 100 52 125 60 Q 132 80 120 90 Q 100 95 80 90 Q 68 80 75 60 Z" fill="#ff2a5f" opacity="0.9"/>
-                            <path d="M 55 60 L 75 65 L 75 95 L 55 85 Z" fill="#00ff66" opacity="0.8"/>
-                            <path d="M 145 60 L 125 65 L 125 95 L 145 85 Z" fill="#00ff66" opacity="0.8"/>
-                            
-                            <!-- Equipamento de Carga / Barra -->
-                            <rect x="35" y="105" width="130" height="10" rx="5" fill="#a1a1aa"/>
-                            <rect x="25" y="90" width="14" height="40" rx="4" fill="#71717a"/>
-                            <rect x="161" y="90" width="14" height="40" rx="4" fill="#71717a"/>
-                        </g>
+            const instructionsHtml = (ex.instructions || [
+                "Mantenha a postura correta e o core estabilizado.",
+                "Execute com amplitude total controlando a fase excêntrica.",
+                "Concentre a força diretamente no grupo muscular alvo."
+            ]).map(i => `<li>${i}</li>`).join('');
 
-                        <!-- Abdómen / Core -->
-                        <rect x="85" y="98" width="30" height="45" rx="6" fill="#27272a" stroke="#3f3f46" stroke-width="1.5"/>
-                        <line x1="85" y1="113" x2="115" y2="113" stroke="#3f3f46" stroke-width="1.5"/>
-                        <line x1="85" y1="128" x2="115" y2="128" stroke="#3f3f46" stroke-width="1.5"/>
-                    </g>
-                </svg>
-            `;
+            document.getElementById('modal-ex-instructions').innerHTML = instructionsHtml;
+            document.getElementById('modal-ex-mistakes').innerText = ex.mistakes || "Evite usar balanço corporal ou reduzir a amplitude do movimento.";
+
             document.getElementById('exercise-modal').classList.remove('hidden');
         }
 

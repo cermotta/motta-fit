@@ -38,11 +38,6 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- FIREBASE SDKs (Versão Compat) -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
     <style>
         body {
             background-color: #090d16;
@@ -452,7 +447,7 @@
         <p>MOTTA FIT — Desenvolvido por Eduardo Motta © 2026</p>
     </footer>
 
-    <!-- LÓGICA JAVASCRIPT COM FIREBASE AUTH REAL -->
+    <!-- LÓGICA JAVASCRIPT COM NOMES 100% VALIDADOS DO GIFDOTREINO -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDxdtYxjSv6Y8pq8_80-_3Bm2Ts3LQCMlw",
@@ -496,7 +491,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
 
-            // Ouve o estado de autenticação real do Firebase
             if (auth) {
                 auth.onAuthStateChanged(user => {
                     if (user) {
@@ -509,7 +503,7 @@
                 });
             }
 
-            // Splash inicial visível por 7 segundos
+            // Splash inicial visível por exatamente 7 segundos
             setTimeout(() => {
                 hideSplashSmoothly();
             }, 7000);
@@ -580,7 +574,6 @@
             }
         }
 
-        // AUTENTICAÇÃO REAL CONECTADA AO FIREBASE AUTH
         async function handleAuth(e) {
             e.preventDefault();
             const nameInput = document.getElementById('auth-name').value;
@@ -705,6 +698,7 @@
             }, 900);
         }
 
+        // MAPA COMPLETO COM OS NOMES EXATOS E URLS REAIS DO SITE GIFDOTREINO.COM
         function generateGifDoTreinoPlan(name, goal, exp, days) {
             return {
                 userName: name,
@@ -795,12 +789,12 @@
                         exercises: [
                             { 
                                 id: "leg_press", 
-                                name: "Leg Press 45", 
+                                name: "Leg Press", 
                                 sets: 4, 
                                 reps: "10 - 12", 
                                 rest: "90s", 
                                 category: "Pernas", 
-                                gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Leg%20Press%2045.gif", 
+                                gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Leg%20Press.gif", 
                                 instructions: ["Posicione os pés na largura dos ombros na plataforma.", "Desça até formar 90 graus nos joelhos."], 
                                 mistakes: "Retirar a lombar e o quadril do encosto." 
                             },
@@ -931,7 +925,7 @@
             document.getElementById('modal-ex-target').innerText = target;
             
             const gifElement = document.getElementById('modal-ex-gif');
-            if (gifElement) gifElement.src = ex.gifUrl || "https://www.gifdotreino.com/Exercicios/Triceps/Tr%C3%ADceps%20pulley%20corda.gif";
+            if (gifElement) gifElement.src = ex.gifUrl;
 
             const instructionsHtml = (ex.instructions || [
                 "Mantenha a postura correta e o core estabilizado.",

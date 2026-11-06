@@ -35,13 +35,8 @@
         }
     </script>
 
-    <!-- FontAwesome & Lucide Icons -->
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- FIREBASE SDKs (Compatibility Version) -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <style>
         body {
@@ -89,7 +84,7 @@
         </div>
     </div>
 
-    <!-- TELA DE CARREGAMENTO PÓS-LOGIN / CADASTRO COM PROGRESSO COMPLETO -->
+    <!-- TELA DE CARREGAMENTO PÓS-LOGIN / CADASTRO COM PROGRESSO -->
     <div id="loading-sync-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 hidden transition-opacity duration-700">
         <div class="splash-animate flex flex-col items-center space-y-6 text-center max-w-xs w-full">
             <div class="w-24 h-24 bg-fit-card border-2 border-fit-accent/50 rounded-3xl flex items-center justify-center p-3 shadow-2xl shadow-fit-accent/20">
@@ -454,33 +449,8 @@
 
     <!-- LÓGICA JAVASCRIPT -->
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDxdtYxjSv6Y8pq8_80-_3Bm2Ts3LQCMlw",
-            authDomain: "motta-fit.firebaseapp.com",
-            projectId: "motta-fit",
-            storageBucket: "motta-fit.firebasestorage.app",
-            messagingSenderId: "1053816668656",
-            appId: "1:1053816668656:web:2803b44142fd6137d7dd35",
-            measurementId: "G-Y99436N0BG"
-        };
-
-        let auth = null;
-        let db = null;
         let currentUser = null;
         let isSignUpMode = false;
-
-        try {
-            if (typeof firebase !== 'undefined' && !firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
-                auth = firebase.auth();
-                db = firebase.firestore();
-            } else if (firebase.apps.length) {
-                auth = firebase.auth();
-                db = firebase.firestore();
-            }
-        } catch (e) {
-            console.warn("Modo local ativo por segurança:", e);
-        }
 
         let currentStep = 1;
         let selectedExperience = 'Iniciante';
@@ -489,7 +459,7 @@
         let restTimerInterval = null;
         let restTimeRemaining = 60;
 
-        // Splash Inicial com tempo perfeito e controlado (sem sumir rápido demais)
+        // Splash Inicial com tempo ideal e controlado
         function hideSplashSmoothly() {
             const splash = document.getElementById('splash-screen');
             if (splash && splash.style.display !== 'none') {
@@ -501,16 +471,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
 
-            if (!localStorage.getItem('motta_fit_version_fix_v13')) {
+            if (!localStorage.getItem('motta_fit_version_fix_v14')) {
                 localStorage.removeItem('motta_fit_active_plan');
-                localStorage.setItem('motta_fit_version_fix_v13', 'true');
+                localStorage.setItem('motta_fit_version_fix_v14', 'true');
             }
 
-            // Garante tempo mínimo de apreciação do Splash Top inicial (1.8 segundos)
+            // Garante tempo elegante para ver o Splash Top inicial (1.6 segundos)
             setTimeout(() => {
                 hideSplashSmoothly();
                 checkLocalActiveUser();
-            }, 1800);
+            }, 1600);
         });
 
         function checkLocalActiveUser() {
@@ -532,7 +502,7 @@
             }
         }
 
-        // TELA DE CARREGAMENTO / SINCRONIZAÇÃO COMPLETA (com as etapas solicitadas e tempo ideal)
+        // TELA DE CARREGAMENTO / SINCRONIZAÇÃO COMPLETA (com as etapas solicitadas)
         function triggerPostLoginSync(onComplete) {
             const syncScreen = document.getElementById('loading-sync-screen');
             if (syncScreen) syncScreen.classList.remove('hidden');
@@ -550,7 +520,7 @@
             ];
 
             const interval = setInterval(() => {
-                progress += 5; // Incremento suave para dar tempo de leitura
+                progress += 5;
                 if (progress > 100) progress = 100;
 
                 if (progressBar) progressBar.style.width = progress + '%';
@@ -569,12 +539,12 @@
                             setTimeout(() => syncScreen.style.display = 'none', 500);
                         }
                         if (typeof onComplete === 'function') onComplete();
-                    }, 500);
+                    }, 400);
                 }
-            }, 50); // Velocidade ideal controlada
+            }, 40);
         }
 
-        // 3. AUTENTICAÇÃO HÍBRIDA (FIREBASE + MODO LOCAL BLINDADO CONTRA ERROS DE API)
+        // AUTENTICAÇÃO LOCAL BLINDADA CONTRA ERROS DE API
         function toggleAuthMode() {
             isSignUpMode = !isSignUpMode;
             const title = document.getElementById('auth-title');
@@ -598,68 +568,36 @@
             }
         }
 
-        async function handleAuth(e) {
+        function handleAuth(e) {
             e.preventDefault();
-            const name = document.getElementById('auth-name').value || "Aluno";
+            const nameInput = document.getElementById('auth-name').value;
             const email = document.getElementById('auth-email').value;
-            const password = document.getElementById('auth-password').value;
             const errorDiv = document.getElementById('auth-error');
             errorDiv.classList.add('hidden');
             errorDiv.innerText = '';
 
-            // Tenta autenticar pelo Firebase se disponível, senão usa fallback local perfeito
-            let authSuccess = false;
-
-            if (auth) {
-                try {
-                    if (isSignUpMode) {
-                        if (!name.trim()) {
-                            errorDiv.innerText = "Por favor, digite seu nome completo.";
-                            errorDiv.classList.remove('hidden');
-                            return;
-                        }
-                        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                        await userCredential.user.updateProfile({ displayName: name });
-                        currentUser = { uid: userCredential.user.uid, email: email, displayName: name };
-                    } else {
-                        const cred = await auth.signInWithEmailAndPassword(email, password);
-                        currentUser = { uid: cred.user.uid, email: email, displayName: cred.user.displayName || name };
-                    }
-                    authSuccess = true;
-                } catch (error) {
-                    console.warn("Firebase Auth falhou, usando autenticação local segura:", error);
-                    // Se o Firebase falhar (ex: chave inválida ou offline), fazemos login local para o app funcionar 100% sem travar
-                    authSuccess = true;
-                    currentUser = { uid: "local_" + btoa(email), email: email, displayName: name };
-                }
-            } else {
-                authSuccess = true;
-                currentUser = { uid: "local_" + btoa(email), email: email, displayName: name };
+            if (isSignUpMode && !nameInput.trim()) {
+                errorDiv.innerText = "Por favor, digite seu nome completo.";
+                errorDiv.classList.remove('hidden');
+                return;
             }
 
-            if (authSuccess) {
-                localStorage.setItem('motta_fit_local_user', JSON.stringify(currentUser));
-                
-                // Aciona o Splash de carregamento com as mensagens detalhadas solicitadas
-                triggerPostLoginSync(() => {
-                    document.getElementById('user-name').value = currentUser.displayName;
-                    document.getElementById('auth-section').classList.add('hidden');
-                    document.getElementById('btn-logout').classList.remove('hidden');
-                    loadSavedLocalWorkout();
-                });
-            }
+            const finalName = isSignUpMode ? nameInput : (email.split('@')[0]);
+            currentUser = { uid: "local_" + Date.now(), email: email, displayName: finalName };
+            localStorage.setItem('motta_fit_local_user', JSON.stringify(currentUser));
+
+            triggerPostLoginSync(() => {
+                document.getElementById('user-name').value = finalName;
+                document.getElementById('auth-section').classList.add('hidden');
+                document.getElementById('btn-logout').classList.remove('hidden');
+                loadSavedLocalWorkout();
+            });
         }
 
         function logoutUser() {
-            if (auth) auth.signOut().catch(() => {});
             localStorage.removeItem('motta_fit_local_user');
             localStorage.removeItem('motta_fit_active_plan');
             location.reload();
-        }
-
-        // 4. BANCO DE DADOS E SINCRONIZAÇÃO
-        async function loadUserWorkoutFromFirebase(uid) {
-            loadSavedLocalWorkout();
         }
 
         async function saveUserWorkoutToFirebase(plan) {
@@ -681,7 +619,6 @@
             }
         }
 
-        // 5. GERADOR DE TREINOS COM LINKS 100% CORRETOS DO GIFDOTREINO
         function selectExperience(exp) {
             selectedExperience = exp;
             document.querySelectorAll('.exp-btn').forEach(btn => {
@@ -764,7 +701,6 @@
             };
         }
 
-        // 6. RENDERIZAÇÃO DA INTERFACE E WIDGETS
         function renderWorkoutDashboard() {
             if (!currentWorkoutPlan) return;
             document.getElementById('workout-dashboard').classList.remove('hidden');

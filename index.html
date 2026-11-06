@@ -679,7 +679,6 @@
                     currentUser = authedUser;
                     localStorage.setItem('motta_fit_local_user', JSON.stringify(currentUser));
                     
-                    // Disparar tela de carregamento pós-login com status detalhados
                     triggerPostLoginSync(() => {
                         document.getElementById('user-name').value = name;
                         document.getElementById('auth-section').classList.add('hidden');
@@ -774,7 +773,7 @@
             }
         }
 
-        // 5. GERADOR DE TREINOS
+        // 5. GERADOR DE TREINOS (Com "Tríceps Pulley Corda" corrigido)
         function selectExperience(exp) {
             selectedExperience = exp;
             document.querySelectorAll('.exp-btn').forEach(btn => {
@@ -855,7 +854,7 @@
                         exercises: [
                             { id: "supino_reto", name: "Supino Reto com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "chest", gifUrl: "https://www.gifdotreino.com/Exercicios/Peitoral/Supino%20Reto.gif", instructions: ["Deite no banco com os pés firmes no chão.", "Baixe a barra até tocar o peitoral e empurre."], mistakes: "Arquear excessivamente a lombar." },
                             { id: "supino_inclinado", name: "Supino Inclinado com Halteres", sets: 3, reps: "10 - 12", rest: "60s", category: "chest", gifUrl: "https://www.gifdotreino.com/Exercicios/Peitoral/Supino%20Inclinado%20com%20Halteres.gif", instructions: ["Mantenha o banco a 30-45 graus.", "Foque na parte superior do peito."], mistakes: "Descer os halteres desalinhados." },
-                            { id: "triceps_polia", name: "Tríceps Pulia Corda", sets: 3, reps: "12 - 15", rest: "45s", category: "triceps", gifUrl: "https://www.gifdotreino.com/Exercicios/Triceps/Triceps%20Corda.gif", instructions: ["Mantenha os cotovelos fixos junto ao corpo.", "Abra a corda no final do movimento."], mistakes: "Movimentar os ombros." }
+                            { id: "triceps_pulley_corda", name: "Tríceps Pulley Corda", sets: 3, reps: "12 - 15", rest: "45s", category: "triceps", gifUrl: "https://www.gifdotreino.com/Exercicios/Triceps/Triceps%20Corda.gif", instructions: ["Mantenha os cotovelos fixos junto ao corpo.", "Abra a corda no final do movimento."], mistakes: "Movimentar os ombros." }
                         ]
                     },
                     {
@@ -980,7 +979,7 @@
             document.getElementById('modal-ex-target').innerText = target;
             
             const gifElement = document.getElementById('modal-ex-gif');
-            if (gifElement) gifElement.src = ex.gifUrl || "https://www.gifdotreino.com/Exercicios/Peitoral/Supino%20Reto.gif";
+            if (gifElement) gifElement.src = ex.gifUrl || "https://www.gifdotreino.com/Exercicios/Triceps/Triceps%20Corda.gif";
 
             const instructionsHtml = (ex.instructions || [
                 "Mantenha a postura correta e o core estabilizado.",

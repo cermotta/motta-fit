@@ -63,8 +63,8 @@
 </head>
 <body class="h-full flex flex-col justify-between custom-scrollbar selection:bg-fit-accent selection:text-black">
 
-    <!-- TELA DE ABERTURA INICIAL (Apenas Logo e Nome - Antes do Login) -->
-    <div id="splash-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 transition-opacity duration-700">
+    <!-- TELA DE ABERTURA INICIAL (Remoção Automática Segura) -->
+    <div id="splash-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 transition-opacity duration-500">
         <div class="splash-animate flex flex-col items-center space-y-6 text-center max-w-xs w-full">
             <div class="w-24 h-24 bg-fit-card border-2 border-fit-accent/50 rounded-3xl flex items-center justify-center p-3 shadow-2xl shadow-fit-accent/20">
                 <svg viewBox="0 0 300 150" class="w-full h-full">
@@ -491,17 +491,20 @@
         let restTimerInterval = null;
         let restTimeRemaining = 60;
 
+        // Função de remoção forçada do Splash Screen para evitar travamento da página
+        function hideSplashScreenNow() {
+            const splash = document.getElementById('splash-screen');
+            if (splash) {
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.display = 'none', 300);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
 
-            // A tela inicial ("splash-screen") some imediatamente ao abrir o app para exibir a tela de Login limpa
-            const splash = document.getElementById('splash-screen');
-            if (splash) {
-                setTimeout(() => {
-                    splash.style.opacity = '0';
-                    setTimeout(() => splash.remove(), 500);
-                }, 400);
-            }
+            // Esconde a tela de splash imediatamente
+            hideSplashScreenNow();
 
             // Verificar sessão local salva
             const localUser = localStorage.getItem('motta_fit_local_user');
@@ -537,6 +540,9 @@
             }
         });
 
+        // Garantia adicional se o evento DOMContentLoaded demorar
+        setTimeout(hideSplashScreenNow, 500);
+
         // Função que aciona a tela de carregamento pós-login com barra e mensagens
         function triggerPostLoginSync(onComplete) {
             const syncScreen = document.getElementById('loading-sync-screen');
@@ -571,12 +577,12 @@
                     setTimeout(() => {
                         if (syncScreen) {
                             syncScreen.style.opacity = '0';
-                            setTimeout(() => syncScreen.remove(), 500);
+                            setTimeout(() => syncScreen.style.display = 'none', 300);
                         }
                         if (typeof onComplete === 'function') onComplete();
                     }, 400);
                 }
-            }, 60);
+            }, 50);
         }
 
         // 3. AUTENTICAÇÃO
@@ -675,7 +681,7 @@
                 }
             } catch (error) {
                 errorDiv.innerText = error.message || "Erro na autenticação.";
-                errorDiv.classList.add('hidden');
+                errorDiv.classList.remove('hidden');
             }
         }
 
@@ -730,7 +736,7 @@
             }
         }
 
-        // 5. GERADOR DE TREINOS (Nomes e GIFs revisados conforme o site oficial)
+        // 5. GERADOR DE TREINOS (Nomes e GIFs do GifDoTreino)
         function selectExperience(exp) {
             selectedExperience = exp;
             document.querySelectorAll('.exp-btn').forEach(btn => {

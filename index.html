@@ -773,7 +773,7 @@
             }
         }
 
-        // 5. GERADOR DE TREINOS (Com "Tríceps Pulley Corda" corrigido)
+        // 5. GERADOR DE TREINOS (Nomes e GIFs revisados conforme o site oficial)
         function selectExperience(exp) {
             selectedExperience = exp;
             document.querySelectorAll('.exp-btn').forEach(btn => {
@@ -1001,7 +1001,7 @@
         function closeInstallModal() { document.getElementById('install-modal').classList.add('hidden'); }
         function openSettingsModal() { 
             const apiKeyInput = document.getElementById('custom-api-key');
-            if (apiKeyInput) apiKeyInput.value = localStorage.getItem('motta_fit_api_key') || '';
+            if (apiKeyInput) apiKeyInput.value = localStorage.getItem('motta_fit_api_key'] || '';
             document.getElementById('settings-modal').classList.remove('hidden'); 
         }
         function closeSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }

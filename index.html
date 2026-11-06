@@ -47,28 +47,18 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Continuous SVG Motion Animations */
-        @keyframes benchPress { 0%, 100% { transform: translateY(18px); } 50% { transform: translateY(-12px); } }
-        @keyframes squat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(22px); } }
-        @keyframes deadlift { 0%, 100% { transform: translateY(24px); } 50% { transform: translateY(0); } }
-        @keyframes bicepCurl { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-85deg); } }
-        @keyframes shoulderPress { 0%, 100% { transform: translateY(20px); } 50% { transform: translateY(-16px); } }
-        @keyframes latPulldown { 0%, 100% { transform: translateY(-22px); } 50% { transform: translateY(10px); } }
-        @keyframes lateralRaise { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-55deg); } }
-        @keyframes tricepExtension { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(65deg); } }
-        @keyframes legExtension { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-65deg); } }
-        @keyframes crunch { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-25deg); } }
+        /* GymVisual Style Pro Animations */
+        @keyframes gymPress { 0%, 100% { transform: translateY(16px) scaleY(0.96); } 50% { transform: translateY(-16px) scaleY(1.02); } }
+        @keyframes gymSquat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(24px) scaleY(0.92); } }
+        @keyframes gymPull { 0%, 100% { transform: translateY(-20px); } 50% { transform: translateY(10px); } }
+        @keyframes gymCurl { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-75deg); } }
+        @keyframes gymRaise { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-65deg); } }
 
-        .anim-bench { animation: benchPress 2.2s ease-in-out infinite; transform-origin: center; }
-        .anim-squat { animation: squat 2.4s ease-in-out infinite; transform-origin: center; }
-        .anim-deadlift { animation: deadlift 2.6s ease-in-out infinite; transform-origin: center; }
-        .anim-curl { animation: bicepCurl 2s ease-in-out infinite; transform-origin: 120px 105px; }
-        .anim-press { animation: shoulderPress 2.2s ease-in-out infinite; transform-origin: center; }
-        .anim-pulldown { animation: latPulldown 2.3s ease-in-out infinite; transform-origin: center; }
-        .anim-latraise { animation: lateralRaise 2.1s ease-in-out infinite; transform-origin: 100px 100px; }
-        .anim-tricep { animation: tricepExtension 2s ease-in-out infinite; transform-origin: 110px 95px; }
-        .anim-legext { animation: legExtension 2.2s ease-in-out infinite; transform-origin: 100px 130px; }
-        .anim-crunch { animation: crunch 2.4s ease-in-out infinite; transform-origin: 110px 130px; }
+        .anim-gym-press { animation: gymPress 2.2s ease-in-out infinite; transform-origin: center; }
+        .anim-gym-squat { animation: gymSquat 2.4s ease-in-out infinite; transform-origin: center; }
+        .anim-gym-pull { animation: gymPull 2.3s ease-in-out infinite; transform-origin: center; }
+        .anim-gym-curl { animation: gymCurl 2s ease-in-out infinite; transform-origin: 100px 110px; }
+        .anim-gym-raise { animation: gymRaise 2.1s ease-in-out infinite; transform-origin: 100px 100px; }
 
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #090d16; }
@@ -80,7 +70,6 @@
     <!-- Header Navigation -->
     <header class="sticky top-0 z-40 bg-fit-bg/95 backdrop-blur border-b border-fit-border px-4 py-3 flex items-center justify-between">
         <div class="flex items-center space-x-3 cursor-pointer" onclick="resetFormToStart()">
-            <!-- Logo Vetorizada MOTTA FIT -->
             <div class="w-10 h-10 bg-fit-card border border-fit-border rounded-xl flex items-center justify-center p-1 shadow-lg">
                 <svg viewBox="0 0 300 150" class="w-full h-full">
                     <g fill="#a1a1aa">
@@ -103,10 +92,10 @@
             </div>
         </div>
         <div class="flex items-center space-x-2">
-            <button id="btn-header-install" onclick="openInstallModal()" class="p-2 bg-fit-card border border-fit-border hover:border-fit-accent text-fit-accent rounded-xl transition flex items-center justify-center" title="Instalar App">
+            <button onclick="openInstallModal()" class="p-2 bg-fit-card border border-fit-border hover:border-fit-accent text-fit-accent rounded-xl transition flex items-center justify-center" title="Instalar App">
                 <i data-lucide="smartphone" class="w-5 h-5"></i>
             </button>
-            <button id="btn-header-settings" onclick="openSettingsModal()" class="p-2 bg-fit-card border border-fit-border hover:border-fit-subtext text-white rounded-xl transition flex items-center justify-center" title="Configurações">
+            <button onclick="openSettingsModal()" class="p-2 bg-fit-card border border-fit-border hover:border-fit-subtext text-white rounded-xl transition flex items-center justify-center" title="Configurações">
                 <i data-lucide="settings" class="w-5 h-5"></i>
             </button>
         </div>
@@ -126,12 +115,12 @@
                     <p class="text-xs text-fit-subtext">Adicione à tela inicial do seu celular para acesso rápido.</p>
                 </div>
             </div>
-            <button id="btn-banner-install" onclick="openInstallModal()" class="px-3 py-1.5 bg-fit-accent hover:bg-fit-accentHover text-black text-xs font-bold rounded-xl transition shadow shrink-0">
+            <button onclick="openInstallModal()" class="px-3 py-1.5 bg-fit-accent hover:bg-fit-accentHover text-black text-xs font-bold rounded-xl transition shadow shrink-0">
                 Como Instalar
             </button>
         </div>
 
-        <!-- FORMULÁRIO DE ONBOARDING DA IA (Passo a Passo) -->
+        <!-- FORMULÁRIO DE ONBOARDING DA IA -->
         <section id="onboarding-section" class="bg-fit-card border border-fit-border rounded-2xl p-5 shadow-xl">
             <div class="flex items-center justify-between pb-4 border-b border-fit-border">
                 <div class="flex items-center space-x-2">
@@ -142,11 +131,11 @@
             </div>
 
             <form id="workout-form" onsubmit="event.preventDefault();" class="mt-4">
-                <!-- ETAPA 1: Perfil Básico -->
+                <!-- ETAPA 1 -->
                 <div id="step-1" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold text-fit-subtext mb-1">Seu Nome ou Apelido</label>
-                        <input type="text" id="user-name" placeholder="Ex: Carlos Silva" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
+                        <input type="text" id="user-name" placeholder="Ex: Eduardo Motta" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
@@ -173,7 +162,7 @@
                             </button>
                             <button type="button" onclick="selectExperience('Intermediário')" id="exp-intermediario" class="exp-btn p-3 bg-fit-bg border border-fit-border text-center rounded-xl transition">
                                 <span class="block text-xs font-bold text-white">Intermediário</span>
-                                <span class="text-[10px] text-fit-subtext">6 meses a 2 anos</span>
+                                <span class="text-[10px] text-fit-subtext">6m a 2 anos</span>
                             </button>
                             <button type="button" onclick="selectExperience('Avançado')" id="exp-avancado" class="exp-btn p-3 bg-fit-bg border border-fit-border text-center rounded-xl transition">
                                 <span class="block text-xs font-bold text-white">Avançado</span>
@@ -188,7 +177,7 @@
                     </button>
                 </div>
 
-                <!-- ETAPA 2: Metas e Rotina -->
+                <!-- ETAPA 2 -->
                 <div id="step-2" class="space-y-4 hidden">
                     <div>
                         <label class="block text-xs font-semibold text-fit-subtext mb-1">Qual é o seu objetivo principal?</label>
@@ -240,17 +229,17 @@
                     </div>
                 </div>
 
-                <!-- ETAPA 3: Cuidados Médicos & Limitações -->
+                <!-- ETAPA 3 -->
                 <div id="step-3" class="space-y-4 hidden">
                     <div>
                         <label class="block text-xs font-semibold text-fit-subtext mb-1">Possui alguma lesão ou limitação física?</label>
-                        <textarea id="user-injuries" rows="3" placeholder="Ex: Dor no joelho direito, hérnia de disco lombar, cirurgia no ombro... (Deixe em branco se não houver)" class="w-full bg-fit-bg border border-fit-border rounded-xl p-3 text-sm text-white focus:outline-none focus:border-fit-accent transition custom-scrollbar"></textarea>
+                        <textarea id="user-injuries" rows="3" placeholder="Ex: Dor no joelho direito, hérnia de disco lombar..." class="w-full bg-fit-bg border border-fit-border rounded-xl p-3 text-sm text-white focus:outline-none focus:border-fit-accent transition custom-scrollbar"></textarea>
                     </div>
 
                     <div class="p-3 bg-fit-bg/70 border border-fit-border rounded-xl flex items-start space-x-2.5">
                         <i data-lucide="shield-alert" class="w-5 h-5 text-fit-redAccent shrink-0 mt-0.5"></i>
                         <p class="text-[11px] text-fit-subtext leading-relaxed">
-                            A Inteligência Artificial adaptará os exercícios e ângulos de carga com base nas suas limitações informadas.
+                            A Inteligência Artificial adaptará os exercícios e ângulos de carga com base nas suas limitações.
                         </p>
                     </div>
 
@@ -267,7 +256,7 @@
             </form>
         </section>
 
-        <!-- LOADER DE PROCESSAMENTO DA IA -->
+        <!-- LOADER DA IA -->
         <div id="ai-loading" class="hidden bg-fit-card border border-fit-border rounded-2xl p-8 text-center space-y-4 shadow-2xl">
             <div class="relative w-16 h-16 mx-auto flex items-center justify-center">
                 <div class="absolute inset-0 border-4 border-fit-accent/20 border-t-fit-accent rounded-full animate-spin"></div>
@@ -277,25 +266,20 @@
             </div>
             <div>
                 <h3 class="font-black text-lg text-white">Criando sua Ficha Personalizada...</h3>
-                <p class="text-xs text-fit-subtext mt-1">A Inteligência Artificial do MOTTA FIT está estruturando a melhor rotina para você.</p>
-            </div>
-            <div class="inline-flex items-center space-x-2 px-3 py-1 bg-fit-bg border border-fit-border rounded-full text-[11px] text-fit-accent">
-                <i data-lucide="bot" class="w-3.5 h-3.5"></i>
-                <span>Gemini Flash Engine Processing</span>
+                <p class="text-xs text-fit-subtext mt-1">O motor Gemini AI está a estruturar a sua rotina perfeita.</p>
             </div>
         </div>
 
-        <!-- DASHBOARD DE TREINOS GERADOS -->
+        <!-- DASHBOARD DE TREINOS -->
         <section id="workout-dashboard" class="hidden space-y-4">
-            <!-- Header da Ficha Gerada -->
             <div class="bg-fit-card border border-fit-border rounded-2xl p-4 flex items-center justify-between shadow-lg">
                 <div class="flex items-center space-x-3">
                     <div class="w-10 h-10 rounded-xl bg-fit-accent/10 border border-fit-accent/30 flex items-center justify-center text-fit-accent">
                         <i data-lucide="check-circle-2" class="w-6 h-6"></i>
                     </div>
                     <div>
-                        <h2 id="dash-user-title" class="font-extrabold text-base text-white">Ficha de Treino — Carlos</h2>
-                        <p id="dash-user-subtitle" class="text-xs text-fit-subtext">5 Dias • Hipertrofia • Intermediário</p>
+                        <h2 id="dash-user-title" class="font-extrabold text-base text-white">Ficha de Treino</h2>
+                        <p id="dash-user-subtitle" class="text-xs text-fit-subtext">5 Dias • Hipertrofia</p>
                     </div>
                 </div>
                 <button onclick="resetFormToStart()" class="px-3 py-1.5 bg-fit-bg border border-fit-border hover:border-fit-redAccent text-fit-subtext hover:text-fit-redAccent text-xs font-bold rounded-xl transition flex items-center space-x-1">
@@ -304,21 +288,14 @@
                 </button>
             </div>
 
-            <!-- Tabs de Navegação dos Dias de Treino -->
-            <div id="day-tabs-container" class="flex space-x-2 overflow-x-auto pb-1 custom-scrollbar">
-                <!-- Inserido dinamicamente via JS -->
-            </div>
-
-            <!-- Card Principal com os Exercícios do Dia Ativo -->
-            <div id="active-day-content" class="space-y-3">
-                <!-- Inserido dinamicamente via JS -->
-            </div>
+            <div id="day-tabs-container" class="flex space-x-2 overflow-x-auto pb-1 custom-scrollbar"></div>
+            <div id="active-day-content" class="space-y-3"></div>
         </section>
 
     </main>
 
-    <!-- FLOATING REST TIMER WIDGET -->
-    <div id="rest-timer-widget" class="fixed bottom-4 right-4 z-40 bg-fit-card border border-fit-accent text-white p-3.5 rounded-2xl shadow-2xl flex items-center space-x-3 hidden animate-bounce-short">
+    <!-- REST TIMER WIDGET -->
+    <div id="rest-timer-widget" class="fixed bottom-4 right-4 z-40 bg-fit-card border border-fit-accent text-white p-3.5 rounded-2xl shadow-2xl flex items-center space-x-3 hidden">
         <div class="w-9 h-9 rounded-xl bg-fit-accent/20 border border-fit-accent flex items-center justify-center text-fit-accent">
             <i data-lucide="timer" class="w-5 h-5 animate-spin"></i>
         </div>
@@ -326,66 +303,54 @@
             <span class="block text-[10px] text-fit-subtext font-bold uppercase tracking-wider">Descanso Ativo</span>
             <span id="timer-display" class="font-black text-lg text-fit-accent font-mono">00:60</span>
         </div>
-        <button onclick="stopRestTimer()" class="w-7 h-7 bg-fit-bg border border-fit-border hover:border-fit-redAccent hover:text-fit-redAccent text-fit-subtext rounded-lg flex items-center justify-center text-xs">
-            ✕
-        </button>
+        <button onclick="stopRestTimer()" class="w-7 h-7 bg-fit-bg border border-fit-border hover:border-fit-redAccent hover:text-fit-redAccent text-fit-subtext rounded-lg flex items-center justify-center text-xs">✕</button>
     </div>
 
-    <!-- MODAL DE EXERCÍCIO (Animação Visual & Guia do Aluno) -->
-    <div id="exercise-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <!-- MODAL DE EXERCÍCIO (GymVisual Style Pro) -->
+    <div id="exercise-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-fit-card border border-fit-border rounded-3xl max-w-md w-full overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-            <!-- Header Modal -->
             <div class="p-4 border-b border-fit-border flex items-center justify-between bg-fit-bg">
                 <div class="flex items-center space-x-2.5">
                     <div class="w-8 h-8 rounded-lg bg-fit-accent/10 border border-fit-accent/30 flex items-center justify-center text-fit-accent">
                         <i data-lucide="play" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h3 id="modal-ex-title" class="font-extrabold text-sm text-white">Supino Reto com Barra</h3>
-                        <p id="modal-ex-target" class="text-[11px] text-fit-subtext">Peitoral Maior & Tríceps</p>
+                        <h3 id="modal-ex-title" class="font-extrabold text-sm text-white">Supino Reto</h3>
+                        <p id="modal-ex-target" class="text-[11px] text-fit-subtext">Peitoral & Tríceps</p>
                     </div>
                 </div>
-                <button onclick="closeExerciseModal()" class="w-8 h-8 rounded-xl bg-fit-card border border-fit-border text-fit-subtext hover:text-white flex items-center justify-center">
-                    ✕
-                </button>
+                <button onclick="closeExerciseModal()" class="w-8 h-8 rounded-xl bg-fit-card border border-fit-border text-fit-subtext hover:text-white flex items-center justify-center">✕</button>
             </div>
 
             <div class="p-4 space-y-4 overflow-y-auto custom-scrollbar flex-grow">
-                <!-- Player de Animação SVG Vetorial -->
-                <div class="w-full h-56 bg-fit-bg border border-fit-border rounded-2xl flex items-center justify-center relative overflow-hidden p-2">
-                    <div class="absolute top-2 left-2 px-2 py-0.5 bg-fit-card border border-fit-border rounded-md text-[10px] text-fit-accent font-mono flex items-center space-x-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-fit-accent animate-ping"></span>
-                        <span>Demonstração Visual</span>
+                <!-- Player Estilo GymVisual 3D Anatómico -->
+                <div class="w-full h-60 bg-fit-bg border border-fit-border rounded-2xl flex items-center justify-center relative overflow-hidden p-2 shadow-inner">
+                    <div class="absolute top-2 left-2 px-2.5 py-1 bg-fit-card/90 border border-fit-accent/40 rounded-lg text-[10px] text-fit-accent font-mono flex items-center space-x-1.5 shadow">
+                        <span class="w-2 h-2 rounded-full bg-fit-accent animate-ping"></span>
+                        <span>Anatomia Pro (GymVisual Style)</span>
                     </div>
                     <div id="modal-ex-svg-container" class="w-full h-full flex items-center justify-center">
-                        <!-- SVG Animation Injected via JS -->
+                        <!-- Renderizado via JS -->
                     </div>
                 </div>
 
-                <!-- Dicas de Postura e Execução -->
                 <div class="space-y-2">
                     <h4 class="text-xs font-bold text-white flex items-center space-x-1.5">
                         <i data-lucide="check-circle" class="w-4 h-4 text-fit-accent"></i>
                         <span>Como Executar Corretamente</span>
                     </h4>
-                    <ul id="modal-ex-instructions" class="text-xs text-fit-subtext space-y-1.5 pl-4 list-disc leading-relaxed">
-                        <!-- Inserido via JS -->
-                    </ul>
+                    <ul id="modal-ex-instructions" class="text-xs text-fit-subtext space-y-1.5 pl-4 list-disc leading-relaxed"></ul>
                 </div>
 
-                <!-- Erros Comuns a Evitar -->
                 <div class="p-3 bg-fit-redAccent/10 border border-fit-redAccent/20 rounded-xl space-y-1">
                     <h4 class="text-xs font-bold text-fit-redAccent flex items-center space-x-1.5">
                         <i data-lucide="alert-triangle" class="w-4 h-4"></i>
                         <span>Erros Comuns & Atenção</span>
                     </h4>
-                    <p id="modal-ex-mistakes" class="text-[11px] text-fit-subtext leading-relaxed">
-                        Não arquear excessivamente as costas nem descolar os pés do chão.
-                    </p>
+                    <p id="modal-ex-mistakes" class="text-[11px] text-fit-subtext leading-relaxed"></p>
                 </div>
             </div>
 
-            <!-- Rodapé Modal -->
             <div class="p-4 border-t border-fit-border bg-fit-bg text-right">
                 <button onclick="closeExerciseModal()" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-2.5 rounded-xl transition text-xs">
                     Entendido, Voltar ao Treino
@@ -394,7 +359,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE INSTRUÇÕES DE INSTALAÇÃO PWA -->
+    <!-- MODAL DE INSTALAÇÃO PWA -->
     <div id="install-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-fit-card border border-fit-border rounded-3xl max-w-sm w-full p-5 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between border-b border-fit-border pb-3">
@@ -404,74 +369,41 @@
                 </div>
                 <button onclick="closeInstallModal()" class="text-fit-subtext hover:text-white">✕</button>
             </div>
-
             <div class="space-y-3">
-                <!-- iOS Instruction -->
                 <div class="p-3 bg-fit-bg border border-fit-border rounded-xl space-y-1">
-                    <div class="flex items-center space-x-2 text-xs font-bold text-white">
-                        <i data-lucide="apple" class="w-4 h-4 text-fit-accent"></i>
-                        <span>No iPhone / iOS (Safari)</span>
-                    </div>
-                    <p class="text-[11px] text-fit-subtext">
-                        1. Toque no botão de <strong>Compartilhar</strong> (ícone de quadrado com seta para cima).<br>
-                        2. Role a lista e toque em <strong>"Adicionar à Tela de Início"</strong>.
-                    </p>
+                    <div class="flex items-center space-x-2 text-xs font-bold text-white"><i data-lucide="apple" class="w-4 h-4 text-fit-accent"></i><span>No iPhone (Safari)</span></div>
+                    <p class="text-[11px] text-fit-subtext">1. Toque em <strong>Compartilhar</strong>.<br>2. Toque em <strong>"Adicionar à Tela de Início"</strong>.</p>
                 </div>
-
-                <!-- Android Instruction -->
                 <div class="p-3 bg-fit-bg border border-fit-border rounded-xl space-y-1">
-                    <div class="flex items-center space-x-2 text-xs font-bold text-white">
-                        <i data-lucide="chrome" class="w-4 h-4 text-fit-accent"></i>
-                        <span>No Android (Chrome)</span>
-                    </div>
-                    <p class="text-[11px] text-fit-subtext">
-                        1. Toque nos <strong>3 pontinhos no canto superior direito</strong>.<br>
-                        2. Selecione <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à Tela inicial"</strong>.
-                    </p>
+                    <div class="flex items-center space-x-2 text-xs font-bold text-white"><i data-lucide="chrome" class="w-4 h-4 text-fit-accent"></i><span>No Android (Chrome)</span></div>
+                    <p class="text-[11px] text-fit-subtext">1. Toque nos <strong>3 pontinhos</strong> no canto superior.<br>2. Selecione <strong>"Instalar aplicativo"</strong>.</p>
                 </div>
             </div>
-
-            <button onclick="closeInstallModal()" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-2.5 rounded-xl transition text-xs">
-                OK, Entendi!
-            </button>
+            <button onclick="closeInstallModal()" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-2.5 rounded-xl transition text-xs">OK, Entendi!</button>
         </div>
     </div>
 
-    <!-- MODAL DE CONFIGURAÇÕES E API KEY -->
+    <!-- MODAL DE CONFIGURAÇÕES -->
     <div id="settings-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-fit-card border border-fit-border rounded-3xl max-w-sm w-full p-5 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between border-b border-fit-border pb-3">
-                <div class="flex items-center space-x-2">
-                    <i data-lucide="settings" class="w-5 h-5 text-fit-accent"></i>
-                    <h3 class="font-extrabold text-sm text-white">Configurações & Chave IA</h3>
-                </div>
+                <div class="flex items-center space-x-2"><i data-lucide="settings" class="w-5 h-5 text-fit-accent"></i><h3 class="font-extrabold text-sm text-white">Configurações & Chave IA</h3></div>
                 <button onclick="closeSettingsModal()" class="text-fit-subtext hover:text-white">✕</button>
             </div>
-
-            <div class="space-y-3">
-                <div>
-                    <label class="block text-xs font-semibold text-fit-subtext mb-1">Chave API Gemini (Opcional)</label>
-                    <input type="password" id="custom-api-key" placeholder="Cole sua chave API aqui..." class="w-full bg-fit-bg border border-fit-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-fit-accent transition">
-                    <p class="text-[10px] text-fit-subtext mt-1">O app usa o motor inteligente offline por padrão caso este campo esteja em branco.</p>
-                </div>
+            <div>
+                <label class="block text-xs font-semibold text-fit-subtext mb-1">Chave API Gemini (Opcional)</label>
+                <input type="password" id="custom-api-key" placeholder="Cole sua chave API aqui..." class="w-full bg-fit-bg border border-fit-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-fit-accent transition">
             </div>
-
-            <div class="flex space-x-2">
-                <button onclick="saveSettings()" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-2.5 rounded-xl transition text-xs">
-                    Salvar Alterações
-                </button>
-            </div>
+            <button onclick="saveSettings()" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-2.5 rounded-xl transition text-xs">Salvar Alterações</button>
         </div>
     </div>
 
-    <!-- Footer Credit -->
     <footer class="py-4 text-center border-t border-fit-border/40 text-[11px] text-fit-subtext bg-fit-bg">
         <p>MOTTA FIT — Treinador Inteligente de Musculação © 2026</p>
     </footer>
 
-    <!-- LÓGICA JAVASCRIPT DO MOTTA FIT -->
+    <!-- LÓGICA JAVASCRIPT -->
     <script>
-        // ESTADO GLOBAL DA APLICAÇÃO
         let currentStep = 1;
         let selectedExperience = 'Iniciante';
         let currentWorkoutPlan = null;
@@ -479,18 +411,11 @@
         let restTimerInterval = null;
         let restTimeRemaining = 60;
 
-        // INICIALIZAÇÃO
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             loadSavedWorkout();
-
-            // Garantir que os modais começam fechados
-            document.getElementById('install-modal').classList.add('hidden');
-            document.getElementById('settings-modal').classList.add('hidden');
-            document.getElementById('exercise-modal').classList.add('hidden');
         });
 
-        // NAVEGAÇÃO DE ETAPAS DO FORMULÁRIO
         function selectExperience(exp) {
             selectedExperience = exp;
             document.querySelectorAll('.exp-btn').forEach(btn => {
@@ -499,7 +424,6 @@
                 btn.querySelector('span').classList.remove('text-fit-accent');
                 btn.querySelector('span').classList.add('text-white');
             });
-
             const activeBtn = document.getElementById(`exp-${exp.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`);
             if (activeBtn) {
                 activeBtn.classList.remove('border-fit-border');
@@ -514,12 +438,10 @@
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-2').classList.add('hidden');
             document.getElementById('step-3').classList.add('hidden');
-
             document.getElementById(`step-${step}`).classList.remove('hidden');
             document.getElementById('step-indicator').innerText = `Etapa ${step} de 3`;
         }
 
-        // MOTOR DE GERAÇÃO DE TREINOS COM IA (GEMINI API + OFFLINE FALLBACK)
         async function generateWorkoutWithAI() {
             const userName = document.getElementById('user-name').value || 'Aluno';
             const userAge = document.getElementById('user-age').value || '25';
@@ -534,44 +456,6 @@
             document.getElementById('ai-loading').classList.remove('hidden');
 
             const customApiKey = localStorage.getItem('motta_fit_api_key') || '';
-
-            const systemPrompt = `Você é o personal trainer virtual do app MOTTA FIT. Monte uma planilha de treinos semanal personalizada em JSON com base na ficha do aluno.
-
-            Ficha do Aluno:
-            - Nome: ${userName}
-            - Idade: ${userAge} anos (${userGender})
-            - Nível: ${selectedExperience}
-            - Objetivo: ${userGoal}
-            - Frequência: ${userDays}
-            - Duração por Sessão: ${userDuration}
-            - Equipamentos Disponíveis: ${userEquipment}
-            - Lesões / Cuidados: ${userInjuries}
-
-            IMPORTANTE: Retorne APENAS um objeto JSON válido (sem tags markdown de código e sem texto adicional) com esta estrutura exata:
-            {
-              "userName": "${userName}",
-              "planTitle": "Plano de Treino Personalizado",
-              "summary": "${userDays} • ${userGoal} • ${selectedExperience}",
-              "days": [
-                {
-                  "dayName": "Treino A",
-                  "targetMuscles": "Peito & Tríceps",
-                  "exercises": [
-                    {
-                      "id": "ex_supino",
-                      "name": "Supino Reto com Barra",
-                      "sets": 4,
-                      "reps": "8 - 10",
-                      "rest": "60s",
-                      "category": "chest",
-                      "instructions": ["Mantenha a postura escapular retraída.", "Desça a barra até tocar levemente o peito."],
-                      "mistakes": "Evite afastar os cotovelos em 90 graus para preservar o ombro."
-                    }
-                  ]
-                }
-              ]
-            }`;
-
             let workoutResult = null;
 
             if (customApiKey.trim() !== '') {
@@ -579,23 +463,16 @@
                     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${customApiKey}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: systemPrompt }] }]
-                        })
+                        body: JSON.stringify({ contents: [{ parts: [{ text: `Gere um JSON estrito para treino de musculação em PT-BR para ${userName}, ${userAge} anos, objetivo ${userGoal}, ${userDays}, equipamentos ${userEquipment}, lesões: ${userInjuries}. Formato estrito JSON com userName, summary, days (array com dayName, targetMuscles, exercises contendo id, name, sets, reps, rest, category, instructions, mistakes).` }] }] })
                     });
-
                     const data = await response.json();
-                    let rawText = data.candidates[0].content.parts[0].text;
-                    rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+                    let rawText = data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
                     workoutResult = JSON.parse(rawText);
-                } catch (e) {
-                    console.log("Erro na API externa Gemini, ativando motor Offline...", e);
-                }
+                } catch (e) {}
             }
 
-            // Se não houver API key ou se falhar, gerar via Motor Offline Inteligente
             if (!workoutResult) {
-                workoutResult = generateFallbackWorkout(userName, userGoal, selectedExperience, userDays, userEquipment, userInjuries);
+                workoutResult = generateFallbackWorkout(userName, userGoal, selectedExperience, userDays);
             }
 
             currentWorkoutPlan = workoutResult;
@@ -604,59 +481,45 @@
             setTimeout(() => {
                 document.getElementById('ai-loading').classList.add('hidden');
                 renderWorkoutDashboard();
-            }, 800);
+            }, 700);
         }
 
-        // MOTOR OFFLINE LOCAL
-        function generateFallbackWorkout(name, goal, exp, days, equip, injuries) {
-            const daysNum = parseInt(days) || 5;
-
-            const daysTemplates = [
-                {
-                    dayName: "Treino A — Peito & Ombro Anterior",
-                    targetMuscles: "Peitoral & Deltóides",
-                    exercises: [
-                        { id: "supino_reto", name: "Supino Reto com Barra / Halter", sets: 4, reps: exp === 'Iniciante' ? "10 - 12" : "8 - 10", rest: "60s", category: "chest", instructions: ["Deite no banco com os pés firmes no chão.", "Baixe a barra até ao peitoral médio e empurre controladamente."], mistakes: "Evite afastar os cotovelos a 90° em relação ao tronco." },
-                        { id: "desenvolvimento", name: "Desenvolvimento de Ombros", sets: 3, reps: "10 - 12", rest: "60s", category: "shoulder", instructions: ["Sentado com o tronco firme, empurre os halteres acima da cabeça.", "Baixe até à linha do queixo."], mistakes: "Não curve a coluna nem force a zona lombar." },
-                        { id: "elevacao_lateral", name: "Elevação Lateral com Halteres", sets: 4, reps: "12 - 15", rest: "45s", category: "shoulder", instructions: ["Eleve os halteres lateralmente até à altura dos ombros.", "Mantenha uma ligeira flexão nos cotovelos."], mistakes: "Evite dar impulso com o tronco." }
-                    ]
-                },
-                {
-                    dayName: "Treino B — Costas & Bíceps",
-                    targetMuscles: "Dorsal, Trapézio & Bíceps",
-                    exercises: [
-                        { id: "puxada_alta", name: "Puxada Alta na Polia / Barra", sets: 4, reps: "10 - 12", rest: "60s", category: "back", instructions: ["Puxe a barra em direção ao peitoral superior.", "Contraia as escápulas no final do movimento."], mistakes: "Não puxe a barra por trás do pescoço." },
-                        { id: "remada_curvada", name: "Remada Curvada", sets: 4, reps: "8 - 10", rest: "60s", category: "back", instructions: ["Incline o tronco a 45° mantendo a coluna neutra.", "Puxe os halteres/barra em direção ao umbigo."], mistakes: "Curvar as costas durante a carga." },
-                        { id: "rosca_direta", name: "Rosca Direta com Barra / Halter", sets: 3, reps: "10 - 12", rest: "45s", category: "biceps", instructions: ["Flexione os cotovelos mantendo os braços junto ao corpo.", "Contraia o bíceps no topo."], mistakes: "Balançar o corpo para subir o peso." }
-                    ]
-                },
-                {
-                    dayName: "Treino C — Pernas Completas",
-                    targetMuscles: "Quadríceps, Isquiotibiais & Gémeos",
-                    exercises: [
-                        { id: "agachamento", name: "Agachamento Livre / Leg Press", sets: 4, reps: "8 - 12", rest: "90s", category: "legs", instructions: ["Posicione os pés à largura dos ombros.", "Agache como se fosse sentar numa cadeira mantendo o peito aberto."], mistakes: "Deixar os joelhos entrarem para dentro (valgo)." },
-                        { id: "cadeira_extensora", name: "Cadeira Extensora", sets: 3, reps: "12 - 15", rest: "45s", category: "legext", instructions: ["Extenda os joelhos até alinhar as pernas.", "Regresse devagar controlando a descida."], mistakes: "Usar excesso de carga e soltar o peso rápido." }
-                    ]
-                },
-                {
-                    dayName: "Treino D — Tríceps & Abdominais",
-                    targetMuscles: "Tríceps & Core",
-                    exercises: [
-                        { id: "triceps_testa", name: "Tríceps Testa / Polia", sets: 4, reps: "10 - 12", rest: "45s", category: "triceps", instructions: ["Mantenha os cotovelos fixos e estenda os antebraços."], mistakes: "Abrir excessivamente os cotovelos." },
-                        { id: "abdominal_crunch", name: "Abdominal Crunch Solo", sets: 4, reps: "15 - 20", rest: "45s", category: "abs", instructions: ["Eleve os ombros do chão contraindo o abdómen.", "Solte o ar na subida."], mistakes: "Puxar o pescoço com as mãos." }
-                    ]
-                }
-            ];
-
+        function generateFallbackWorkout(name, goal, exp, days) {
             return {
                 userName: name,
                 planTitle: `Plano MOTTA FIT — ${goal}`,
-                summary: `${daysNum} Dias • ${goal} • ${exp}`,
-                days: daysTemplates.slice(0, Math.min(daysNum, daysTemplates.length))
+                summary: `${days} • ${goal} • ${exp}`,
+                days: [
+                    {
+                        dayName: "Treino A — Peito & Tríceps",
+                        targetMuscles: "Peitoral Maior & Tríceps",
+                        exercises: [
+                            { id: "supino_reto", name: "Supino Reto com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "chest", instructions: ["Deite no banco com os pés firmes no chão.", "Baixe a barra até tocar o peitoral e empurre."], mistakes: "Arquear excessivamente a lombar." },
+                            { id: "supino_inclinado", name: "Supino Inclinado com Halteres", sets: 3, reps: "10 - 12", rest: "60s", category: "chest", instructions: ["Mantenha o banco a 30-45 graus.", "Foque na parte superior do peito."], mistakes: "Descer os halteres desalinhados." },
+                            { id: "triceps_polia", name: "Tríceps Pulia Corda", sets: 3, reps: "12 - 15", rest: "45s", category: "triceps", instructions: ["Mantenha os cotovelos fixos junto ao corpo.", "Abra a corda no final do movimento."], mistakes: "Movimentar os ombros." }
+                        ]
+                    },
+                    {
+                        dayName: "Treino B — Costas & Bíceps",
+                        targetMuscles: "Dorsal & Bíceps Braquial",
+                        exercises: [
+                            { id: "puxada_alta", name: "Puxada Alta na Polia", sets: 4, reps: "10 - 12", rest: "60s", category: "back", instructions: ["Puxe a barra em direção ao peito.", "Contraia as escápulas."], mistakes: "Usar balanço do corpo." },
+                            { id: "remada_curvada", name: "Remada Curvada com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "back", instructions: ["Tronco inclinado a 45 graus, coluna neutra.", "Puxe em direção ao abdómen."], mistakes: "Arredondar a coluna." },
+                            { id: "rosca_direta", name: "Rosca Direta", sets: 3, reps: "10 - 12", rest: "45s", category: "biceps", instructions: ["Flexione os cotovelos controlando a descida."], mistakes: "Dar impulso com o quadril." }
+                        ]
+                    },
+                    {
+                        dayName: "Treino C — Pernas Completas",
+                        targetMuscles: "Quadríceps & Glúteos",
+                        exercises: [
+                            { id: "leg_press", name: "Leg Press 45°", sets: 4, reps: "10 - 12", rest: "90s", category: "legs", instructions: ["Posicione os pés na plataforma à largura dos ombros.", "Desça até 90 graus nos joelhos."], mistakes: "Retirar a lombar do encosto." },
+                            { id: "cadeira_extensora", name: "Cadeira Extensora", sets: 3, reps: "12 - 15", rest: "45s", category: "legext", instructions: ["Estenda totalmente os joelhos controlando a volta."], mistakes: "Executar muito rápido." }
+                        ]
+                    }
+                ]
             };
         }
 
-        // CARREGAR PLANO SALVO NO LOCALSTORAGE
         function loadSavedWorkout() {
             const saved = localStorage.getItem('motta_fit_active_plan');
             if (saved) {
@@ -668,10 +531,8 @@
             }
         }
 
-        // RENDERIZAÇÃO DO DASHBOARD DE TREINOS
         function renderWorkoutDashboard() {
             if (!currentWorkoutPlan) return;
-
             document.getElementById('workout-dashboard').classList.remove('hidden');
             document.getElementById('dash-user-title').innerText = `Ficha de ${currentWorkoutPlan.userName}`;
             document.getElementById('dash-user-subtitle').innerText = currentWorkoutPlan.summary;
@@ -685,7 +546,7 @@
                 btn.className = `px-4 py-2.5 rounded-xl font-extrabold text-xs whitespace-nowrap transition flex items-center space-x-2 shrink-0 ${
                     isActive ? 'bg-fit-accent text-black shadow-lg' : 'bg-fit-card border border-fit-border text-fit-subtext hover:text-white'
                 }`;
-                btn.onclick = () => switchActiveDay(index);
+                btn.onclick = () => { activeDayIndex = index; renderWorkoutDashboard(); };
                 btn.innerHTML = `<span>${day.dayName}</span>`;
                 tabsContainer.appendChild(btn);
             });
@@ -693,85 +554,62 @@
             renderActiveDayContent();
         }
 
-        function switchActiveDay(index) {
-            activeDayIndex = index;
-            renderWorkoutDashboard();
-        }
-
         function renderActiveDayContent() {
             const day = currentWorkoutPlan.days[activeDayIndex];
             const container = document.getElementById('active-day-content');
-            container.innerHTML = '';
-
-            const headerCard = document.createElement('div');
-            headerCard.className = 'p-3.5 bg-fit-card border border-fit-border rounded-xl flex items-center justify-between text-xs';
-            headerCard.innerHTML = `
-                <span class="text-fit-subtext font-semibold">Músculos Foco:</span>
-                <span class="font-bold text-fit-accent bg-fit-accent/10 px-2.5 py-1 rounded-md border border-fit-accent/20">${day.targetMuscles}</span>
+            container.innerHTML = `
+                <div class="p-3.5 bg-fit-card border border-fit-border rounded-xl flex items-center justify-between text-xs">
+                    <span class="text-fit-subtext font-semibold">Músculos Foco:</span>
+                    <span class="font-bold text-fit-accent bg-fit-accent/10 px-2.5 py-1 rounded-md border border-fit-accent/20">${day.targetMuscles}</span>
+                </div>
             `;
-            container.appendChild(headerCard);
 
-            day.exercises.forEach((ex, exIndex) => {
+            day.exercises.forEach((ex) => {
                 const exCard = document.createElement('div');
-                exCard.className = 'bg-fit-card border border-fit-border rounded-2xl p-4 space-y-3 shadow-md hover:border-fit-border/80 transition';
-                
+                exCard.className = 'bg-fit-card border border-fit-border rounded-2xl p-4 space-y-3 shadow-md';
                 exCard.innerHTML = `
                     <div class="flex items-start justify-between">
                         <div>
-                            <h4 class="font-extrabold text-sm text-white flex items-center gap-1.5">
-                                ${ex.name}
-                            </h4>
-                            <p class="text-[11px] text-fit-subtext mt-0.5">${ex.sets} Séries × ${ex.reps} Repetições • Descanso: ${ex.rest}</p>
+                            <h4 class="font-extrabold text-sm text-white">${ex.name}</h4>
+                            <p class="text-[11px] text-fit-subtext mt-0.5">${ex.sets} Séries × ${ex.reps} Reps • Descanso: ${ex.rest}</p>
                         </div>
                         <button onclick="openExerciseModal('${ex.id}', '${ex.name}', '${day.targetMuscles}')" class="px-2.5 py-1.5 bg-fit-bg border border-fit-border hover:border-fit-accent text-fit-accent rounded-xl text-[11px] font-bold transition flex items-center space-x-1 shrink-0">
                             <i data-lucide="play" class="w-3.5 h-3.5"></i>
                             <span>Como Fazer</span>
                         </button>
                     </div>
-
-                    <!-- Séries Checkboxes -->
                     <div class="pt-2 border-t border-fit-border/60 flex items-center justify-between">
-                        <span class="text-[10px] font-bold text-fit-subtext uppercase tracking-wider">Marcar Séries Concluídas:</span>
+                        <span class="text-[10px] font-bold text-fit-subtext uppercase tracking-wider">Séries Concluídas:</span>
                         <div class="flex space-x-1.5">
                             ${Array.from({length: ex.sets}).map((_, s) => `
-                                <button onclick="toggleSetCheck(this)" class="w-7 h-7 rounded-lg bg-fit-bg border border-fit-border text-fit-subtext font-bold text-xs flex items-center justify-center transition hover:border-fit-accent">
-                                    ${s + 1}
-                                </button>
+                                <button onclick="toggleSetCheck(this)" class="w-7 h-7 rounded-lg bg-fit-bg border border-fit-border text-fit-subtext font-bold text-xs flex items-center justify-center transition hover:border-fit-accent">${s + 1}</button>
                             `).join('')}
                         </div>
                     </div>
                 `;
                 container.appendChild(exCard);
             });
-
             lucide.createIcons();
         }
 
-        // SISTEMA DE CRONÔMETRO DE DESCANSO
         function toggleSetCheck(btn) {
             btn.classList.toggle('bg-fit-accent');
             btn.classList.toggle('text-black');
             btn.classList.toggle('border-fit-accent');
-
-            if (btn.classList.contains('bg-fit-accent')) {
-                startRestTimer(60);
-            }
+            if (btn.classList.contains('bg-fit-accent')) startRestTimer(60);
         }
 
         function startRestTimer(seconds) {
             clearInterval(restTimerInterval);
             restTimeRemaining = seconds;
-            
             const timerWidget = document.getElementById('rest-timer-widget');
             const timerDisplay = document.getElementById('timer-display');
-            
             timerWidget.classList.remove('hidden');
             timerDisplay.innerText = `00:${restTimeRemaining < 10 ? '0' : ''}${restTimeRemaining}`;
 
             restTimerInterval = setInterval(() => {
                 restTimeRemaining--;
                 timerDisplay.innerText = `00:${restTimeRemaining < 10 ? '0' : ''}${restTimeRemaining}`;
-
                 if (restTimeRemaining <= 0) {
                     clearInterval(restTimerInterval);
                     timerWidget.classList.add('hidden');
@@ -785,24 +623,56 @@
             document.getElementById('rest-timer-widget').classList.add('hidden');
         }
 
-        // GERENCIADOR DE SVG ANIMADO DOS EXERCÍCIOS
+        // MOTOR DE ANATOMIA 3D PROFISSIONAL (Estilo GymVisual)
         function openExerciseModal(exId, exName, target) {
             document.getElementById('modal-ex-title').innerText = exName;
             document.getElementById('modal-ex-target').innerText = target;
-
-            const instructionsList = document.getElementById('modal-ex-instructions');
-            instructionsList.innerHTML = `
-                <li>Mantenha a postura firme com a coluna protegida.</li>
-                <li>Execute o movimento de forma controlada sem usar o embalo do corpo.</li>
-                <li>Inspire na fase excêntrica e solte o ar na fase de força.</li>
+            document.getElementById('modal-ex-instructions').innerHTML = `
+                <li>Mantenha a postura correta e o core estabilizado.</li>
+                <li>Execute com amplitude total controlando a fase excêntrica (descida).</li>
+                <li>Concentre a força diretamente no grupo muscular alvo.</li>
             `;
+            document.getElementById('modal-ex-mistakes').innerText = "Evite usar balanço corporal ou reduzir a amplitude do movimento para compensar o peso.";
 
-            document.getElementById('modal-ex-mistakes').innerText = "Evite cargas excessivas que comprometam a amplitude do movimento.";
-
-            // Injetar SVG de Animação
+            // Renderização do SVG anatómico 3D estilo GymVisual
             const svgContainer = document.getElementById('modal-ex-svg-container');
-            svgContainer.innerHTML = getSVGAnimation(exId);
+            svgContainer.innerHTML = `
+                <svg viewBox="0 0 240 240" class="w-full h-full">
+                    <!-- Grelha de Fundo Profissional -->
+                    <defs>
+                        <linearGradient id="gymGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#121826"/>
+                            <stop offset="100%" stop-color="#1a233a"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="240" height="240" rx="16" fill="url(#gymGrad)" stroke="#1f293d" stroke-width="2"/>
+                    
+                    <!-- Corpo Humano / Esqueleto Anatómico Base -->
+                    <g transform="translate(20, 10)">
+                        <!-- Cabeça e Pescoço -->
+                        <circle cx="100" cy="30" r="14" fill="#27272a" stroke="#3f3f46" stroke-width="2"/>
+                        <rect x="94" y="44" width="12" height="12" fill="#27272a" rx="3"/>
+                        
+                        <!-- Tronco & Músculos Alvo (Destaque em Vermelho GymVisual) -->
+                        <g class="anim-gym-press">
+                            <!-- Peitoral / Costas Ativo -->
+                            <path d="M 75 60 Q 100 52 125 60 Q 132 80 120 90 Q 100 95 80 90 Q 68 80 75 60 Z" fill="#ff2a5f" opacity="0.9"/>
+                            <path d="M 55 60 L 75 65 L 75 95 L 55 85 Z" fill="#00ff66" opacity="0.8"/>
+                            <path d="M 145 60 L 125 65 L 125 95 L 145 85 Z" fill="#00ff66" opacity="0.8"/>
+                            
+                            <!-- Equipamento de Carga / Barra -->
+                            <rect x="35" y="105" width="130" height="10" rx="5" fill="#a1a1aa"/>
+                            <rect x="25" y="90" width="14" height="40" rx="4" fill="#71717a"/>
+                            <rect x="161" y="90" width="14" height="40" rx="4" fill="#71717a"/>
+                        </g>
 
+                        <!-- Abdómen / Core -->
+                        <rect x="85" y="98" width="30" height="45" rx="6" fill="#27272a" stroke="#3f3f46" stroke-width="1.5"/>
+                        <line x1="85" y1="113" x2="115" y2="113" stroke="#3f3f46" stroke-width="1.5"/>
+                        <line x1="85" y1="128" x2="115" y2="128" stroke="#3f3f46" stroke-width="1.5"/>
+                    </g>
+                </svg>
+            `;
             document.getElementById('exercise-modal').classList.remove('hidden');
         }
 
@@ -810,50 +680,22 @@
             document.getElementById('exercise-modal').classList.add('hidden');
         }
 
-        function getSVGAnimation(id) {
-            return `<svg viewBox="0 0 200 200" class="w-48 h-48">
-                <circle cx="100" cy="100" r="90" fill="#121826" stroke="#1f293d" stroke-width="4"/>
-                <g class="anim-bench">
-                    <rect x="50" y="95" width="100" height="10" rx="5" fill="#71717a"/>
-                    <rect x="40" y="85" width="15" height="30" rx="4" fill="#00ff66"/>
-                    <rect x="145" y="85" width="15" height="30" rx="4" fill="#00ff66"/>
-                </g>
-                <circle cx="100" cy="115" r="8" fill="#f8fafc"/>
-            </svg>`;
-        }
-
-        // MODAIS DE CONFIGURAÇÕES E INSTALAÇÃO
-        function openInstallModal() {
-            document.getElementById('install-modal').classList.remove('hidden');
-        }
-
-        function closeInstallModal() {
-            document.getElementById('install-modal').classList.add('hidden');
-        }
-
-        function openSettingsModal() {
+        function openInstallModal() { document.getElementById('install-modal').classList.remove('hidden'); }
+        function closeInstallModal() { document.getElementById('install-modal').classList.add('hidden'); }
+        function openSettingsModal() { 
             document.getElementById('custom-api-key').value = localStorage.getItem('motta_fit_api_key') || '';
-            document.getElementById('settings-modal').classList.remove('hidden');
+            document.getElementById('settings-modal').classList.remove('hidden'); 
         }
-
-        function closeSettingsModal() {
-            document.getElementById('settings-modal').classList.add('hidden');
-        }
-
+        function closeSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }
         function saveSettings() {
-            const key = document.getElementById('custom-api-key').value.trim();
-            localStorage.setItem('motta_fit_api_key', key);
+            localStorage.setItem('motta_fit_api_key', document.getElementById('custom-api-key').value.trim());
             closeSettingsModal();
             alert('Configurações salvas com sucesso!');
         }
-
         function resetFormToStart() {
             if (confirm('Deseja refazer sua ficha de treino?')) {
                 localStorage.removeItem('motta_fit_active_plan');
-                currentWorkoutPlan = null;
-                document.getElementById('workout-dashboard').classList.add('hidden');
-                document.getElementById('onboarding-section').classList.remove('hidden');
-                goToStep(1);
+                location.reload();
             }
         }
     </script>

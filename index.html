@@ -84,7 +84,7 @@
                 <h1 class="text-3xl font-black tracking-tight text-white">
                     MOTTA <span class="text-fit-accent">FIT</span>
                 </h1>
-                <p class="text-xs text-fit-subtext font-semibold uppercase tracking-widest mt-1">Seu Treinador Personalizado</p>
+                <p class="text-xs text-fit-subtext font-semibold uppercase tracking-widest mt-1">Desenvolvido por Eduardo Motta</p>
             </div>
         </div>
     </div>
@@ -110,7 +110,7 @@
                 <h1 class="text-3xl font-black tracking-tight text-white">
                     MOTTA <span class="text-fit-accent">FIT</span>
                 </h1>
-                <p class="text-xs text-fit-subtext font-semibold uppercase tracking-widest mt-1">Seu Treinador Personalizado</p>
+                <p class="text-xs text-fit-subtext font-semibold uppercase tracking-widest mt-1">Desenvolvido por Eduardo Motta</p>
             </div>
 
             <div class="w-full space-y-2 pt-2">
@@ -146,15 +146,12 @@
                 <h1 class="font-black text-lg tracking-tight leading-none text-white flex items-center gap-1.5">
                     MOTTA <span class="text-fit-accent">FIT</span>
                 </h1>
-                <p class="text-[10px] text-fit-subtext font-semibold tracking-wider uppercase">Treinador Personalizado</p>
+                <p class="text-[10px] text-fit-subtext font-semibold tracking-wider uppercase">Por Eduardo Motta</p>
             </div>
         </div>
         <div class="flex items-center space-x-2">
             <button id="btn-logout" onclick="logoutUser()" class="hidden p-2 bg-fit-card border border-fit-border hover:border-fit-redAccent text-fit-redAccent rounded-xl transition flex items-center justify-center" title="Sair da Conta">
                 <i data-lucide="log-out" class="w-5 h-5"></i>
-            </button>
-            <button onclick="openInstallModal()" class="p-2 bg-fit-card border border-fit-border hover:border-fit-accent text-fit-accent rounded-xl transition flex items-center justify-center" title="Instalar App">
-                <i data-lucide="smartphone" class="w-5 h-5"></i>
             </button>
             <button onclick="openSettingsModal()" class="p-2 bg-fit-card border border-fit-border hover:border-fit-subtext text-white rounded-xl transition flex items-center justify-center" title="Configurações">
                 <i data-lucide="settings" class="w-5 h-5"></i>
@@ -164,22 +161,6 @@
 
     <!-- Main Dynamic Canvas -->
     <main class="flex-grow max-w-xl w-full mx-auto p-4 space-y-6">
-
-        <!-- Banner PWA -->
-        <div id="pwa-install-banner" class="bg-gradient-to-r from-fit-card to-fit-border/40 border border-fit-accent/30 rounded-2xl p-4 flex items-center justify-between shadow-lg">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-fit-accent/10 border border-fit-accent/30 flex items-center justify-center text-fit-accent shrink-0">
-                    <i data-lucide="sparkles" class="w-5 h-5"></i>
-                </div>
-                <div>
-                    <h2 class="text-sm font-bold text-white">Instale o App na sua Academia!</h2>
-                    <p class="text-xs text-fit-subtext">Adicione à tela inicial do seu celular.</p>
-                </div>
-            </div>
-            <button onclick="openInstallModal()" class="px-3 py-1.5 bg-fit-accent hover:bg-fit-accentHover text-black text-xs font-bold rounded-xl transition shadow shrink-0">
-                Como Instalar
-            </button>
-        </div>
 
         <!-- SEÇÃO DE AUTENTICAÇÃO -->
         <section id="auth-section" class="bg-fit-card border border-fit-border rounded-2xl p-5 shadow-xl">
@@ -191,7 +172,7 @@
             <form id="auth-form" onsubmit="handleAuth(event)" class="mt-4 space-y-4">
                 <div id="auth-name-container" class="hidden">
                     <label class="block text-xs font-semibold text-fit-subtext mb-1">Nome Completo</label>
-                    <input type="text" id="auth-name" placeholder="Ex: Eduardo Motta" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
+                    <input type="text" id="auth-name" placeholder="Ex: Aluno Exemplo" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
                 </div>
 
                 <div>
@@ -233,7 +214,7 @@
                 <div id="step-1" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold text-fit-subtext mb-1">Seu Nome ou Apelido</label>
-                        <input type="text" id="user-name" placeholder="Ex: Eduardo Motta" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
+                        <input type="text" id="user-name" placeholder="Ex: Aluno" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
@@ -345,7 +326,7 @@
                         </button>
                         <button type="button" onclick="generateWorkoutWithAI()" class="w-2/3 bg-gradient-to-r from-fit-accent to-emerald-400 hover:opacity-95 text-black font-black py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-xl shadow-fit-accent/20">
                             <i data-lucide="cpu" class="w-5 h-5"></i>
-                            <span>Gerar Ficha</span>
+                            <span>Gerar Treino</span>
                         </button>
                     </div>
                 </div>
@@ -361,7 +342,7 @@
                 </div>
             </div>
             <div>
-                <h3 class="font-black text-lg text-white">Criando sua Ficha Personalizada...</h3>
+                <h3 class="font-black text-lg text-white">Criando seu Treino Personalizado...</h3>
                 <p class="text-xs text-fit-subtext mt-1">A sincronizar dados...</p>
             </div>
         </div>
@@ -452,30 +433,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE INSTALAÇÃO PWA -->
-    <div id="install-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="bg-fit-card border border-fit-border rounded-3xl max-w-sm w-full p-5 space-y-4 shadow-2xl">
-            <div class="flex items-center justify-between border-b border-fit-border pb-3">
-                <div class="flex items-center space-x-2">
-                    <i data-lucide="smartphone" class="w-5 h-5 text-fit-accent"></i>
-                    <h3 class="font-extrabold text-sm text-white">Instalar no Celular</h3>
-                </div>
-                <button type="button" onclick="closeInstallModal()" class="text-fit-subtext hover:text-white">✕</button>
-            </div>
-            <div class="space-y-3">
-                <div class="p-3 bg-fit-bg border border-fit-border rounded-xl space-y-1">
-                    <div class="flex items-center space-x-2 text-xs font-bold text-white"><i data-lucide="apple" class="w-4 h-4 text-fit-accent"></i><span>No iPhone (Safari)</span></div>
-                    <p class="text-[11px] text-fit-subtext">1. Toque em <strong>Compartilhar</strong>.<br>2. Toque em <strong>"Adicionar à Tela de Início"</strong>.</p>
-                </div>
-                <div class="p-3 bg-fit-bg border border-fit-border rounded-xl space-y-1">
-                    <div class="flex items-center space-x-2 text-xs font-bold text-white"><i data-lucide="chrome" class="w-4 h-4 text-fit-accent"></i><span>No Android (Chrome)</span></div>
-                    <p class="text-[11px] text-fit-subtext">1. Toque nos <strong>3 pontinhos</strong> no canto superior.<br>2. Selecione <strong>"Instalar aplicativo"</strong>.</p>
-                </div>
-            </div>
-            <button type="button" onclick="closeInstallModal()" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-2.5 rounded-xl transition text-xs">OK, Entendi!</button>
-        </div>
-    </div>
-
     <!-- MODAL DE CONFIGURAÇÕES -->
     <div id="settings-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-fit-card border border-fit-border rounded-3xl max-w-sm w-full p-5 space-y-4 shadow-2xl">
@@ -492,7 +449,7 @@
     </div>
 
     <footer class="py-4 text-center border-t border-fit-border/40 text-[11px] text-fit-subtext bg-fit-bg">
-        <p>MOTTA FIT — Treinador Personalizado © 2026</p>
+        <p>MOTTA FIT — Desenvolvido por Eduardo Motta © 2026</p>
     </footer>
 
     <!-- LÓGICA JAVASCRIPT -->
@@ -997,11 +954,9 @@
             document.getElementById('exercise-modal').classList.add('hidden');
         }
 
-        function openInstallModal() { document.getElementById('install-modal').classList.remove('hidden'); }
-        function closeInstallModal() { document.getElementById('install-modal').classList.add('hidden'); }
         function openSettingsModal() { 
             const apiKeyInput = document.getElementById('custom-api-key');
-            if (apiKeyInput) apiKeyInput.value = localStorage.getItem('motta_fit_api_key'] || '';
+            if (apiKeyInput) apiKeyInput.value = localStorage.getItem('motta_fit_api_key') || '';
             document.getElementById('settings-modal').classList.remove('hidden'); 
         }
         function closeSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }

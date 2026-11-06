@@ -59,8 +59,8 @@
 </head>
 <body class="h-full flex flex-col justify-between custom-scrollbar selection:bg-fit-accent selection:text-black">
 
-    <!-- TELA DE ABERTURA / SPLASH SCREEN COM A LOGO -->
-    <div id="splash-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 transition-opacity duration-700">
+    <!-- TELA DE ABERTURA / SPLASH SCREEN COM A LOGO (7 Segundos) -->
+    <div id="splash-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 transition-opacity duration-1000">
         <div class="splash-animate flex flex-col items-center space-y-5 text-center">
             <div class="w-24 h-24 bg-fit-card border-2 border-fit-accent/50 rounded-3xl flex items-center justify-center p-3 shadow-2xl shadow-fit-accent/20">
                 <svg viewBox="0 0 300 150" class="w-full h-full">
@@ -327,7 +327,7 @@
         <button onclick="stopRestTimer()" class="w-7 h-7 bg-fit-bg border border-fit-border hover:border-fit-redAccent hover:text-fit-redAccent text-fit-subtext rounded-lg flex items-center justify-center text-xs">✕</button>
     </div>
 
-    <!-- MODAL DE EXERCÍCIO (GIFs corrigidos exatamente com letras maiúsculas e minúsculas) -->
+    <!-- MODAL DE EXERCÍCIO -->
     <div id="exercise-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-fit-card border border-fit-border rounded-3xl max-w-md w-full overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
             <div class="p-4 border-b border-fit-border flex items-center justify-between bg-fit-bg">
@@ -432,11 +432,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             
+            // Splash Screen configurada para durar 7 segundos (7000ms)
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 splash.style.opacity = '0';
-                setTimeout(() => splash.remove(), 700);
-            }, 1200);
+                setTimeout(() => splash.remove(), 1000);
+            }, 7000);
 
             loadSavedWorkout();
         });
@@ -509,7 +510,6 @@
             }, 700);
         }
 
-        // Todos os links revisados com as letras maiúsculas e minúsculas exatas
         function generateFallbackWorkout(name, goal, exp, days) {
             return {
                 userName: name,

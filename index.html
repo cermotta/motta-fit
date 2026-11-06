@@ -452,7 +452,7 @@
         <p>MOTTA FIT — Desenvolvido por Eduardo Motta © 2026</p>
     </footer>
 
-    <!-- LÓGICA JAVASCRIPT COM AUTENTICAÇÃO BLINDADA E ROBUSTA -->
+    <!-- LÓGICA JAVASCRIPT COMPLETA E INTEGRADA -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDxdtYxjSv6Y8pq8_80-_3Bm2Ts3LQCMlw",
@@ -464,6 +464,7 @@
         };
 
         let auth = null;
+        let db = null;
         let currentUser = null;
         let isSignUpMode = false;
 
@@ -471,8 +472,10 @@
             if (typeof firebase !== 'undefined' && !firebase.apps.length) {
                 firebase.initializeApp(firebaseConfig);
                 auth = firebase.auth();
+                db = firebase.firestore();
             } else if (firebase.apps.length) {
                 auth = firebase.auth();
+                db = firebase.firestore();
             }
         } catch (e) {
             console.warn("Aviso do Firebase:", e);
@@ -509,7 +512,6 @@
                 }
             }
 
-            // Splash inicial visível por 7 segundos
             setTimeout(() => {
                 hideSplashSmoothly();
             }, 7000);
@@ -580,7 +582,6 @@
             }
         }
 
-        // SISTEMA DE CADASTRO/LOGIN BLINDADO (SEMPRE FUNCIONAL)
         async function handleAuth(e) {
             e.preventDefault();
             const nameInput = document.getElementById('auth-name').value;
@@ -618,6 +619,19 @@
                 currentUser = { uid: uid, email: email, displayName: finalName };
                 localStorage.setItem('motta_fit_local_user', JSON.stringify(currentUser));
 
+                if (db) {
+                    try {
+                        await db.collection("utilizadores").doc(uid).set({
+                            uid: uid,
+                            email: email,
+                            nome: finalName,
+                            criadoEm: new Date().toISOString()
+                        }, { merge: true });
+                    } catch (dbErr) {
+                        console.warn("Firestore write skipped:", dbErr);
+                    }
+                }
+
                 triggerPostLoginSync(() => {
                     document.getElementById('user-name').value = finalName;
                     document.getElementById('auth-section').classList.add('hidden');
@@ -626,7 +640,7 @@
                 });
 
             } catch (error) {
-                console.warn("Erro Geral na Autenticação:", error);
+                console.warn("Erro no Auth/Firestore:", error);
                 currentUser = { uid: "fallback_" + Date.now(), email: email, displayName: finalName };
                 localStorage.setItem('motta_fit_local_user', JSON.stringify(currentUser));
 
@@ -648,6 +662,17 @@
 
         async function saveUserWorkoutToFirebase(plan) {
             localStorage.setItem('motta_fit_active_plan', JSON.stringify(plan));
+
+            if (db && currentUser && currentUser.uid) {
+                try {
+                    await db.collection("utilizadores").doc(currentUser.uid).set({
+                        planoTreino: plan,
+                        atualizadoEm: new Date().toISOString()
+                    }, { merge: true });
+                } catch (err) {
+                    console.warn("Erro ao salvar treino no Firestore:", err);
+                }
+            }
         }
 
         function loadSavedLocalWorkout() {
@@ -710,7 +735,6 @@
             }, 900);
         }
 
-        // MAPA COM NOMES E URLS 100% VALIDADOS DO GIFDOTREINO.COM
         function generateGifDoTreinoPlan(name, goal, exp, days) {
             return {
                 userName: name,

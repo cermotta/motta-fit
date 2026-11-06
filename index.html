@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MOTTA FIT — Treinador IA Personalizado</title>
+    <title>MOTTA FIT — Treinador Personalizado</title>
 
     <!-- App Web & PWA Configuration -->
     <meta name="application-name" content="MOTTA FIT">
@@ -12,7 +12,8 @@
     <meta name="apple-mobile-web-app-title" content="MOTTA FIT">
     <meta name="theme-color" content="#090d16">
 
-    <!-- Favicon SVG Integrado -->
+    <!-- Ícone Oficial da Logo para iOS (Apple Touch Icon) e Favicon -->
+    <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=180&h=180&fit=crop&q=80">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'><rect width='400' height='200' fill='%23090d16'/><g transform='translate(50, 25)'><rect x='0' y='65' width='20' height='20' rx='5' fill='%2371717a'/><rect x='280' y='65' width='20' height='20' rx='5' fill='%2371717a'/><rect x='20' y='30' width='35' height='90' rx='10' fill='%2371717a'/><rect x='245' y='30' width='35' height='90' rx='10' fill='%2371717a'/><rect x='55' y='10' width='25' height='130' rx='10' fill='%2371717a'/><rect x='220' y='10' width='25' height='130' rx='10' fill='%2371717a'/><rect x='80' y='65' width='140' height='20' fill='%2371717a'/><text x='150' y='110' font-family='serif, Times New Roman' font-weight='900' font-size='110' fill='%23000000' text-anchor='middle'>M</text></g></svg>">
 
     <!-- Tailwind CSS CDN -->
@@ -80,7 +81,7 @@
                 <h1 class="text-3xl font-black tracking-tight text-white">
                     MOTTA <span class="text-fit-accent">FIT</span>
                 </h1>
-                <p class="text-xs text-fit-subtext font-semibold uppercase tracking-widest mt-1">Seu Treinador IA na Academia</p>
+                <p class="text-xs text-fit-subtext font-semibold uppercase tracking-widest mt-1">Seu Treinador Personalizado</p>
             </div>
             <div class="pt-6">
                 <div class="w-6 h-6 border-2 border-fit-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
@@ -109,7 +110,7 @@
                 <h1 class="font-black text-lg tracking-tight leading-none text-white flex items-center gap-1.5">
                     MOTTA <span class="text-fit-accent">FIT</span>
                 </h1>
-                <p class="text-[10px] text-fit-subtext font-semibold tracking-wider uppercase">Treinador IA Personalizado</p>
+                <p class="text-[10px] text-fit-subtext font-semibold tracking-wider uppercase">Treinador Personalizado</p>
             </div>
         </div>
         <div class="flex items-center space-x-2">
@@ -141,7 +142,7 @@
             </button>
         </div>
 
-        <!-- FORMULÁRIO DE ONBOARDING DA IA -->
+        <!-- FORMULÁRIO DE ONBOARDING -->
         <section id="onboarding-section" class="bg-fit-card border border-fit-border rounded-2xl p-5 shadow-xl">
             <div class="flex items-center justify-between pb-4 border-b border-fit-border">
                 <div class="flex items-center space-x-2">
@@ -260,7 +261,7 @@
                     <div class="p-3 bg-fit-bg/70 border border-fit-border rounded-xl flex items-start space-x-2.5">
                         <i data-lucide="shield-alert" class="w-5 h-5 text-fit-redAccent shrink-0 mt-0.5"></i>
                         <p class="text-[11px] text-fit-subtext leading-relaxed">
-                            A Inteligência Artificial adaptará os exercícios e ângulos de carga com base nas suas limitações.
+                            O sistema adaptará os exercícios e ângulos de carga com base nas suas limitações.
                         </p>
                     </div>
 
@@ -270,14 +271,14 @@
                         </button>
                         <button type="button" onclick="generateWorkoutWithAI()" class="w-2/3 bg-gradient-to-r from-fit-accent to-emerald-400 hover:opacity-95 text-black font-black py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-xl shadow-fit-accent/20">
                             <i data-lucide="cpu" class="w-5 h-5"></i>
-                            <span>Gerar Ficha IA</span>
+                            <span>Gerar Ficha</span>
                         </button>
                     </div>
                 </div>
             </form>
         </section>
 
-        <!-- LOADER DA IA -->
+        <!-- LOADER -->
         <div id="ai-loading" class="hidden bg-fit-card border border-fit-border rounded-2xl p-8 text-center space-y-4 shadow-2xl">
             <div class="relative w-16 h-16 mx-auto flex items-center justify-center">
                 <div class="absolute inset-0 border-4 border-fit-accent/20 border-t-fit-accent rounded-full animate-spin"></div>
@@ -287,7 +288,7 @@
             </div>
             <div>
                 <h3 class="font-black text-lg text-white">Criando sua Ficha Personalizada...</h3>
-                <p class="text-xs text-fit-subtext mt-1">O motor Gemini AI está a estruturar a sua rotina perfeita.</p>
+                <p class="text-xs text-fit-subtext mt-1">A estruturar a sua rotina perfeita.</p>
             </div>
         </div>
 
@@ -405,7 +406,7 @@
     <div id="settings-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-fit-card border border-fit-border rounded-3xl max-w-sm w-full p-5 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between border-b border-fit-border pb-3">
-                <div class="flex items-center space-x-2"><i data-lucide="settings" class="w-5 h-5 text-fit-accent"></i><h3 class="font-extrabold text-sm text-white">Configurações & Chave IA</h3></div>
+                <div class="flex items-center space-x-2"><i data-lucide="settings" class="w-5 h-5 text-fit-accent"></i><h3 class="font-extrabold text-sm text-white">Configurações & Chave API</h3></div>
                 <button onclick="closeSettingsModal()" class="text-fit-subtext hover:text-white">✕</button>
             </div>
             <div>
@@ -417,7 +418,7 @@
     </div>
 
     <footer class="py-4 text-center border-t border-fit-border/40 text-[11px] text-fit-subtext bg-fit-bg">
-        <p>MOTTA FIT — Treinador Inteligente de Musculação © 2026</p>
+        <p>MOTTA FIT — Treinador Personalizado © 2026</p>
     </footer>
 
     <!-- LÓGICA JAVASCRIPT -->
@@ -432,7 +433,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             
-            // Splash Screen configurada para durar 7 segundos (7000ms)
+            // Splash Screen de 7 segundos
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 splash.style.opacity = '0';

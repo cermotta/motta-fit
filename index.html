@@ -454,7 +454,7 @@
 
     <!-- LÓGICA JAVASCRIPT -->
     <script>
-        // 1. CONFIGURAÇÃO DO FIREBASE
+        // 1. CONFIGURAÇÃO DO FIREBASE COM A API KEY CORRETA
         const firebaseConfig = {
             apiKey: "AIzaSyDxdtYxjSv6Y8pq8_80-_3Bm2Ts3LQCMlw",
             authDomain: "motta-fit.firebaseapp.com",
@@ -491,7 +491,6 @@
         let restTimerInterval = null;
         let restTimeRemaining = 60;
 
-        // Função de fechamento de segurança absoluto do Splash
         function dismissSplash() {
             const splash = document.getElementById('splash-screen');
             if (splash) {
@@ -502,16 +501,13 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
-
-            // Fecha o splash imediatamente no carregamento do DOM
             dismissSplash();
 
-            if (!localStorage.getItem('motta_fit_version_fix_v8')) {
+            if (!localStorage.getItem('motta_fit_version_fix_v9')) {
                 localStorage.removeItem('motta_fit_active_plan');
-                localStorage.setItem('motta_fit_version_fix_v8', 'true');
+                localStorage.setItem('motta_fit_version_fix_v9', 'true');
             }
 
-            // Monitor de autenticação seguro que nunca trava
             if (auth) {
                 try {
                     auth.onAuthStateChanged(user => {
@@ -536,7 +532,6 @@
             }
         });
 
-        // Garantia extra por timeout caso o DOMContentLoaded falhe
         setTimeout(dismissSplash, 300);
 
         function triggerPostLoginSync(onComplete) {
@@ -627,7 +622,6 @@
                         return;
                     }
                     
-                    // Executa a criação no Firebase Auth
                     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                     await userCredential.user.updateProfile({ displayName: name });
                     currentUser = userCredential.user;
@@ -640,7 +634,6 @@
                     });
 
                 } else {
-                    // Executa o login no Firebase Auth
                     const cred = await auth.signInWithEmailAndPassword(email, password);
                     currentUser = cred.user;
 

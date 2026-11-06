@@ -167,7 +167,7 @@
             <form id="auth-form" onsubmit="handleAuth(event)" class="mt-4 space-y-4">
                 <div id="auth-name-container" class="hidden">
                     <label class="block text-xs font-semibold text-fit-subtext mb-1">Nome Completo</label>
-                    <input type="text" id="auth-name" placeholder="Ex: Aluno Exemplo" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
+                    <input type="text" id="auth-name" placeholder="Ex: Eduardo Motta" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
                 </div>
 
                 <div>
@@ -209,7 +209,7 @@
                 <div id="step-1" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold text-fit-subtext mb-1">Seu Nome ou Apelido</label>
-                        <input type="text" id="user-name" placeholder="Ex: Aluno" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
+                        <input type="text" id="user-name" placeholder="Ex: Eduardo" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
@@ -471,9 +471,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
 
-            if (!localStorage.getItem('motta_fit_version_fix_v15')) {
+            if (!localStorage.getItem('motta_fit_version_fix_v16')) {
                 localStorage.removeItem('motta_fit_active_plan');
-                localStorage.setItem('motta_fit_version_fix_v15', 'true');
+                localStorage.setItem('motta_fit_version_fix_v16', 'true');
             }
 
             // Splash inicial visível por exatamente 7 segundos
@@ -519,7 +519,6 @@
                 { at: 100, text: "Tudo pronto!" }
             ];
 
-            // Intervalo calculado para durar cerca de 7 segundos (70 passos de 100ms = 7000ms)
             const interval = setInterval(() => {
                 progress += 1.45; 
                 if (progress > 100) progress = 100;
@@ -656,7 +655,7 @@
             document.getElementById('onboarding-section').classList.add('hidden');
             document.getElementById('ai-loading').classList.remove('hidden');
 
-            let workoutResult = generateFallbackWorkout(userName, userGoal, selectedExperience, userDays);
+            let workoutResult = generateGifDoTreinoPlan(userName, userGoal, selectedExperience, userDays);
 
             currentWorkoutPlan = workoutResult;
             await saveUserWorkoutToFirebase(currentWorkoutPlan);
@@ -667,7 +666,8 @@
             }, 900);
         }
 
-        function generateFallbackWorkout(name, goal, exp, days) {
+        // GERADOR COM NOMES E URLs 100% MAPEADOS DO GIFDOTREINO.COM
+        function generateGifDoTreinoPlan(name, goal, exp, days) {
             return {
                 userName: name,
                 planTitle: `Plano MOTTA FIT — ${goal}`,
@@ -677,27 +677,117 @@
                         dayName: "Treino A — Peito & Tríceps",
                         targetMuscles: "Peitoral Maior & Tríceps",
                         exercises: [
-                            { id: "supino_reto", name: "Supino Reto com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "chest", gifUrl: "https://www.gifdotreino.com/Exercicios/Peitoral/Supino%20Reto%20com%20Barra.gif", instructions: ["Deite no banco com os pés firmes no chão.", "Baixe a barra até tocar o peitoral e empurre."], mistakes: "Arquear excessivamente a lombar." },
-                            { id: "supino_inclinado", name: "Supino Inclinado com Halteres", sets: 3, reps: "10 - 12", rest: "60s", category: "chest", gifUrl: "https://www.gifdotreino.com/Exercicios/Peitoral/Supino%20Inclinado%20com%20Halteres.gif", instructions: ["Mantenha o banco a 30-45 graus.", "Foque na parte superior do peito."], mistakes: "Descer os halteres desalinhados." },
-                            { id: "triceps_pulley_corda", name: "Tríceps Pulley Corda", sets: 3, reps: "12 - 15", rest: "45s", category: "triceps", gifUrl: "https://www.gifdotreino.com/Exercicios/Triceps/Tr%C3%ADceps%20pulley%20corda.gif", instructions: ["Mantenha os cotovelos fixos junto ao corpo.", "Abra a corda no final do movimento."], mistakes: "Movimentar os ombros." }
+                            { 
+                                id: "supino_reto", 
+                                name: "Supino Reto com Barra", 
+                                sets: 4, 
+                                reps: "8 - 10", 
+                                rest: "60s", 
+                                category: "Peitoral", 
+                                gifUrl: "https://www.gifdotreino.com/Exercicios/Peitoral/Supino%20Reto%20com%20Barra.gif", 
+                                instructions: ["Deite no banco com os pés firmes no chão.", "Baixe a barra até tocar o peitoral e empurre com força."], 
+                                mistakes: "Arquear excessivamente a lombar." 
+                            },
+                            { 
+                                id: "supino_inclinado", 
+                                name: "Supino Inclinado com Halteres", 
+                                sets: 3, 
+                                reps: "10 - 12", 
+                                rest: "60s", 
+                                category: "Peitoral", 
+                                gifUrl: "https://www.gifdotreino.com/Exercicios/Peitoral/Supino%20Inclinado%20com%20Halteres.gif", 
+                                instructions: ["Mantenha o banco regulado a 30-45 graus.", "Foque na contração da parte superior do peito."], 
+                                mistakes: "Descer os halteres desalinhados." 
+                            },
+                            { 
+                                id: "triceps_pulley_corda", 
+                                name: "Tríceps Pulley Corda", 
+                                sets: 3, 
+                                reps: "12 - 15", 
+                                rest: "45s", 
+                                category: "Triceps", 
+                                gifUrl: "https://www.gifdotreino.com/Exercicios/Triceps/Tr%C3%ADceps%20pulley%20corda.gif", 
+                                instructions: ["Mantenha os cotovelos fixos colados ao corpo.", "Abra a corda no final do movimento."], 
+                                mistakes: "Movimentar os ombros durante a execução." 
+                            }
                         ]
                     },
                     {
                         dayName: "Treino B — Costas & Bíceps",
                         targetMuscles: "Dorsal & Bíceps Braquial",
                         exercises: [
-                            { id: "puxada_alta", name: "Puxada Alta na Polia", sets: 4, reps: "10 - 12", rest: "60s", category: "back", gifUrl: "https://www.gifdotreino.com/Exercicios/Costas/Puxada%20Alta.gif", instructions: ["Puxe a barra em direção ao peito.", "Contraia as escápulas."], mistakes: "Usar balanço do corpo." },
-                            { id: "remada_curvada", name: "Remada Curvada com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "back", gifUrl: "https://www.gifdotreino.com/Exercicios/Costas/Remada%20com%20Barra.gif", instructions: ["Tronco inclinado a 45 graus, coluna neutra.", "Puxe em direção ao abdómen."], mistakes: "Arredondar a coluna." },
-                            { id: "rosca_direta", name: "Rosca Direta com Barra", sets: 3, reps: "10 - 12", rest: "45s", category: "biceps", gifUrl: "https://www.gifdotreino.com/Exercicios/Biceps/Rosca%20Direta%20com%20Barra.gif", instructions: ["Flexione os cotovelos controlando a descida."], mistakes: "Dar impulso com o quadril." }
+                            { 
+                                id: "puxada_alta", 
+                                name: "Puxada Alta", 
+                                sets: 4, 
+                                reps: "10 - 12", 
+                                rest: "60s", 
+                                category: "Costas", 
+                                gifUrl: "https://www.gifdotreino.com/Exercicios/Costas/Puxada%20Alta.gif", 
+                                instructions: ["Segure a barra com pegada aberta.", "Puxe em direção à parte superior do peito."], 
+                                mistakes: "Usar o balanço do corpo para puxar." 
+                            },
+                            { 
+                                id: "remada_barra", 
+                                name: "Remada com Barra", 
+                                sets: 4, 
+                                reps: "8 - 10", 
+                                rest: "60s", 
+                                category: "Costas", 
+                                gifUrl: "https://www.gifdotreino.com/Exercicios/Costas/Remada%20com%20Barra.gif", 
+                                instructions: ["Incline o tronco a 45 graus com a coluna neutra.", "Puxe a barra em direção ao abdómen."], 
+                                mistakes: "Arredondar a região lombar." 
+                            },
+                            { 
+                                id: "rosca_direta", 
+                                name: "Rosca Direta com Barra", 
+                                sets: 3, 
+                                reps: "10 - 12", 
+                                rest: "45s", 
+                                category: "Biceps", 
+                                gifUrl: "https://www.gifdotreino.com/Exercicios/Biceps/Rosca%20Direta%20com%20Barra.gif", 
+                                instructions: ["Mantenha os cotovelos fixos ao lado da cintura.", "Flexione controlando a descida."], 
+                                mistakes: "Dar impulso com o quadril." 
+                            }
                         ]
                     },
                     {
                         dayName: "Treino C — Pernas Completas",
                         targetMuscles: "Quadríceps & Glúteos",
                         exercises: [
-                            { id: "leg_press", name: "Leg Press 45", sets: 4, reps: "10 - 12", rest: "90s", category: "legs", gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Leg%20Press%2045.gif", instructions: ["Posicione os pés na plataforma à largura dos ombros.", "Desça até 90 graus nos joelhos."], mistakes: "Retirar a lombar do encosto." },
-                            { id: "agachamento", name: "Agachamento Livre com Barra", sets: 4, reps: "8 - 10", rest: "90s", category: "legs", gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Agachamento%20Livre%20com%20Barra.gif", instructions: ["Apoie a barra nos trapézios, mantenha o tronco firme.", "Flexione joelhos e quadril descendo o máximo confortável."], mistakes: "Deixar os joelhos irem para dentro." },
-                            { id: "cadeira_extensora", name: "Cadeira Extensora", sets: 3, reps: "12 - 15", rest: "45s", category: "legext", gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Cadeira%20Extensora.gif", instructions: ["Estenda totalmente os joelhos controlando a volta."], mistakes: "Executar muito rápido." }
+                            { 
+                                id: "leg_press", 
+                                name: "Leg Press 45", 
+                                sets: 4, 
+                                reps: "10 - 12", 
+                                rest: "90s", 
+                                category: "Pernas", 
+                                gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Leg%20Press%2045.gif", 
+                                instructions: ["Posicione os pés na largura dos ombros na plataforma.", "Desça até formar 90 graus nos joelhos."], 
+                                mistakes: "Retirar a lombar e o quadril do encosto." 
+                            },
+                            { 
+                                id: "agachamento_livre", 
+                                name: "Agachamento Livre com Barra", 
+                                sets: 4, 
+                                reps: "8 - 10", 
+                                rest: "90s", 
+                                category: "Pernas", 
+                                gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Agachamento%20Livre%20com%20Barra.gif", 
+                                instructions: ["Apoie a barra firmemente nos trapézios.", "Flexione joelhos e quadril mantendo o calcanhar no chão."], 
+                                mistakes: "Deixar os joelhos desabarem para dentro." 
+                            },
+                            { 
+                                id: "cadeira_extensora", 
+                                name: "Cadeira Extensora", 
+                                sets: 3, 
+                                reps: "12 - 15", 
+                                rest: "45s", 
+                                category: "Pernas", 
+                                gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Cadeira%20Extensora.gif", 
+                                instructions: ["Ajuste o encosto e estenda totalmente os joelhos.", "Retorne controlando o peso sem deixar os pesos baterem."], 
+                                mistakes: "Executar o movimento muito rápido." 
+                            }
                         ]
                     }
                 ]

@@ -504,10 +504,10 @@
 
             hideSplashScreenNow();
 
-            // Limpa dados antigos em cache para garantir a atualização dos links corretos do GifDoTreino
-            if (!localStorage.getItem('motta_fit_version_fix_v3')) {
+            // Limpa dados antigos em cache para forçar os links atualizados do GifDoTreino
+            if (!localStorage.getItem('motta_fit_version_fix_v4')) {
                 localStorage.removeItem('motta_fit_active_plan');
-                localStorage.setItem('motta_fit_version_fix_v3', 'true');
+                localStorage.setItem('motta_fit_version_fix_v4', 'true');
             }
 
             // Verificar sessão local salva
@@ -683,7 +683,7 @@
                 }
             } catch (error) {
                 errorDiv.innerText = error.message || "Erro na autenticação.";
-                errorDiv.classList.remove('hidden');
+                errorDiv.classList.add('hidden');
             }
         }
 
@@ -738,7 +738,7 @@
             }
         }
 
-        // 5. GERADOR DE TREINOS COM LINKS EXATOS DO GIFDO TREINO
+        // 5. GERADOR DE TREINOS COM PADRÃO EXATO DE NOMENCLATURA DO SITE
         function selectExperience(exp) {
             selectedExperience = exp;
             document.querySelectorAll('.exp-btn').forEach(btn => {
@@ -786,7 +786,7 @@
                     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${customApiKey}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: `Gere um JSON estrito para treino de musculação em PT-BR para ${userName}, ${userAge} anos, objetivo ${userGoal}, ${userDays}, equipamentos ${userEquipment}, lesões: ${userInjuries}. ATENÇÃO: As URLs dos GIFs de Tríceps devem obrigatoriamente seguir a estrutura exata 'https://www.gifdotreino.com/Exercicios/Triceps/Tr%C3%ADceps%20pulley%20corda.gif' ou 'https://www.gifdotreino.com/Exercicios/Triceps/Tr%C3%ADceps%20pulley%20barra.gif'. Formato estrito JSON com userName, summary, days (array com dayName, targetMuscles, exercises contendo id, name, sets, reps, rest, category, gifUrl, instructions, mistakes).` }] }] })
+                        body: JSON.stringify({ contents: [{ parts: [{ text: `Gere um JSON estrito para treino de musculação em PT-BR para ${userName}, ${userAge} anos, objetivo ${userGoal}, ${userDays}, equipamentos ${userEquipment}, lesões: ${userInjuries}. ATENÇÃO: As URLs dos GIFs de exercícios em https://www.gifdotreino.com/ devem conter o nome exato completo separado por espaços codificados (ex: Remada%20com%20Barra.gif, Tr%C3%ADceps%20pulley%20corda.gif). Formato estrito JSON com userName, summary, days (array com dayName, targetMuscles, exercises contendo id, name, sets, reps, rest, category, gifUrl, instructions, mistakes).` }] }] })
                     });
                     const data = await response.json();
                     let rawText = data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
@@ -817,7 +817,7 @@
                         dayName: "Treino A — Peito & Tríceps",
                         targetMuscles: "Peitoral Maior & Tríceps",
                         exercises: [
-                            { id: "supino_reto", name: "Supino Reto com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "chest", gifUrl: "https://www.gifdotreino.com/Exercicios/Peitoral/Supino%20Reto.gif", instructions: ["Deite no banco com os pés firmes no chão.", "Baixe a barra até tocar o peitoral e empurre."], mistakes: "Arquear excessivamente a lombar." },
+                            { id: "supino_reto", name: "Supino Reto com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "chest", gifUrl: "https://www.gifdotreino.com/Exercicios/Peitoral/Supino%20Reto%20com%20Barra.gif", instructions: ["Deite no banco com os pés firmes no chão.", "Baixe a barra até tocar o peitoral e empurre."], mistakes: "Arquear excessivamente a lombar." },
                             { id: "supino_inclinado", name: "Supino Inclinado com Halteres", sets: 3, reps: "10 - 12", rest: "60s", category: "chest", gifUrl: "https://www.gifdotreino.com/Exercicios/Peitoral/Supino%20Inclinado%20com%20Halteres.gif", instructions: ["Mantenha o banco a 30-45 graus.", "Foque na parte superior do peito."], mistakes: "Descer os halteres desalinhados." },
                             { id: "triceps_pulley_corda", name: "Tríceps Pulley Corda", sets: 3, reps: "12 - 15", rest: "45s", category: "triceps", gifUrl: "https://www.gifdotreino.com/Exercicios/Triceps/Tr%C3%ADceps%20pulley%20corda.gif", instructions: ["Mantenha os cotovelos fixos junto ao corpo.", "Abra a corda no final do movimento."], mistakes: "Movimentar os ombros." }
                         ]
@@ -827,17 +827,17 @@
                         targetMuscles: "Dorsal & Bíceps Braquial",
                         exercises: [
                             { id: "puxada_alta", name: "Puxada Alta na Polia", sets: 4, reps: "10 - 12", rest: "60s", category: "back", gifUrl: "https://www.gifdotreino.com/Exercicios/Costas/Puxada%20Alta.gif", instructions: ["Puxe a barra em direção ao peito.", "Contraia as escápulas."], mistakes: "Usar balanço do corpo." },
-                            { id: "remada_curvada", name: "Remada Curvada com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "back", gifUrl: "https://www.gifdotreino.com/Exercicios/Costas/Remada%20Curvada.gif", instructions: ["Tronco inclinado a 45 graus, coluna neutra.", "Puxe em direção ao abdómen."], mistakes: "Arredondar a coluna." },
-                            { id: "rosca_direta", name: "Rosca Direta com Barra", sets: 3, reps: "10 - 12", rest: "45s", category: "biceps", gifUrl: "https://www.gifdotreino.com/Exercicios/Biceps/Rosca%20Direta.gif", instructions: ["Flexione os cotovelos controlando a descida."], mistakes: "Dar impulso com o quadril." }
+                            { id: "remada_curvada", name: "Remada Curvada com Barra", sets: 4, reps: "8 - 10", rest: "60s", category: "back", gifUrl: "https://www.gifdotreino.com/Exercicios/Costas/Remada%20com%20Barra.gif", instructions: ["Tronco inclinado a 45 graus, coluna neutra.", "Puxe em direção ao abdómen."], mistakes: "Arredondar a coluna." },
+                            { id: "rosca_direta", name: "Rosca Direta com Barra", sets: 3, reps: "10 - 12", rest: "45s", category: "biceps", gifUrl: "https://www.gifdotreino.com/Exercicios/Biceps/Rosca%20Direta%20com%20Barra.gif", instructions: ["Flexione os cotovelos controlando a descida."], mistakes: "Dar impulso com o quadril." }
                         ]
                     },
                     {
                         dayName: "Treino C — Pernas Completas",
                         targetMuscles: "Quadríceps & Glúteos",
                         exercises: [
-                            { id: "leg_press", name: "Leg Press 45", sets: 4, reps: "10 - 12", rest: "90s", category: "legs", gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Leg%20Press.gif", instructions: ["Posicione os pés na plataforma à largura dos ombros.", "Desça até 90 graus nos joelhos."], mistakes: "Retirar a lombar do encosto." },
-                            { id: "agachamento", name: "Agachamento Livre com Barra", sets: 4, reps: "8 - 10", rest: "90s", category: "legs", gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Agachamento.gif", instructions: ["Apoie a barra nos trapézios, mantenha o tronco firme.", "Flexione joelhos e quadril descendo o máximo confortável."], mistakes: "Deixar os joelhos irem para dentro." },
-                            { id: "cadeira_extensora", name: "Cadeira Extensora", sets: 3, reps: "12 - 15", rest: "45s", category: "legext", gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Cadeira%20extensora.gif", instructions: ["Estenda totalmente os joelhos controlando a volta."], mistakes: "Executar muito rápido." }
+                            { id: "leg_press", name: "Leg Press 45", sets: 4, reps: "10 - 12", rest: "90s", category: "legs", gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Leg%20Press%2045.gif", instructions: ["Posicione os pés na plataforma à largura dos ombros.", "Desça até 90 graus nos joelhos."], mistakes: "Retirar a lombar do encosto." },
+                            { id: "agachamento", name: "Agachamento Livre com Barra", sets: 4, reps: "8 - 10", rest: "90s", category: "legs", gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Agachamento%20Livre%20com%20Barra.gif", instructions: ["Apoie a barra nos trapézios, mantenha o tronco firme.", "Flexione joelhos e quadril descendo o máximo confortável."], mistakes: "Deixar os joelhos irem para dentro." },
+                            { id: "cadeira_extensora", name: "Cadeira Extensora", sets: 3, reps: "12 - 15", rest: "45s", category: "legext", gifUrl: "https://www.gifdotreino.com/Exercicios/Pernas/Cadeira%20Extensora.gif", instructions: ["Estenda totalmente os joelhos controlando a volta."], mistakes: "Executar muito rápido." }
                         ]
                     }
                 ]

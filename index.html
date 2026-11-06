@@ -63,8 +63,8 @@
 </head>
 <body class="h-full flex flex-col justify-between custom-scrollbar selection:bg-fit-accent selection:text-black">
 
-    <!-- TELA DE ABERTURA INICIAL -->
-    <div id="splash-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 transition-opacity duration-500">
+    <!-- TELA DE ABERTURA INICIAL (Com fechamento de segurança forçado) -->
+    <div id="splash-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 transition-opacity duration-300">
         <div class="splash-animate flex flex-col items-center space-y-6 text-center max-w-xs w-full">
             <div class="w-24 h-24 bg-fit-card border-2 border-fit-accent/50 rounded-3xl flex items-center justify-center p-3 shadow-2xl shadow-fit-accent/20">
                 <svg viewBox="0 0 300 150" class="w-full h-full">
@@ -90,7 +90,7 @@
     </div>
 
     <!-- TELA DE CARREGAMENTO PÓS-LOGIN -->
-    <div id="loading-sync-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 hidden transition-opacity duration-700">
+    <div id="loading-sync-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 hidden transition-opacity duration-300">
         <div class="splash-animate flex flex-col items-center space-y-6 text-center max-w-xs w-full">
             <div class="w-24 h-24 bg-fit-card border-2 border-fit-accent/50 rounded-3xl flex items-center justify-center p-3 shadow-2xl shadow-fit-accent/20">
                 <svg viewBox="0 0 300 150" class="w-full h-full">
@@ -491,7 +491,8 @@
         let restTimerInterval = null;
         let restTimeRemaining = 60;
 
-        function hideSplashScreenNow() {
+        // Função de segurança para esconder o splash imediatamente
+        function forceHideSplash() {
             const splash = document.getElementById('splash-screen');
             if (splash) {
                 splash.style.opacity = '0';
@@ -502,16 +503,18 @@
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
 
-            hideSplashScreenNow();
+            // Garante que o splash some após 300ms, independentemente de qualquer outra chamada
+            setTimeout(forceHideSplash, 300);
 
-            if (!localStorage.getItem('motta_fit_version_fix_v5')) {
+            if (!localStorage.getItem('motta_fit_version_fix_v6')) {
                 localStorage.removeItem('motta_fit_active_plan');
-                localStorage.setItem('motta_fit_version_fix_v5', 'true');
+                localStorage.setItem('motta_fit_version_fix_v6', 'true');
             }
 
-            // Monitorar Firebase Auth em tempo real
+            // Monitorar Firebase Auth com tratamento de erro e fechamento garantido do splash
             if (auth) {
                 auth.onAuthStateChanged(user => {
+                    forceHideSplash();
                     if (user) {
                         currentUser = user;
                         document.getElementById('auth-section').classList.add('hidden');
@@ -521,11 +524,17 @@
                         }
                         loadUserWorkoutFromFirebase(user.uid);
                     }
+                }, err => {
+                    console.warn("Erro no Auth State:", err);
+                    forceHideSplash();
                 });
+            } else {
+                forceHideSplash();
             }
         });
 
-        setTimeout(hideSplashScreenNow, 500);
+        // Fallback final caso o evento demore
+        setTimeout(forceHideSplash, 1000);
 
         function triggerPostLoginSync(onComplete) {
             const syncScreen = document.getElementById('loading-sync-screen');
@@ -544,7 +553,7 @@
             ];
 
             const interval = setInterval(() => {
-                progress += 5;
+                progress += 10;
                 if (progress > 100) progress = 100;
 
                 if (progressBar) progressBar.style.width = progress + '%';
@@ -563,12 +572,12 @@
                             setTimeout(() => syncScreen.style.display = 'none', 300);
                         }
                         if (typeof onComplete === 'function') onComplete();
-                    }, 400);
+                    }, 200);
                 }
-            }, 40);
+            }, 30);
         }
 
-        // 3. AUTENTICAÇÃO COM FIREBASE AUTH CORRIGIDA
+        // 3. AUTENTICAÇÃO COM FIREBASE AUTH
         function toggleAuthMode() {
             isSignUpMode = !isSignUpMode;
             const title = document.getElementById('auth-title');
@@ -739,7 +748,7 @@
             document.getElementById('onboarding-section').classList.add('hidden');
             document.getElementById('ai-loading').classList.remove('hidden');
 
-            const customApiKey = localStorage.getItem('motta_fit_api_key') || '';
+            const customApiKey = localStorage.getItem('motta_fit_api_key'] || '';
             let workoutResult = null;
 
             if (customApiKey.trim() !== '') {
@@ -925,7 +934,7 @@
 
         function openSettingsModal() { 
             const apiKeyInput = document.getElementById('custom-api-key');
-            if (apiKeyInput) apiKeyInput.value = localStorage.getItem('motta_fit_api_key'] || '';
+            if (apiKeyInput) apiKeyInput.value = localStorage.getItem('motta_fit_api_key') || '';
             document.getElementById('settings-modal').classList.remove('hidden'); 
         }
         function closeSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }

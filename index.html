@@ -5,16 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MOTTA FIT — Treinador Personalizado</title>
 
-    <!-- ---------------------------------------------------- -->
-    <!-- CONFIGURAÇÃO OFICIAL DO ÍCONE DO HALTER COM M       -->
-    <!-- ---------------------------------------------------- -->
-    
-    <!-- Este SVG gera o ícone do halter prateado com M preto para a tela de início -->
-    <script>
-        const iconSvg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'><rect width='400' height='200' fill='%23090d16'/><g transform='translate(50, 25)'><rect x='0' y='65' width='20' height='20' rx='5' fill='%2371717a'/><rect x='280' y='65' width='20' height='20' rx='5' fill='%2371717a'/><rect x='20' y='30' width='35' height='90' rx='10' fill='%2371717a'/><rect x='245' y='30' width='35' height='90' rx='10' fill='%2371717a'/><rect x='55' y='10' width='25' height='130' rx='10' fill='%2371717a'/><rect x='220' y='10' width='25' height='130' rx='10' fill='%2371717a'/><rect x='80' y='65' width='140' height='20' fill='%2371717a'/><text x='150' y='110' font-family='serif, Times New Roman' font-weight='900' font-size='110' fill='%23000000' text-anchor='middle'>M</text></g></svg>`;
-        const iconUrl = 'data:image/svg+xml;base64,' + btoa(iconSvg);
-    </script>
-
     <!-- App Web & PWA Configuration -->
     <meta name="application-name" content="MOTTA FIT">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -22,35 +12,6 @@
     <meta name="apple-mobile-web-app-title" content="MOTTA FIT">
     <meta name="theme-color" content="#090d16">
 
-    <!-- Meta Tags de Ícone Dinâmicas -->
-    <script>
-        document.write(`<link rel="apple-touch-icon" href="${iconUrl}">`);
-        document.write(`<link rel="icon" type="image/svg+xml" href="${iconUrl}">`);
-    </script>
-    
-    <!-- Manifesto da Web App Inline para garantir o ícone correto -->
-    <script>
-        const manifest = {
-            "name": "MOTTA FIT",
-            "short_name": "MOTTA FIT",
-            "start_url": "./index.html",
-            "display": "standalone",
-            "background_color": "#090d16",
-            "theme_color": "#090d16",
-            "icons": [
-                {
-                    "src": iconUrl,
-                    "sizes": "192x192 512x512",
-                    "type": "image/svg+xml",
-                    "purpose": "any maskable"
-                }
-            ]
-        };
-        const manifestUrl = 'data:application/manifest+json;base64,' + btoa(JSON.stringify(manifest));
-        document.write(`<link rel="manifest" href="${manifestUrl}">`);
-    </script>
-
-    <!-- ---------------------------------------------------- -->
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -106,8 +67,18 @@
     <div id="splash-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 transition-opacity duration-1000">
         <div class="splash-animate flex flex-col items-center space-y-6 text-center max-w-xs w-full">
             <div class="w-24 h-24 bg-fit-card border-2 border-fit-accent/50 rounded-3xl flex items-center justify-center p-3 shadow-2xl shadow-fit-accent/20">
-                <!-- LOGO SVG NO SPLASH SCREEN -->
-                <script>document.write(iconSvg);</script>
+                <svg viewBox="0 0 300 150" class="w-full h-full">
+                    <g fill="#a1a1aa">
+                        <rect x="0" y="65" width="20" height="20" rx="4"/>
+                        <rect x="280" y="65" width="20" height="20" rx="4"/>
+                        <rect x="20" y="30" width="35" height="90" rx="8"/>
+                        <rect x="245" y="30" width="35" height="90" rx="8"/>
+                        <rect x="55" y="10" width="25" height="130" rx="8"/>
+                        <rect x="220" y="10" width="25" height="130" rx="8"/>
+                        <rect x="80" y="65" width="140" height="20"/>
+                    </g>
+                    <text x="150" y="112" font-family="serif, Times New Roman" font-weight="900" font-size="115" fill="#000000" text-anchor="middle">M</text>
+                </svg>
             </div>
             <div>
                 <h1 class="text-3xl font-black tracking-tight text-white">
@@ -118,7 +89,7 @@
 
             <div class="w-full space-y-2 pt-2">
                 <div class="flex justify-between text-[11px] font-mono text-fit-subtext">
-                    <span id="splash-status-text">Conectando à nuvem...</span>
+                    <span id="splash-status-text">A carregar sistema...</span>
                     <span id="splash-percentage">0%</span>
                 </div>
                 <div class="w-full h-2 bg-fit-card border border-fit-border rounded-full overflow-hidden p-0.5">
@@ -132,8 +103,18 @@
     <header class="sticky top-0 z-40 bg-fit-bg/95 backdrop-blur border-b border-fit-border px-4 py-3 flex items-center justify-between">
         <div class="flex items-center space-x-3 cursor-pointer" onclick="resetFormToStart()">
             <div class="w-10 h-10 bg-fit-card border border-fit-border rounded-xl flex items-center justify-center p-1 shadow-lg">
-                <!-- LOGO SVG NO HEADER -->
-                <script>document.write(iconSvg);</script>
+                <svg viewBox="0 0 300 150" class="w-full h-full">
+                    <g fill="#a1a1aa">
+                        <rect x="0" y="65" width="20" height="20" rx="4"/>
+                        <rect x="280" y="65" width="20" height="20" rx="4"/>
+                        <rect x="20" y="30" width="35" height="90" rx="8"/>
+                        <rect x="245" y="30" width="35" height="90" rx="8"/>
+                        <rect x="55" y="10" width="25" height="130" rx="8"/>
+                        <rect x="220" y="10" width="25" height="130" rx="8"/>
+                        <rect x="80" y="65" width="140" height="20"/>
+                    </g>
+                    <text x="150" y="112" font-family="serif, Times New Roman" font-weight="900" font-size="115" fill="#000000" text-anchor="middle">M</text>
+                </svg>
             </div>
             <div>
                 <h1 class="font-black text-lg tracking-tight leading-none text-white flex items-center gap-1.5">
@@ -206,7 +187,7 @@
             </form>
 
             <div class="mt-4 pt-4 border-t border-fit-border text-center">
-                <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-xs text-fit-subtext hover:text-fit-accent transition">
+                <button type="button" onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-xs text-fit-subtext hover:text-fit-accent transition">
                     Não tem uma conta? <strong class="text-fit-accent">Cadastre-se aqui</strong>
                 </button>
             </div>
@@ -333,7 +314,7 @@
                     </div>
 
                     <div class="flex space-x-2 pt-2">
-                        <button type="button" onclick="goToStep(2)" class="w-1/3 bg-fit-bg border border-fit-border hover:border-fit-border text-white font-semibold py-3 rounded-xl transition">
+                        <button type="button" onclick="goToStep(2)" class="w-1/3 bg-fit-bg border border-fit-border hover:bg-fit-border text-white font-semibold py-3 rounded-xl transition">
                             Voltar
                         </button>
                         <button type="button" onclick="generateWorkoutWithAI()" class="w-2/3 bg-gradient-to-r from-fit-accent to-emerald-400 hover:opacity-95 text-black font-black py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-xl shadow-fit-accent/20">
@@ -371,7 +352,7 @@
                         <p id="dash-user-subtitle" class="text-xs text-fit-subtext">5 Dias • Hipertrofia</p>
                     </div>
                 </div>
-                <button onclick="resetFormToStart()" class="px-3 py-1.5 bg-fit-bg border border-fit-border hover:border-fit-redAccent text-fit-subtext hover:text-fit-redAccent text-xs font-bold rounded-xl transition flex items-center space-x-1">
+                <button type="button" onclick="resetFormToStart()" class="px-3 py-1.5 bg-fit-bg border border-fit-border hover:border-fit-redAccent text-fit-subtext hover:text-fit-redAccent text-xs font-bold rounded-xl transition flex items-center space-x-1">
                     <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
                     <span>Refazer</span>
                 </button>
@@ -392,7 +373,7 @@
             <span class="block text-[10px] text-fit-subtext font-bold uppercase tracking-wider">Descanso Ativo</span>
             <span id="timer-display" class="font-black text-lg text-fit-accent font-mono">00:60</span>
         </div>
-        <button onclick="stopRestTimer()" class="w-7 h-7 bg-fit-bg border border-fit-border hover:border-fit-redAccent hover:text-fit-redAccent text-fit-subtext rounded-lg flex items-center justify-center text-xs">✕</button>
+        <button type="button" onclick="stopRestTimer()" class="w-7 h-7 bg-fit-bg border border-fit-border hover:border-fit-redAccent hover:text-fit-redAccent text-fit-subtext rounded-lg flex items-center justify-center text-xs">✕</button>
     </div>
 
     <!-- MODAL DE EXERCÍCIO -->
@@ -408,7 +389,7 @@
                         <p id="modal-ex-target" class="text-[11px] text-fit-subtext">Peitoral & Tríceps</p>
                     </div>
                 </div>
-                <button onclick="closeExerciseModal()" class="w-8 h-8 rounded-xl bg-fit-card border border-fit-border text-fit-subtext hover:text-white flex items-center justify-center">✕</button>
+                <button type="button" onclick="closeExerciseModal()" class="w-8 h-8 rounded-xl bg-fit-card border border-fit-border text-fit-subtext hover:text-white flex items-center justify-center">✕</button>
             </div>
 
             <div class="p-4 space-y-4 overflow-y-auto custom-scrollbar flex-grow">
@@ -438,7 +419,7 @@
             </div>
 
             <div class="p-4 border-t border-fit-border bg-fit-bg text-right">
-                <button onclick="closeExerciseModal()" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-2.5 rounded-xl transition text-xs">
+                <button type="button" onclick="closeExerciseModal()" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-2.5 rounded-xl transition text-xs">
                     Entendido, Voltar ao Treino
                 </button>
             </div>
@@ -453,7 +434,7 @@
                     <i data-lucide="smartphone" class="w-5 h-5 text-fit-accent"></i>
                     <h3 class="font-extrabold text-sm text-white">Instalar no Celular</h3>
                 </div>
-                <button onclick="closeInstallModal()" class="text-fit-subtext hover:text-white">✕</button>
+                <button type="button" onclick="closeInstallModal()" class="text-fit-subtext hover:text-white">✕</button>
             </div>
             <div class="space-y-3">
                 <div class="p-3 bg-fit-bg border border-fit-border rounded-xl space-y-1">
@@ -465,7 +446,7 @@
                     <p class="text-[11px] text-fit-subtext">1. Toque nos <strong>3 pontinhos</strong> no canto superior.<br>2. Selecione <strong>"Instalar aplicativo"</strong>.</p>
                 </div>
             </div>
-            <button onclick="closeInstallModal()" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-2.5 rounded-xl transition text-xs">OK, Entendi!</button>
+            <button type="button" onclick="closeInstallModal()" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-2.5 rounded-xl transition text-xs">OK, Entendi!</button>
         </div>
     </div>
 
@@ -474,13 +455,13 @@
         <div class="bg-fit-card border border-fit-border rounded-3xl max-w-sm w-full p-5 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between border-b border-fit-border pb-3">
                 <div class="flex items-center space-x-2"><i data-lucide="settings" class="w-5 h-5 text-fit-accent"></i><h3 class="font-extrabold text-sm text-white">Configurações & Chave API</h3></div>
-                <button onclick="closeSettingsModal()" class="text-fit-subtext hover:text-white">✕</button>
+                <button type="button" onclick="closeSettingsModal()" class="text-fit-subtext hover:text-white">✕</button>
             </div>
             <div>
                 <label class="block text-xs font-semibold text-fit-subtext mb-1">Chave API Gemini (Opcional)</label>
                 <input type="password" id="custom-api-key" placeholder="Cole sua chave API aqui..." class="w-full bg-fit-bg border border-fit-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-fit-accent transition">
             </div>
-            <button onclick="saveSettings()" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-2.5 rounded-xl transition text-xs">Salvar Alterações</button>
+            <button type="button" onclick="saveSettings()" class="w-full bg-fit-accent hover:bg-fit-accentHover text-black font-extrabold py-2.5 rounded-xl transition text-xs">Salvar Alterações</button>
         </div>
     </div>
 
@@ -501,16 +482,19 @@
             measurementId: "G-Y99436N0BG"
         };
 
-        let auth, db;
+        let auth = null;
+        let db = null;
         let currentUser = null;
         let isSignUpMode = false;
 
         try {
-            firebase.initializeApp(firebaseConfig);
-            auth = firebase.auth();
-            db = firebase.firestore();
+            if (typeof firebase !== 'undefined') {
+                firebase.initializeApp(firebaseConfig);
+                auth = firebase.auth();
+                db = firebase.firestore();
+            }
         } catch (e) {
-            console.error("Erro ao inicializar Firebase:", e);
+            console.warn("Modo offline ativo:", e);
         }
 
         // 2. VARIÁVEIS GLOBAIS DA APLICAÇÃO
@@ -522,28 +506,58 @@
         let restTimeRemaining = 60;
 
         document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-            
-            // MONITORAR ESTADO DE AUTENTICAÇÃO DO USUÁRIO
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+
+            // Animação de Splash garantida para sumir em até 2 segundos
+            let progress = 0;
+            const progressBar = document.getElementById('splash-progress-bar');
+            const progressText = document.getElementById('splash-percentage');
+            const statusText = document.getElementById('splash-status-text');
+
+            const loadingInterval = setInterval(() => {
+                progress += 10;
+                if (progress > 100) progress = 100;
+                
+                if (progressBar) progressBar.style.width = progress + '%';
+                if (progressText) progressText.innerText = progress + '%';
+
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    const splash = document.getElementById('splash-screen');
+                    if (splash) {
+                        splash.style.opacity = '0';
+                        setTimeout(() => splash.remove(), 600);
+                    }
+                }
+            }, 120);
+
+            // Carregamento de Sessão Local (Fallback)
+            const localUser = localStorage.getItem('motta_fit_local_user');
+            if (localUser) {
+                try {
+                    currentUser = JSON.parse(localUser);
+                    document.getElementById('auth-section').classList.add('hidden');
+                    document.getElementById('btn-logout').classList.remove('hidden');
+                    if (currentUser.displayName) {
+                        document.getElementById('user-name').value = currentUser.displayName;
+                    }
+                    loadSavedLocalWorkout();
+                } catch(err) {}
+            }
+
+            // Monitorar autenticação do Firebase (se configurado)
             if (auth) {
                 auth.onAuthStateChanged(user => {
                     if (user) {
                         currentUser = user;
                         document.getElementById('auth-section').classList.add('hidden');
                         document.getElementById('btn-logout').classList.remove('hidden');
-                        
-                        // Pré-preencher o nome no onboarding caso exista
                         if (user.displayName) {
                             document.getElementById('user-name').value = user.displayName;
                         }
-                        
                         loadUserWorkoutFromFirebase(user.uid);
-                    } else {
-                        currentUser = null;
-                        document.getElementById('auth-section').classList.remove('hidden');
-                        document.getElementById('onboarding-section').classList.add('hidden');
-                        document.getElementById('workout-dashboard').classList.add('hidden');
-                        document.getElementById('btn-logout').classList.add('hidden');
                     }
                 });
             }
@@ -580,12 +594,6 @@
             const errorDiv = document.getElementById('auth-error');
             errorDiv.classList.add('hidden');
 
-            if (!auth) {
-                errorDiv.innerText = "Erro: Firebase não configurado corretamente.";
-                errorDiv.classList.remove('hidden');
-                return;
-            }
-
             try {
                 if (isSignUpMode) {
                     if (!name.trim()) {
@@ -593,25 +601,58 @@
                         errorDiv.classList.remove('hidden');
                         return;
                     }
-                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                    // Salvar Nome no perfil do usuário Firebase
-                    await userCredential.user.updateProfile({ displayName: name });
+                    if (auth) {
+                        try {
+                            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                            await userCredential.user.updateProfile({ displayName: name });
+                            return;
+                        } catch (firebaseErr) {
+                            console.warn("Usando cadastro local por restrição de API/Rede:", firebaseErr);
+                        }
+                    }
+                    currentUser = { uid: 'local_' + Date.now(), displayName: name, email: email };
+                    localStorage.setItem('motta_fit_local_user', JSON.stringify(currentUser));
+                    document.getElementById('user-name').value = name;
+                    document.getElementById('auth-section').classList.add('hidden');
+                    document.getElementById('btn-logout').classList.remove('hidden');
+                    document.getElementById('onboarding-section').classList.remove('hidden');
                 } else {
-                    await auth.signInWithEmailAndPassword(email, password);
+                    if (auth) {
+                        try {
+                            await auth.signInWithEmailAndPassword(email, password);
+                            return;
+                        } catch (firebaseErr) {
+                            console.warn("Usando login local:", firebaseErr);
+                        }
+                    }
+                    const localUser = localStorage.getItem('motta_fit_local_user');
+                    if (localUser) {
+                        currentUser = JSON.parse(localUser);
+                        document.getElementById('auth-section').classList.add('hidden');
+                        document.getElementById('btn-logout').classList.remove('hidden');
+                        loadSavedLocalWorkout();
+                    } else {
+                        errorDiv.innerText = "Conta não encontrada. Cadastre-se primeiro.";
+                        errorDiv.classList.remove('hidden');
+                    }
                 }
             } catch (error) {
-                errorDiv.innerText = error.message;
+                errorDiv.innerText = error.message || "Erro na autenticação.";
                 errorDiv.classList.remove('hidden');
             }
         }
 
         function logoutUser() {
-            if (auth) auth.signOut();
+            if (auth) auth.signOut().catch(() => {});
+            localStorage.removeItem('motta_fit_local_user');
+            localStorage.removeItem('motta_fit_active_plan');
+            location.reload();
         }
 
         // 4. INTEGRAÇÃO DE DADOS COM O FIRESTORE
         async function loadUserWorkoutFromFirebase(uid) {
             try {
+                if (!db) throw new Error("DB offline");
                 const doc = await db.collection("workouts").doc(uid).get();
                 if (doc.exists) {
                     currentWorkoutPlan = doc.data().plan;
@@ -622,21 +663,33 @@
                     document.getElementById('workout-dashboard').classList.add('hidden');
                 }
             } catch (e) {
-                console.error("Erro ao buscar treino no Firebase:", e);
-                document.getElementById('onboarding-section').classList.remove('hidden');
+                loadSavedLocalWorkout();
             }
         }
 
         async function saveUserWorkoutToFirebase(plan) {
+            localStorage.setItem('motta_fit_active_plan', JSON.stringify(plan));
             if (!currentUser || !db) return;
             try {
                 await db.collection("workouts").doc(currentUser.uid).set({
                     plan: plan,
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                console.log("Ficha de treino sincronizada com a nuvem Firebase!");
-            } catch (e) {
-                console.error("Erro ao salvar no Firestore:", e);
+            } catch (e) {}
+        }
+
+        function loadSavedLocalWorkout() {
+            const saved = localStorage.getItem('motta_fit_active_plan');
+            if (saved) {
+                try {
+                    currentWorkoutPlan = JSON.parse(saved);
+                    document.getElementById('onboarding-section').classList.add('hidden');
+                    renderWorkoutDashboard();
+                } catch(e) {
+                    document.getElementById('onboarding-section').classList.remove('hidden');
+                }
+            } else {
+                document.getElementById('onboarding-section').classList.remove('hidden');
             }
         }
 
@@ -759,6 +812,7 @@
             currentWorkoutPlan.days.forEach((day, index) => {
                 const isActive = index === activeDayIndex;
                 const btn = document.createElement('button');
+                btn.type = 'button';
                 btn.className = `px-4 py-2.5 rounded-xl font-extrabold text-xs whitespace-nowrap transition flex items-center space-x-2 shrink-0 ${
                     isActive ? 'bg-fit-accent text-black shadow-lg' : 'bg-fit-card border border-fit-border text-fit-subtext hover:text-white'
                 }`;
@@ -789,7 +843,7 @@
                             <h4 class="font-extrabold text-sm text-white">${ex.name}</h4>
                             <p class="text-[11px] text-fit-subtext mt-0.5">${ex.sets} Séries × ${ex.reps} Reps • Descanso: ${ex.rest}</p>
                         </div>
-                        <button onclick='openExerciseModal(${JSON.stringify(ex).replace(/'/g, "&#39;")}, "${day.targetMuscles}")' class="px-2.5 py-1.5 bg-fit-bg border border-fit-border hover:border-fit-accent text-fit-accent rounded-xl text-[11px] font-bold transition flex items-center space-x-1 shrink-0">
+                        <button type="button" onclick='openExerciseModal(${JSON.stringify(ex).replace(/'/g, "&#39;")}, "${day.targetMuscles}")' class="px-2.5 py-1.5 bg-fit-bg border border-fit-border hover:border-fit-accent text-fit-accent rounded-xl text-[11px] font-bold transition flex items-center space-x-1 shrink-0">
                             <i data-lucide="play" class="w-3.5 h-3.5"></i>
                             <span>Ver GIF</span>
                         </button>
@@ -798,14 +852,14 @@
                         <span class="text-[10px] font-bold text-fit-subtext uppercase tracking-wider">Séries Concluídas:</span>
                         <div class="flex space-x-1.5">
                             ${Array.from({length: ex.sets}).map((_, s) => `
-                                <button onclick="toggleSetCheck(this)" class="w-7 h-7 rounded-lg bg-fit-bg border border-fit-border text-fit-subtext font-bold text-xs flex items-center justify-center transition hover:border-fit-accent">${s + 1}</button>
+                                <button type="button" onclick="toggleSetCheck(this)" class="w-7 h-7 rounded-lg bg-fit-bg border border-fit-border text-fit-subtext font-bold text-xs flex items-center justify-center transition hover:border-fit-accent">${s + 1}</button>
                             `).join('')}
                         </div>
                     </div>
                 `;
                 container.appendChild(exCard);
             });
-            lucide.createIcons();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function toggleSetCheck(btn) {
@@ -820,15 +874,15 @@
             restTimeRemaining = seconds;
             const timerWidget = document.getElementById('rest-timer-widget');
             const timerDisplay = document.getElementById('timer-display');
-            timerWidget.classList.remove('hidden');
-            timerDisplay.innerText = `00:${restTimeRemaining < 10 ? '0' : ''}${restTimeRemaining}`;
+            if (timerWidget) timerWidget.classList.remove('hidden');
+            if (timerDisplay) timerDisplay.innerText = `00:${restTimeRemaining < 10 ? '0' : ''}${restTimeRemaining}`;
 
             restTimerInterval = setInterval(() => {
                 restTimeRemaining--;
-                timerDisplay.innerText = `00:${restTimeRemaining < 10 ? '0' : ''}${restTimeRemaining}`;
+                if (timerDisplay) timerDisplay.innerText = `00:${restTimeRemaining < 10 ? '0' : ''}${restTimeRemaining}`;
                 if (restTimeRemaining <= 0) {
                     clearInterval(restTimerInterval);
-                    timerWidget.classList.add('hidden');
+                    if (timerWidget) timerWidget.classList.add('hidden');
                     if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
                 }
             }, 1000);
@@ -836,7 +890,8 @@
 
         function stopRestTimer() {
             clearInterval(restTimerInterval);
-            document.getElementById('rest-timer-widget').classList.add('hidden');
+            const timerWidget = document.getElementById('rest-timer-widget');
+            if (timerWidget) timerWidget.classList.add('hidden');
         }
 
         function openExerciseModal(ex, target) {
@@ -844,7 +899,7 @@
             document.getElementById('modal-ex-target').innerText = target;
             
             const gifElement = document.getElementById('modal-ex-gif');
-            gifElement.src = ex.gifUrl || "https://www.gifdotreino.com/Exercicios/Peitoral/Supino%20Reto.gif";
+            if (gifElement) gifElement.src = ex.gifUrl || "https://www.gifdotreino.com/Exercicios/Peitoral/Supino%20Reto.gif";
 
             const instructionsHtml = (ex.instructions || [
                 "Mantenha a postura correta e o core estabilizado.",
@@ -865,20 +920,25 @@
         function openInstallModal() { document.getElementById('install-modal').classList.remove('hidden'); }
         function closeInstallModal() { document.getElementById('install-modal').classList.add('hidden'); }
         function openSettingsModal() { 
-            document.getElementById('custom-api-key').value = localStorage.getItem('motta_fit_api_key') || '';
+            const apiKeyInput = document.getElementById('custom-api-key');
+            if (apiKeyInput) apiKeyInput.value = localStorage.getItem('motta_fit_api_key') || '';
             document.getElementById('settings-modal').classList.remove('hidden'); 
         }
         function closeSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }
         function saveSettings() {
-            localStorage.setItem('motta_fit_api_key', document.getElementById('custom-api-key').value.trim());
+            const apiKeyInput = document.getElementById('custom-api-key');
+            if (apiKeyInput) {
+                localStorage.setItem('motta_fit_api_key', apiKeyInput.value.trim());
+            }
             closeSettingsModal();
             alert('Configurações salvas com sucesso!');
         }
         async function resetFormToStart() {
             if (confirm('Deseja refazer sua ficha de treino?')) {
                 if (currentUser && db) {
-                    await db.collection("workouts").doc(currentUser.uid).delete();
+                    try { await db.collection("workouts").doc(currentUser.uid).delete(); } catch(e) {}
                 }
+                localStorage.removeItem('motta_fit_active_plan');
                 location.reload();
             }
         }

@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MOTTA FIT - Treino Personalizado Inteligente</title>
+  
+  <!-- Dynamic SVG Favicon with Official Logo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'><path fill='%2378716c' d='M0 43h10v14H0zM190 43h10v14h-10zM13 25a12 12 0 0 1 12-12h4v74h-4a12 12 0 0 1-12-12zM171 13h4a12 12 0 0 1 12 12v50a12 12 0 0 1-12 12h-4zM33 5a6 6 0 0 1 6-6h4v102h-4a6 6 0 0 1-6-6zM157 0h4a6 6 0 0 1 6 6v90a6 6 0 0 1-6 6h-4zM47 42h106v16H47z'/><text x='100' y='76' font-family='Georgia,serif' font-weight='900' font-size='82' text-anchor='middle' fill='%23000000'>M</text></svg>">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              neon: '#00ff66',
+              accent: '#ff2a5f',
+              cyan: '#06b6d4',
+              dark: '#0d1117',
+              card: '#161b22',
+              border: '#30363d'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Phosphor Icons for modern fitness icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0d1117;
+      color: #f3f4f6;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    
+    /* Smooth custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0d1117;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #30363d;
+      border-radius: 4px;
+    }
+    
+    .neon-glow {
+      box-shadow: 0 0 15px rgba(0, 255, 102, 0.25);
+    }
+    .neon-border {
+      border-color: #00ff66;
+    }
+    
+    /* Dedicated Smooth Animations for Gym SVG Visualizer */
+    @keyframes benchPress {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(32px); }
+    }
+    @keyframes squatMove {
+      0%, 100% { transform: translateY(0px) scaleY(1); }
+      50% { transform: translateY(24px) scaleY(0.85); }
+    }
+    @keyframes deadliftMove {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(22px) rotate(15deg); }
+    }
+    @keyframes curlArmMove {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(-75deg); }
+    }
+    @keyframes shoulderPressMove {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-30px); }
+    }
+    @keyframes latPulldownMove {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(32px); }
+    }
+    @keyframes legPressMove {
+      0%, 100% { transform: translate(0px, 0px); }
+      50% { transform: translate(-20px, 20px); }
+    }
+    @keyframes rowPullMove {
+      0%, 100% { transform: translateX(0px); }
+      50% { transform: translateX(-26px); }
+    }
+    @keyframes crunchMove {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(-25deg); }
+    }
+    @keyframes generalPulse {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-12px) scale(1.04); }
+    }
+
+    .anim-bench { animation: benchPress 2.2s ease-in-out infinite; transform-origin: center; }
+    .anim-squat { animation: squatMove 2.5s ease-in-out infinite; transform-origin: bottom center; }
+    .anim-deadlift { animation: deadliftMove 2.6s ease-in-out infinite; transform-origin: 100px 110px; }
+    .anim-curl { animation: curlArmMove 2s ease-in-out infinite; transform-origin: 100px 100px; }
+    .anim-shoulder { animation: shoulderPressMove 2.2s ease-in-out infinite; transform-origin: center; }
+    .anim-pulldown { animation: latPulldownMove 2.4s ease-in-out infinite; transform-origin: center; }
+    .anim-legpress { animation: legPressMove 2.4s ease-in-out infinite; transform-origin: center; }
+    .anim-row { animation: rowPullMove 2.2s ease-in-out infinite; transform-origin: center; }
+    .anim-crunch { animation: crunchMove 2.1s ease-in-out infinite; transform-origin: 120px 105px; }
+    .anim-general { animation: generalPulse 2.3s ease-in-out infinite; }
+
+    /* Pulse animation for timer */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-active {
+      animation: pulse-ring 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between max-w-md mx-auto relative bg-[#0d1117] text-gray-100 overflow-x-hidden pb-20 sm:pb-6">
+
+  <!-- Header Section with Official MOTTA FIT SVG Logo -->
+  <header class="sticky top-0 z-40 bg-[#0d1117]/90 backdrop-blur-md border-b border-brand-border px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <!-- Official MOTTA FIT Vector SVG Logo -->
+      <div class="w-11 h-8 flex items-center justify-center shrink-0 drop-shadow-[0_0_8px_rgba(0,255,102,0.3)]">
+        <svg viewBox="0 0 200 102" class="w-full h-full">
+          <!-- Outer Barbell Knobs -->
+          <path fill="#8a8f98" d="M 0 44 h 10 v 14 h -10 z M 190 44 h 10 v 14 h -10 z"/>
+          <!-- Outer Weight Plates -->
+          <rect x="12" y="13" width="16" height="76" rx="6" fill="#717680"/>
+          <rect x="172" y="13" width="16" height="76" rx="6" fill="#717680"/>
+          <!-- Inner Weight Plates -->
+          <rect x="32" y="0" width="16" height="102" rx="7" fill="#8a8f98"/>
+          <rect x="152" y="0" width="16" height="102" rx="7" fill="#8a8f98"/>
+          <!-- Central Horizontal Bar -->
+          <rect x="48" y="42" width="104" height="18" fill="#717680"/>
+          <!-- Central 'M' Typography -->
+          <text x="100" y="78" font-family="'Times New Roman', Georgia, serif" font-weight="900" font-size="86" text-anchor="middle" fill="#000000" letter-spacing="-2">M</text>
+        </svg>
+      </div>
+      <div>
+        <h1 class="font-black text-lg tracking-wider bg-gradient-to-r from-white via-gray-100 to-brand-neon bg-clip-text text-transparent uppercase">MOTTA FIT</h1>
+        <p class="text-[10px] text-gray-400 -mt-1 font-bold tracking-widest">TREINADOR IA PERSONALIZADO</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center space-x-2">
+      <button onclick="togglePwaModal()" title="Instalar App no Celular" class="p-2 rounded-lg bg-brand-card border border-brand-border text-brand-neon hover:bg-gray-800 transition">
+        <i class="ph-bold ph-device-mobile text-lg"></i>
+      </button>
+      <button onclick="openSettingsModal()" title="Configurações de IA" class="p-2 rounded-lg bg-brand-card border border-brand-border text-gray-300 hover:text-white hover:bg-gray-800 transition">
+        <i class="ph-bold ph-gear text-lg"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 p-4">
+
+    <!-- PWA Installation Alert Banner -->
+    <div id="pwaBanner" class="mb-4 p-3 rounded-2xl bg-gradient-to-r from-emerald-950/60 to-gray-900 border border-brand-neon/30 flex items-center justify-between text-xs">
+      <div class="flex items-center space-x-3">
+        <div class="p-2 rounded-xl bg-brand-neon/10 text-brand-neon">
+          <i class="ph-bold ph-sparkle text-xl"></i>
+        </div>
+        <div>
+          <p class="font-bold text-white">Instale o App na sua Academia!</p>
+          <p class="text-gray-400">Adicione à tela inicial do seu celular para acesso rápido.</p>
+        </div>
+      </div>
+      <button onclick="togglePwaModal()" class="px-3 py-1.5 rounded-xl bg-brand-neon text-black font-bold text-xs hover:opacity-90 transition">
+        Como Instalar
+      </button>
+    </div>
+
+    <!-- VIEW 1: ONBOARDING FORM -->
+    <section id="onboardingView" class="space-y-5">
+      <div class="bg-brand-card rounded-2xl p-5 border border-brand-border shadow-xl">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">
+              <i class="ph-bold ph-[#00ff66] ph-user-focus text-brand-neon"></i> Ficha do Aluno
+            </h2>
+            <p class="text-xs text-gray-400">Responda para a IA personalizar seus treinos</p>
+          </div>
+          <span id="stepBadge" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-brand-neon/10 text-brand-neon border border-brand-neon/30">Etapa 1 de 3</span>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-800 h-1.5 rounded-full mb-6 overflow-hidden">
+          <div id="progressBar" class="bg-brand-neon h-full w-1/3 transition-all duration-300"></div>
+        </div>
+
+        <form id="onboardingForm" onsubmit="handleFormSubmit(event)">
+          <!-- STEP 1: Informações Básicas -->
+          <div id="step1" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Seu Nome ou Apelido</label>
+              <input type="text" id="userName" required placeholder="Ex: Carlos Silva" class="w-full bg-gray-900 border border-brand-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-neon transition text-white">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-gray-300 mb-1">Idade</label>
+                <input type="number" id="userAge" required min="12" max="90" placeholder="Ex: 28" class="w-full bg-gray-900 border border-brand-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-neon transition text-white">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-300 mb-1">Gênero</label>
+                <select id="userGender" class="w-full bg-gray-900 border border-brand-border rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-brand-neon transition text-white">
+                  <option value="Masculino">Masculino</option>
+                  <option value="Feminino">Feminino</option>
+                  <option value="Prefiro não dizer">Outro / Prefiro não dizer</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Nível de Experiência em Treino</label>
+              <div class="grid grid-cols-3 gap-2">
+                <label class="cursor-pointer">
+                  <input type="radio" name="experience" value="Iniciante" checked class="peer hidden">
+                  <div class="p-3 rounded-xl border border-brand-border bg-gray-900 text-center peer-checked:border-brand-neon peer-checked:bg-brand-neon/10 peer-checked:text-brand-neon transition">
+                    <i class="ph-bold ph-seedling text-lg block mb-1"></i>
+                    <span class="text-xs font-semibold">Iniciante</span>
+                    <span class="block text-[10px] text-gray-400 font-normal">&lt; 6 meses</span>
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="experience" value="Intermediário" class="peer hidden">
+                  <div class="p-3 rounded-xl border border-brand-border bg-gray-900 text-center peer-checked:border-brand-neon peer-checked:bg-brand-neon/10 peer-checked:text-brand-neon transition">
+                    <i class="ph-bold ph-lightning text-lg block mb-1"></i>
+                    <span class="text-xs font-semibold">Intermediário</span>
+                    <span class="block text-[10px] text-gray-400 font-normal">6 meses a 2 anos</span>
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="experience" value="Avançado" class="peer hidden">
+                  <div class="p-3 rounded-xl border border-brand-border bg-gray-900 text-center peer-checked:border-brand-neon peer-checked:bg-brand-neon/10 peer-checked:text-brand-neon transition">
+                    <i class="ph-bold ph-fire text-lg block mb-1"></i>
+                    <span class="text-xs font-semibold">Avançado</span>
+                    <span class="block text-[10px] text-gray-400 font-normal">+ 2 anos</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+            
+            <button type="button" onclick="goToStep(2)" class="w-full mt-2 bg-brand-neon text-black font-bold py-3.5 rounded-xl shadow-lg hover:opacity-90 transition flex items-center justify-center gap-2">
+              Próximo Passo <i class="ph-bold ph-arrow-right"></i>
+            </button>
+          </div>
+
+          <!-- STEP 2: Objetivos e Disponibilidade -->
+          <div id="step2" class="space-y-4 hidden">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Objetivo Principal</label>
+              <select id="userGoal" class="w-full bg-gray-900 border border-brand-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-neon transition text-white">
+                <option value="Hipertrofia e Ganho de Massa Muscular">Hipertrofia / Ganho de Massa Muscular</option>
+                <option value="Emagrecimento e Definição Muscular">Emagrecimento & Definição</option>
+                <option value="Ganho de Força Bruta">Ganho de Força Bruta</option>
+                <option value="Condicionamento Físico e Saúde Geral">Condicionamento Físico & Saúde</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-gray-300 mb-1">Frequência Semanal</label>
+                <select id="userFrequency" class="w-full bg-gray-900 border border-brand-border rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-brand-neon transition text-white">
+                  <option value="3 dias por semana (ABC ou FullBody)">3 Dias / semana</option>
+                  <option value="4 dias por semana (Upper / Lower)" selected>4 Dias / semana</option>
+                  <option value="5 dias por semana (ABCDE)">5 Dias / semana</option>
+                  <option value="6 dias por semana (PPL x2)">6 Dias / semana</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-300 mb-1">Tempo Disponível</label>
+                <select id="userDuration" class="w-full bg-gray-900 border border-brand-border rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-brand-neon transition text-white">
+                  <option value="30 a 45 minutos">30 - 45 min (Rápido)</option>
+                  <option value="60 minutos" selected>60 min (Padrão)</option>
+                  <option value="90 minutos">90 min (Intenso)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Equipamentos Disponíveis</label>
+              <select id="userEquipment" class="w-full bg-gray-900 border border-brand-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-neon transition text-white">
+                <option value="Academia Completa (Máquinas, Barras, Anilhas, Halteres)">Academia Completa (Máquinas e Halteres)</option>
+                <option value="Apenas Halteres e Banco (Home Gym)">Apenas Halteres e Banco</option>
+                <option value="Calistenia / Peso do Corpo">Peso do Corpo / Calistenia</option>
+              </select>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+              <button type="button" onclick="goToStep(1)" class="w-1/3 bg-gray-800 text-gray-300 font-bold py-3.5 rounded-xl hover:bg-gray-700 transition">
+                Voltar
+              </button>
+              <button type="button" onclick="goToStep(3)" class="w-2/3 bg-brand-neon text-black font-bold py-3.5 rounded-xl shadow-lg hover:opacity-90 transition flex items-center justify-center gap-2">
+                Próximo Passo <i class="ph-bold ph-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Restrições Físicas e Confirmação -->
+          <div id="step3" class="space-y-4 hidden">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Possui alguma dor, lesão ou restrição médica?</label>
+              <textarea id="userLimitations" rows="3" placeholder="Ex: Dor no joelho esquerdo, evitar impacto. Problema no ombro direito. Nenhuma lesão." class="w-full bg-gray-900 border border-brand-border rounded-xl p-3 text-sm focus:outline-none focus:border-brand-neon transition text-white resize-none"></textarea>
+              <p class="text-[11px] text-gray-400 mt-1">A IA adaptará a escolha dos exercícios para proteger suas articulações.</p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-gray-900/80 border border-brand-border space-y-2">
+              <h4 class="text-xs font-bold text-brand-neon uppercase tracking-wider flex items-center gap-1.5">
+                <i class="ph-bold ph-brain"></i> Motor Inteligente Gemini
+              </h4>
+              <p class="text-xs text-gray-300 leading-relaxed">
+                Nossa IA irá estruturar seu treino com divisão otimizada, ordem correta de exercícios, séries, repetições alvos e tempo de descanso adequado ao seu nível.
+              </p>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+              <button type="button" onclick="goToStep(2)" class="w-1/3 bg-gray-800 text-gray-300 font-bold py-3.5 rounded-xl hover:bg-gray-700 transition">
+                Voltar
+              </button>
+              <button type="submit" id="btnGenerate" class="w-2/3 bg-gradient-to-r from-brand-neon to-brand-cyan text-black font-extrabold py-3.5 rounded-xl shadow-lg hover:opacity-95 transition flex items-center justify-center gap-2">
+                <i class="ph-bold ph-sparkle text-lg"></i> Gerar Treino IA
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- VIEW 2: LOADING SCREEN -->
+    <section id="loadingView" class="hidden py-16 text-center space-y-6">
+      <div class="relative w-28 h-28 mx-auto flex items-center justify-center">
+        <div class="absolute inset-0 rounded-full border-4 border-brand-neon/20 animate-ping"></div>
+        <div class="w-24 h-24 rounded-full border-4 border-t-brand-neon border-r-brand-cyan border-b-transparent border-l-transparent animate-spin"></div>
+        <!-- Official Logo inside Spinner -->
+        <div class="w-12 h-10 absolute flex items-center justify-center">
+          <svg viewBox="0 0 200 102" class="w-full h-full drop-shadow">
+            <path fill="#8a8f98" d="M 0 44 h 10 v 14 h -10 z M 190 44 h 10 v 14 h -10 z"/>
+            <rect x="12" y="13" width="16" height="76" rx="6" fill="#717680"/>
+            <rect x="172" y="13" width="16" height="76" rx="6" fill="#717680"/>
+            <rect x="32" y="0" width="16" height="102" rx="7" fill="#8a8f98"/>
+            <rect x="152" y="0" width="16" height="102" rx="7" fill="#8a8f98"/>
+            <rect x="48" y="42" width="104" height="18" fill="#717680"/>
+            <text x="100" y="78" font-family="'Times New Roman', Georgia, serif" font-weight="900" font-size="86" text-anchor="middle" fill="#000000">M</text>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold text-white mb-2">Criando sua Ficha Personalizada...</h3>
+        <p class="text-xs text-gray-400 max-w-xs mx-auto">A Inteligência Artificial do MOTTA FIT está estruturando a melhor rotina para você.</p>
+      </div>
+      <div class="inline-flex items-center gap-2 text-xs text-brand-neon bg-brand-neon/10 px-4 py-2 rounded-full border border-brand-neon/20">
+        <i class="ph-bold ph-brain"></i> Gemini Flash Engine Processando
+      </div>
+    </section>
+
+    <!-- VIEW 3: WORKOUT DASHBOARD -->
+    <section id="dashboardView" class="hidden space-y-4">
+      
+      <!-- Profile Header Summary -->
+      <div class="bg-brand-card rounded-2xl p-4 border border-brand-border flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-brand-neon/20 text-brand-neon flex items-center justify-center text-xl font-bold border border-brand-neon/40">
+            <i class="ph-bold ph-user"></i>
+          </div>
+          <div>
+            <h3 id="dashUserName" class="font-bold text-white text-base">Atleta Fit</h3>
+            <p id="dashUserMeta" class="text-xs text-gray-400">Iniciante • Hipertrofia</p>
+          </div>
+        </div>
+        <button onclick="resetAndReconfigure()" class="px-3 py-1.5 rounded-xl bg-gray-800 text-xs font-semibold text-gray-300 hover:text-white border border-brand-border transition flex items-center gap-1">
+          <i class="ph-bold ph-note-pencil"></i> Refazer
+        </button>
+      </div>
+
+      <!-- Days Tabs Navigation -->
+      <div id="workoutTabs" class="flex space-x-2 overflow-x-auto pb-1 scrollbar-none">
+        <!-- Dynamic Tabs inserted via JS -->
+      </div>
+
+      <!-- Current Day Workout Card -->
+      <div id="workoutContent" class="space-y-4">
+        <!-- Dynamic Exercises list inserted via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FLOATING REST TIMER WIDGET -->
+  <div id="timerWidget" class="fixed bottom-4 right-4 left-4 max-w-md mx-auto bg-gray-900/95 border border-brand-neon/40 rounded-2xl p-3 shadow-2xl backdrop-blur-md hidden transition-all duration-300 z-50">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div id="timerIcon" class="w-10 h-10 rounded-xl bg-brand-neon/20 text-brand-neon flex items-center justify-center font-bold text-xl border border-brand-neon/30">
+          <i class="ph-bold ph-timer"></i>
+        </div>
+        <div>
+          <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Descanso Recomendado</span>
+          <div class="flex items-baseline space-x-1">
+            <span id="timerDisplay" class="text-2xl font-black text-white tracking-tight font-mono">01:00</span>
+            <span class="text-xs text-brand-neon font-medium">min</span>
+          </div>
+        </div>
+      </div>
+
+  <!-- EXERCISE GUIDE & SVG ANIMATION MODAL -->
+  <div id="exerciseModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+    <div class="bg-brand-card border-t sm:border border-brand-border rounded-t-3xl sm:rounded-3xl p-5 max-w-md w-full max-h-[90vh] overflow-y-auto space-y-4 animate-in slide-in-from-bottom duration-300">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-brand-border/60 pb-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="modalCategoryBadge" class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-brand-neon/10 text-brand-neon border border-brand-neon/30">Músculo Alvo</span>
+            <span id="modalTargetMuscle" class="text-xs text-gray-400 font-medium">Peitoral Maior</span>
+          </div>
+          <h3 id="modalExerciseTitle" class="text-xl font-black text-white mt-1">Supino Inclinado</h3>
+        </div>
+        <button onclick="closeExerciseModal()" class="p-1 rounded-lg text-gray-400 hover:text-white bg-gray-800/60 hover:bg-gray-800">
+          <i class="ph-bold ph-x text-xl"></i>
+        </button>
+      </div>
+
+      <!-- Animated SVG Motion Display Card -->
+      <div class="bg-gray-900/90 border border-brand-border rounded-2xl p-4 flex flex-col items-center justify-center relative overflow-hidden">
+        <div class="absolute top-2 right-2 flex items-center gap-1 bg-black/60 px-2 py-1 rounded-full text-[10px] text-brand-neon border border-brand-neon/30">
+          <span class="w-2 h-2 rounded-full bg-brand-neon animate-ping"></span> Animação do Movimento
+        </div>
+        
+        <!-- Interactive Dynamic SVG Display Container -->
+        <div id="svgContainer" class="w-full h-44 flex items-center justify-center">
+          <!-- Rendered dynamically by JavaScript -->
+        </div>
+
+        <div class="w-full flex justify-between items-center text-[11px] text-gray-400 mt-2 px-2 pt-2 border-t border-gray-800">
+          <span class="flex items-center gap-1"><i class="ph-bold ph-arrow-up text-brand-neon"></i> Fase Concêntrica (Contrair)</span>
+          <span class="flex items-center gap-1"><i class="ph-bold ph-arrow-down text-brand-cyan"></i> Fase Excêntrica (Controlar)</span>
+        </div>
+      </div>
+
+      <!-- Execution Instructions -->
+      <div class="space-y-2">
+        <h4 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+          <i class="ph-bold ph-list-checks text-brand-neon text-sm"></i> Como Executar Passo a Passo
+        </h4>
+        <ul id="modalExecutionSteps" class="space-y-2 text-xs text-gray-300">
+          <!-- Injected via JS -->
+        </ul>
+      </div>
+
+      <!-- Common Mistakes to Avoid -->
+      <div class="p-3 bg-red-950/20 border border-red-500/30 rounded-2xl space-y-1.5">
+        <h4 class="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
+          <i class="ph-bold ph-warning-circle text-sm"></i> Erros Comuns & Prevenção de Lesões
+        </h4>
+        <ul id="modalMistakesList" class="space-y-1 text-xs text-red-200/80">
+          <!-- Injected via JS -->
+        </ul>
+      </div>
+
+      <button onclick="closeExerciseModal()" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 rounded-xl transition text-xs">
+        Entendi, Voltar ao Treino
+      </button>
+    </div>
+  </div>
+
+  <!-- PWA INSTRUCTION MODAL -->
+  <div id="pwaModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-brand-card border border-brand-border rounded-3xl p-6 max-w-sm w-full space-y-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <!-- Logo SVG -->
+          <div class="w-7 h-5 flex items-center justify-center">
+            <svg viewBox="0 0 200 102" class="w-full h-full">
+              <path fill="#8a8f98" d="M 0 44 h 10 v 14 h -10 z M 190 44 h 10 v 14 h -10 z"/>
+              <rect x="12" y="13" width="16" height="76" rx="6" fill="#717680"/>
+              <rect x="172" y="13" width="16" height="76" rx="6" fill="#717680"/>
+              <rect x="32" y="0" width="16" height="102" rx="7" fill="#8a8f98"/>
+              <rect x="152" y="0" width="16" height="102" rx="7" fill="#8a8f98"/>
+              <rect x="48" y="42" width="104" height="18" fill="#717680"/>
+              <text x="100" y="78" font-family="'Times New Roman', Georgia, serif" font-weight="900" font-size="86" text-anchor="middle" fill="#000000">M</text>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-white">Instalar no Celular</h3>
+        </div>
+        <button onclick="togglePwaModal()" class="text-gray-400 hover:text-white">
+          <i class="ph-bold ph-x text-xl"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-gray-300 leading-relaxed">
+        Adicione o <strong>MOTTA FIT</strong> à tela inicial do seu celular para abri-lo direto na academia como um app nativo!
+      </p>
+
+      <div class="space-y-3 text-xs">
+        <div class="p-3 bg-gray-900 rounded-xl border border-brand-border space-y-1">
+          <div class="font-bold text-brand-neon flex items-center gap-1">
+            <i class="ph-bold ph-apple-logo text-sm"></i> iPhone (iOS - Safari)
+          </div>
+          <p class="text-gray-300">1. Toque no ícone de <strong>Compartilhar</strong> (quadrado com seta pra cima no menu inferior).</p>
+          <p class="text-gray-300">2. Role para baixo e selecione <strong>"Adicionar à Tela de Início"</strong>.</p>
+        </div>
+
+        <div class="p-3 bg-gray-900 rounded-xl border border-brand-border space-y-1">
+          <div class="font-bold text-brand-cyan flex items-center gap-1">
+            <i class="ph-bold ph-android-logo text-sm"></i> Android (Chrome)
+          </div>
+          <p class="text-gray-300">1. Toque nos <strong>3 pontos</strong> no canto superior direito.</p>
+          <p class="text-gray-300">2. Selecione <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à tela inicial"</strong>.</p>
+        </div>
+      </div>
+
+      <button onclick="togglePwaModal()" class="w-full bg-brand-neon text-black font-bold py-3 rounded-xl hover:opacity-90 transition">
+        Entendi!
+      </button>
+    </div>
+  </div>
+
+  <!-- SETTINGS / API KEY MODAL -->
+  <div id="settingsModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-brand-card border border-brand-border rounded-3xl p-6 max-w-sm w-full space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <i class="ph-bold ph-gear text-brand-neon"></i> Chave de API Gemini
+        </h3>
+        <button onclick="closeSettingsModal()" class="text-gray-400 hover:text-white">
+          <i class="ph-bold ph-x text-xl"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-gray-300 leading-relaxed">
+        Caso deseje utilizar sua própria chave da API Google Gemini, insira-a abaixo. Se deixado em branco, a chave padrão do ambiente será utilizada automaticamente.
+      </p>
+
+      <div>
+        <label class="block text-xs font-semibold text-gray-300 mb-1">Gemini API Key</label>
+        <input type="password" id="customApiKey" placeholder="AIzaSy..." class="w-full bg-gray-900 border border-brand-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-neon text-white font-mono">
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="saveApiKey()" class="w-full bg-brand-neon text-black font-bold py-3 rounded-xl hover:opacity-90 transition">
+          Salvar Configurações
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP JAVASCRIPT LOGIC -->
+  <script>
+    // --- STATE MANAGEMENT ---
+    let currentStep = 1;
+    let userProfile = null;
+    let currentWorkoutPlan = null;
+    let activeDayIndex = 0;
+    
+    // Timer Variables
+    let timerInterval = null;
+    let timerSecondsLeft = 0;
+    let isTimerRunning = false;
+
+    // Local Storage Keys
+    const STORAGE_PROFILE_KEY = 'mottafit_user_profile';
+    const STORAGE_PLAN_KEY = 'mottafit_workout_plan';
+    const STORAGE_APIKEY_KEY = 'mottafit_custom_api_key';
+
+    // --- INITIALIZATION ---
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedData();
+      
+      const savedApiKey = localStorage.getItem(STORAGE_APIKEY_KEY);
+      if (savedApiKey) {
+        document.getElementById('customApiKey').value = savedApiKey;
+      }
+    });
+
+    function loadSavedData() {
+      const savedProfile = localStorage.getItem(STORAGE_PROFILE_KEY);
+      const savedPlan = localStorage.getItem(STORAGE_PLAN_KEY);
+
+      if (savedProfile && savedPlan) {
+        try {
+          userProfile = JSON.parse(savedProfile);
+          currentWorkoutPlan = JSON.parse(savedPlan);
+          renderDashboard();
+          showView('dashboardView');
+        } catch (e) {
+          console.error("Erro ao carregar dados locais", e);
+          showView('onboardingView');
+        }
+      } else {
+        showView('onboardingView');
+      }
+    }
+
+    // --- NAVIGATION & VIEWS ---
+    function showView(viewId) {
+      document.getElementById('onboardingView').classList.add('hidden');
+      document.getElementById('loadingView').classList.add('hidden');
+      document.getElementById('dashboardView').classList.add('hidden');
+      
+      document.getElementById(viewId).classList.remove('hidden');
+    }
+
+    function goToStep(step) {
+      // Validate Step 1 before proceeding
+      if (step === 2 && currentStep === 1) {
+        const name = document.getElementById('userName').value.trim();
+        const age = document.getElementById('userAge').value;
+        if (!name || !age) {
+          showToast("Por favor, preencha seu nome e idade.");
+          return;
+        }
+      }
+
+      currentStep = step;
+      document.getElementById('step1').classList.toggle('hidden', step !== 1);
+      document.getElementById('step2').classList.toggle('hidden', step !== 2);
+      document.getElementById('step3').classList.toggle('hidden', step !== 3);
+
+      document.getElementById('stepBadge').textContent = `Etapa ${step} de 3`;
+      document.getElementById('progressBar').style.width = `${(step / 3) * 100}%`;
+    }
+
+    // --- GEMINI API INTEGRATION ---
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('userName').value.trim();
+      const age = document.getElementById('userAge').value;
+      const gender = document.getElementById('userGender').value;
+      const experience = document.querySelector('input[name="experience"]:checked').value;
+      const goal = document.getElementById('userGoal').value;
+      const frequency = document.getElementById('userFrequency').value;
+      const duration = document.getElementById('userDuration').value;
+      const equipment = document.getElementById('userEquipment').value;
+      const limitations = document.getElementById('userLimitations').value.trim() || "Nenhuma limitação relatada.";
+
+      userProfile = { name, age, gender, experience, goal, frequency, duration, equipment, limitations };
+      
+      showView('loadingView');
+
+      try {
+        const plan = await generateWorkoutWithGemini(userProfile);
+        currentWorkoutPlan = plan;
+
+        // Save to local storage
+        localStorage.setItem(STORAGE_PROFILE_KEY, JSON.stringify(userProfile));
+        localStorage.setItem(STORAGE_PLAN_KEY, JSON.stringify(currentWorkoutPlan));
+
+        renderDashboard();
+        showView('dashboardView');
+      } catch (error) {
+        console.error("Erro na API Gemini:", error);
+        alert("Ocorreu um erro ao gerar seu treino com IA. Verifique sua conexão e tente novamente.");
+        showView('onboardingView');
+      }
+    }
+
+    async function generateWorkoutWithGemini(profile) {
+      const customApiKey = localStorage.getItem(STORAGE_APIKEY_KEY) || "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${customApiKey}`;
+
+      const systemInstruction = `Você é o Personal Trainer oficial do aplicativo MOTTA FIT, Mestre em Educação Física de elite.
+Sua tarefa é criar uma rotina semanal de musculação/treino altamente personalizada em formato JSON estruturado.
+O plano deve ser totalmente adaptado à idade, limitações/lesões, nível de treino e equipamentos do aluno.
+Para CADA exercício, inclua a categoria muscular ('chest', 'back', 'legs', 'shoulders', 'arms', 'core'), o músculo primário alvo, os passos de execução e os erros comuns a evitar.
+IMPORTANTE: Retorne APENAS o JSON válido seguindo estritamente a estrutura solicitada, sem formatações Markdown extras ou textos explicativos fora do JSON.`;
+
+      const userPrompt = `Crie um plano de treino semanal para o seguinte aluno do MOTTA FIT:
+- Nome: ${profile.name}
+- Idade: ${profile.age} anos
+- Gênero: ${profile.gender}
+- Experiência: ${profile.experience}
+- Objetivo: ${profile.goal}
+- Frequência: ${profile.frequency}
+- Duração por sessão: ${profile.duration}
+- Equipamentos disponíveis: ${profile.equipment}
+- Lesões/Limitações físicas: ${profile.limitations}
+
+Responda exclusivamente com um objeto JSON válido no seguinte formato:
+{
+  "routineTitle": "Nome da Divisão (ex: ABC - Hipertrofia & Força)",
+  "summary": "Resumo motivacional curto explicando a estratégia do treino em relação ao perfil do aluno.",
+  "days": [
+    {
+      "dayLabel": "Dia A",
+      "focus": "Peito, Ombros e Tríceps",
+      "exercises": [
+        {
+          "id": "ex_1",
+          "name": "Supino Inclinado com Halteres",
+          "category": "chest",
+          "target_muscle": "Peitoral Maior Superior",
+          "sets": 4,
+          "reps": "8 - 12",
+          "restSeconds": 60,
+          "notes": "Mantenha as escápulas aduzidas. Evite estalar os cotovelos.",
+          "execution": [
+            "Ajuste o banco em um ângulo de 30 a 45 graus.",
+            "Deite-se no banco mantendo os pés firmes no chão e escápulas fechadas.",
+            "Empurre os halteres para cima de forma controlada até quase estender os braços.",
+            "Desça lentamente trazendo os halteres até a linha do peito."
+          ],
+          "common_mistakes": [
+            "Deixar os cotovelos muito abertos em 90 graus (sobrecarrega o ombro).",
+            "Bater os halteres um no outro no topo.",
+            "Descolar a lombar e o quadril do banco durante o movimento."
+          ]
+        }
+      ]
+    }
+  ]
+}`;
+
+      const payload = {
+        contents: [{ parts: [{ text: userPrompt }] }],
+        systemInstruction: { parts: [{ text: systemInstruction }] },
+        generationConfig: {
+          responseMimeType: "application/json"
+        }
+      };
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro na API (${response.status})`);
+      }
+
+      const result = await response.json();
+      const rawText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!rawText) {
+        throw new Error("Resposta inválida da IA");
+      }
+
+      return JSON.parse(rawText);
+    }
+
+    // --- DASHBOARD RENDERING ---
+    function renderDashboard() {
+      if (!currentWorkoutPlan || !userProfile) return;
+
+      document.getElementById('dashUserName').textContent = userProfile.name;
+      document.getElementById('dashUserMeta').textContent = `${userProfile.experience} • ${userProfile.goal}`;
+
+      const tabsContainer = document.getElementById('workoutTabs');
+      tabsContainer.innerHTML = '';
+
+      currentWorkoutPlan.days.forEach((day, index) => {
+        const isActive = index === activeDayIndex;
+        const btn = document.createElement('button');
+        btn.className = `flex-1 min-w-[100px] py-2.5 px-3 rounded-xl font-bold text-xs transition border flex flex-col items-center justify-center ${
+          isActive 
+            ? 'bg-brand-neon text-black border-brand-neon shadow-lg font-extrabold' 
+            : 'bg-brand-card text-gray-400 border-brand-border hover:border-gray-600'
+        }`;
+        btn.onclick = () => {
+          activeDayIndex = index;
+          renderDashboard();
+        };
+        btn.innerHTML = `
+          <span>${day.dayLabel}</span>
+          <span class="text-[10px] font-normal truncate max-w-[90px] ${isActive ? 'text-black' : 'text-gray-400'}">${day.focus}</span>
+        `;
+        tabsContainer.appendChild(btn);
+      });
+
+      // Render Active Day Exercises
+      const currentDay = currentWorkoutPlan.days[activeDayIndex] || currentWorkoutPlan.days[0];
+      const contentContainer = document.getElementById('workoutContent');
+      contentContainer.innerHTML = '';
+
+      // Day Title Banner
+      const dayHeader = document.createElement('div');
+      dayHeader.className = 'bg-gradient-to-r from-gray-900 to-brand-card border border-brand-border p-4 rounded-2xl flex items-center justify-between';
+      dayHeader.innerHTML = `
+        <div>
+          <span class="text-[10px] font-bold text-brand-neon uppercase tracking-wider">Treino do Dia</span>
+          <h3 class="text-lg font-extrabold text-white">${currentDay.dayLabel}: ${currentDay.focus}</h3>
+        </div>
+        <div class="text-xs text-gray-400 bg-gray-900 px-3 py-1 rounded-full border border-brand-border">
+          ${currentDay.exercises.length} Exercícios
+        </div>
+      `;
+      contentContainer.appendChild(dayHeader);
+
+      // Exercises List
+      currentDay.exercises.forEach((ex, exIndex) => {
+        const card = document.createElement('div');
+        card.className = 'bg-brand-card border border-brand-border rounded-2xl p-4 space-y-3 shadow-md';
+
+        let setsHtml = '';
+        for (let s = 1; s <= ex.sets; s++) {
+          const checkId = `check_${activeDayIndex}_${exIndex}_${s}`;
+          const isChecked = localStorage.getItem(checkId) === 'true';
+
+          setsHtml += `
+            <div class="flex items-center justify-between p-2 rounded-xl bg-gray-900/60 border border-brand-border/40">
+              <span class="text-xs text-gray-300 font-medium">Série ${s}</span>
+              <div class="flex items-center space-x-3">
+                <span class="text-xs font-semibold text-brand-cyan">${ex.reps} reps</span>
+                <input type="checkbox" id="${checkId}" ${isChecked ? 'checked' : ''} 
+                  onchange="toggleSetCheck('${checkId}', ${ex.restSeconds})" 
+                  class="w-5 h-5 rounded border-gray-700 text-brand-neon focus:ring-brand-neon bg-gray-800 cursor-pointer accent-brand-neon">
+              </div>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="flex items-start justify-between">
+            <div class="pr-2">
+              <div class="flex items-center gap-2">
+                <h4 class="font-bold text-white text-base">${exIndex + 1}. ${ex.name}</h4>
+              </div>
+              <p class="text-xs text-gray-400 mt-0.5">${ex.notes || 'Foco na execução correta.'}</p>
+            </div>
+            <div class="flex flex-col items-end gap-1.5 shrink-0">
+              <button onclick="openExerciseModal(${activeDayIndex}, ${exIndex})" class="flex items-center gap-1 text-[11px] font-bold text-black bg-brand-neon px-2.5 py-1.5 rounded-lg hover:opacity-90 transition shadow-md">
+                <i class="ph-bold ph-play-circle text-sm"></i> Como Fazer?
+              </button>
+              <button onclick="startTimer(${ex.restSeconds})" class="flex items-center gap-1 text-[10px] font-bold text-brand-neon bg-brand-neon/10 border border-brand-neon/30 px-2 py-0.5 rounded-lg hover:bg-brand-neon/20 transition">
+                <i class="ph-bold ph-timer"></i> ${ex.restSeconds}s Rest
+              </button>
+            </div>
+          </div>
+          <div class="space-y-1.5 pt-1">
+            ${setsHtml}
+          </div>
+        `;
+        contentContainer.appendChild(card);
+      });
+    }
+
+    // --- EXERCISE GUIDANCE & SVG ANIMATION MODAL ---
+    function openExerciseModal(dayIdx, exIdx) {
+      const exercise = currentWorkoutPlan.days[dayIdx].exercises[exIdx];
+      if (!exercise) return;
+
+      document.getElementById('modalExerciseTitle').textContent = exercise.name;
+      document.getElementById('modalTargetMuscle').textContent = exercise.target_muscle || "Músculo Alvo";
+      document.getElementById('modalCategoryBadge').textContent = (exercise.category || "Treino").toUpperCase();
+
+      // Render Dynamic SVG Animation according to exercise category or name
+      renderExerciseAnimationSVG(exercise);
+
+      // Render Execution Steps
+      const stepsList = document.getElementById('modalExecutionSteps');
+      stepsList.innerHTML = '';
+      const steps = exercise.execution && exercise.execution.length > 0 ? exercise.execution : [
+        "Mantenha a postura alinhada e contraia o abdômen.",
+        "Execute a fase de esforço (concêntrica) expirando o ar.",
+        "Retorne à posição inicial de forma lenta e controlada inspirando o ar."
+      ];
+      steps.forEach((step, idx) => {
+        const li = document.createElement('li');
+        li.className = 'flex items-start gap-2 bg-gray-900/50 p-2 rounded-xl border border-brand-border/30';
+        li.innerHTML = `<span class="w-4 h-4 rounded-full bg-brand-neon/20 text-brand-neon font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span> <span>${step}</span>`;
+        stepsList.appendChild(li);
+      });
+
+      // Render Mistakes List
+      const mistakesList = document.getElementById('modalMistakesList');
+      mistakesList.innerHTML = '';
+      const mistakes = exercise.common_mistakes && exercise.common_mistakes.length > 0 ? exercise.common_mistakes : [
+        "Realizar o movimento com carga excessiva sem controle.",
+        "Não utilizar a amplitude completa do movimento."
+      ];
+      mistakes.forEach(mistake => {
+        const li = document.createElement('li');
+        li.className = 'flex items-start gap-1.5';
+        li.innerHTML = `<i class="ph-bold ph-x-circle text-red-400 mt-0.5 shrink-0"></i> <span>${mistake}</span>`;
+        mistakesList.appendChild(li);
+      });
+
+      document.getElementById('exerciseModal').classList.remove('hidden');
+    }
+
+    function closeExerciseModal() {
+      document.getElementById('exerciseModal').classList.add('hidden');
+    }
+
+    // Interactive Animated Vector SVG Generator for Gym Exercises
+    function renderExerciseAnimationSVG(exercise) {
+      const container = document.getElementById('svgContainer');
+      const cat = (exercise.category || '').toLowerCase();
+      const name = (exercise.name || '').toLowerCase();
+
+      // 1. SUPINO / FLEXÃO (Bench Press & Pushups)
+      if (name.includes('supino') || name.includes('flexão') || name.includes('crucifixo') || cat.includes('chest') || cat.includes('peito')) {
+        container.innerHTML = `
+          <svg viewBox="0 0 200 140" class="w-full h-full max-w-[220px]">
+            <!-- Bench -->
+            <rect x="40" y="95" width="120" height="8" rx="3" fill="#30363d"/>
+            <rect x="55" y="103" width="10" height="25" fill="#161b22"/>
+            <rect x="135" y="103" width="10" height="25" fill="#161b22"/>
+            <!-- Body Figure -->
+            <circle cx="58" cy="87" r="9" fill="#4ade80"/> <!-- Head -->
+            <rect x="67" y="83" width="60" height="11" rx="4" fill="#00ff66"/> <!-- Torso -->
+            <path d="M 127 88 L 155 88 L 155 115" stroke="#22c55e" stroke-width="6" stroke-linecap="round" fill="none"/> <!-- Legs -->
+            <!-- Animated Barbell and Arms -->
+            <g class="anim-bench">
+              <line x1="60" y1="52" x2="140" y2="52" stroke="#e5e7eb" stroke-width="5"/>
+              <rect x="52" y="42" width="9" height="20" rx="2" fill="#06b6d4"/>
+              <rect x="139" y="42" width="9" height="20" rx="2" fill="#06b6d4"/>
+              <!-- Arms holding bar -->
+              <line x1="95" y1="83" x2="95" y2="54" stroke="#00ff66" stroke-width="5" stroke-linecap="round"/>
+            </g>
+          </svg>
+        `;
+      } 
+      // 2. AGACHAMENTO (Squats)
+      else if (name.includes('agachamento') || name.includes('squat') || name.includes('afundo') || name.includes('stiff')) {
+        container.innerHTML = `
+          <svg viewBox="0 0 200 140" class="w-full h-full max-w-[220px]">
+            <line x1="30" y1="128" x2="170" y2="128" stroke="#30363d" stroke-width="4"/>
+            <!-- Animated Squat Figure -->
+            <g class="anim-squat">
+              <circle cx="100" cy="30" r="10" fill="#4ade80"/>
+              <rect x="93" y="40" width="14" height="42" rx="4" fill="#00ff66"/>
+              <!-- Barbell -->
+              <line x1="55" y1="44" x2="145" y2="44" stroke="#e5e7eb" stroke-width="5"/>
+              <rect x="47" y="34" width="9" height="20" rx="2" fill="#06b6d4"/>
+              <rect x="144" y="34" width="9" height="20" rx="2" fill="#06b6d4"/>
+              <!-- Bending Legs -->
+              <path d="M 95 82 L 85 105 L 82 126 M 105 82 L 115 105 L 118 126" stroke="#22c55e" stroke-width="6" stroke-linecap="round" fill="none"/>
+            </g>
+          </svg>
+        `;
+      }
+      // 3. LEVANTAMENTO TERRA / STIFF (Deadlifts)
+      else if (name.includes('terra') || name.includes('deadlift') || name.includes('hip thrust') || name.includes('pélvica')) {
+        container.innerHTML = `
+          <svg viewBox="0 0 200 140" class="w-full h-full max-w-[220px]">
+            <line x1="30" y1="126" x2="170" y2="126" stroke="#30363d" stroke-width="4"/>
+            <!-- Legs (Fixed) -->
+            <path d="M 92 88 L 90 126 M 108 88 L 110 126" stroke="#22c55e" stroke-width="7" stroke-linecap="round"/>
+            <!-- Torso + Barbell bending down -->
+            <g class="anim-deadlift">
+              <circle cx="100" cy="40" r="9" fill="#4ade80"/>
+              <rect x="94" y="49" width="12" height="40" rx="4" fill="#00ff66"/>
+              <!-- Barbell held in hands -->
+              <g>
+                <line x1="55" y1="88" x2="145" y2="88" stroke="#e5e7eb" stroke-width="5"/>
+                <rect x="47" y="78" width="9" height="20" rx="2" fill="#ff2a5f"/>
+                <rect x="144" y="78" width="9" height="20" rx="2" fill="#ff2a5f"/>
+              </g>
+            </g>
+          </svg>
+        `;
+      }
+      // 4. ROSCA BÍCEPS (Bicep Curls)
+      else if (name.includes('rosca') || name.includes('biceps') || name.includes('bíceps') || name.includes('martelo')) {
+        container.innerHTML = `
+          <svg viewBox="0 0 200 140" class="w-full h-full max-w-[220px]">
+            <!-- Body -->
+            <circle cx="65" cy="35" r="10" fill="#4ade80"/>
+            <rect x="58" y="45" width="14" height="60" rx="4" fill="#00ff66"/>
+            <line x1="65" y1="105" x2="65" y2="130" stroke="#30363d" stroke-width="7"/>
+            <!-- Animated Forearm & Dumbbell -->
+            <g class="anim-curl">
+              <line x1="68" y1="60" x2="98" y2="98" stroke="#22c55e" stroke-width="7" stroke-linecap="round"/>
+              <line x1="98" y1="98" x2="135" y2="98" stroke="#06b6d4" stroke-width="6" stroke-linecap="round"/>
+              <!-- Dumbbell -->
+              <rect x="130" y="88" width="12" height="20" rx="3" fill="#00ff66"/>
+            </g>
+          </svg>
+        `;
+      }
+      // 5. TRÍCEPS (Tricep Extensions / Pulley / Coice / Testa)
+      else if (name.includes('tríceps') || name.includes('triceps') || name.includes('testa') || name.includes('paralelas')) {
+        container.innerHTML = `
+          <svg viewBox="0 0 200 140" class="w-full h-full max-w-[220px]">
+            <rect x="95" y="10" width="10" height="120" fill="#30363d"/>
+            <circle cx="70" cy="45" r="9" fill="#4ade80"/>
+            <rect x="64" y="54" width="12" height="50" rx="4" fill="#00ff66"/>
+            <!-- Cable Line -->
+            <line x1="95" y1="15" x2="85" y2="55" stroke="#e5e7eb" stroke-width="2"/>
+            <!-- Animated Tricep Pushdown Arm -->
+            <g class="anim-pulldown">
+              <line x1="72" y1="65" x2="85" y2="90" stroke="#06b6d4" stroke-width="6" stroke-linecap="round"/>
+              <circle cx="85" cy="92" r="5" fill="#ff2a5f"/>
+            </g>
+          </svg>
+        `;
+      }
+      // 6. OMBRO / DESENVOLVIMENTO (Shoulder Press / Elevação Lateral)
+      else if (name.includes('desenvolvimento') || name.includes('elevação') || name.includes('ombro') || name.includes('militar') || cat.includes('shoulders')) {
+        container.innerHTML = `
+          <svg viewBox="0 0 200 140" class="w-full h-full max-w-[220px]">
+            <!-- Seated Body -->
+            <circle cx="100" cy="55" r="9" fill="#4ade80"/>
+            <rect x="93" y="64" width="14" height="45" rx="4" fill="#00ff66"/>
+            <line x1="100" y1="109" x2="85" y2="130" stroke="#30363d" stroke-width="6"/>
+            <line x1="100" y1="109" x2="115" y2="130" stroke="#30363d" stroke-width="6"/>
+            <!-- Animated Overhead Press Dumbbells -->
+            <g class="anim-shoulder">
+              <line x1="55" y1="65" x2="145" y2="65" stroke="#00ff66" stroke-width="4"/>
+              <rect x="50" y="57" width="10" height="16" rx="2" fill="#06b6d4"/>
+              <rect x="140" y="57" width="10" height="16" rx="2" fill="#06b6d4"/>
+            </g>
+          </svg>
+        `;
+      }
+      // 7. PUXADA ALTA / BARRA FIXA (Lat Pulldowns / Pullups)
+      else if (name.includes('puxada') || name.includes('barra fixa') || name.includes('pulldown') || name.includes('lat')) {
+        container.innerHTML = `
+          <svg viewBox="0 0 200 140" class="w-full h-full max-w-[220px]">
+            <rect x="95" y="10" width="10" height="120" fill="#30363d"/>
+            <rect x="45" y="10" width="110" height="8" fill="#161b22"/>
+            <!-- Seated Body -->
+            <circle cx="100" cy="65" r="9" fill="#4ade80"/>
+            <rect x="93" y="74" width="14" height="40" rx="3" fill="#00ff66"/>
+            <!-- Animated Pulldown Bar -->
+            <g class="anim-pulldown">
+              <line x1="50" y1="35" x2="150" y2="35" stroke="#06b6d4" stroke-width="5" stroke-linecap="round"/>
+              <line x1="100" y1="10" x2="100" y2="35" stroke="#e5e7eb" stroke-width="2"/>
+            </g>
+          </svg>
+        `;
+      }
+      // 8. REMADAS (Rows)
+      else if (name.includes('remada') || name.includes('row') || name.includes('serrote') || cat.includes('back') || cat.includes('costas')) {
+        container.innerHTML = `
+          <svg viewBox="0 0 200 140" class="w-full h-full max-w-[220px]">
+            <!-- Bench Machine -->
+            <rect x="70" y="75" width="85" height="8" rx="3" fill="#30363d"/>
+            <!-- Seated Body Bent Forward -->
+            <circle cx="65" cy="55" r="9" fill="#4ade80"/>
+            <rect x="70" y="60" width="45" height="12" rx="4" fill="#00ff66" transform="rotate(25 70 60)"/>
+            <!-- Animated Row Handle Pull -->
+            <g class="anim-row">
+              <line x1="135" y1="65" x2="95" y2="65" stroke="#06b6d4" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="137" cy="65" r="6" fill="#ff2a5f"/>
+            </g>
+          </svg>
+        `;
+      }
+      // 9. LEG PRESS & CADEIRA EXTENSORA
+      else if (name.includes('leg press') || name.includes('extensora') || name.includes('flexora') || name.includes('panturrilha')) {
+        container.innerHTML = `
+          <svg viewBox="0 0 200 140" class="w-full h-full max-w-[220px]">
+            <!-- Incline Leg Press Sled Machine -->
+            <line x1="40" y1="115" x2="150" y2="25" stroke="#30363d" stroke-width="8" stroke-linecap="round"/>
+            <rect x="40" y="80" width="35" height="10" rx="3" fill="#161b22" transform="rotate(-35 40 80)"/>
+            <!-- Body -->
+            <circle cx="50" cy="70" r="9" fill="#4ade80"/>
+            <rect x="55" y="75" width="35" height="12" rx="4" fill="#00ff66" transform="rotate(-35 55 75)"/>
+            <!-- Animated Footplate Sled -->
+            <g class="anim-legpress">
+              <rect x="120" y="25" width="25" height="35" rx="4" fill="#06b6d4" transform="rotate(-35 120 25)"/>
+            </g>
+          </svg>
+        `;
+      }
+      // 10. ABDOMINAL (Crunches / Core)
+      else if (name.includes('abdominal') || name.includes('prancha') || name.includes('crunch') || cat.includes('core')) {
+        container.innerHTML = `
+          <svg viewBox="0 0 200 140" class="w-full h-full max-w-[220px]">
+            <!-- Mat -->
+            <rect x="30" y="115" width="140" height="6" rx="2" fill="#30363d"/>
+            <!-- Legs bent on floor -->
+            <path d="M 120 115 L 140 90 L 160 115" stroke="#22c55e" stroke-width="7" stroke-linecap="round" fill="none"/>
+            <!-- Animated Crunch Upper Body -->
+            <g class="anim-crunch">
+              <circle cx="60" cy="100" r="9" fill="#4ade80"/>
+              <rect x="68" y="96" width="50" height="11" rx="4" fill="#00ff66"/>
+            </g>
+          </svg>
+        `;
+      }
+      // 11. DEFAULT GENERAL EXERCISE VISUAL
+      else {
+        container.innerHTML = `
+          <svg viewBox="0 0 200 140" class="w-full h-full max-w-[220px]">
+            <g class="anim-general">
+              <circle cx="100" cy="42" r="11" fill="#00ff66"/>
+              <rect x="92" y="55" width="16" height="45" rx="5" fill="#4ade80"/>
+              <line x1="85" y1="68" x2="62" y2="88" stroke="#06b6d4" stroke-width="5" stroke-linecap="round"/>
+              <line x1="115" y1="68" x2="138" y2="88" stroke="#06b6d4" stroke-width="5" stroke-linecap="round"/>
+              <line x1="94" y1="100" x2="85" y2="128" stroke="#22c55e" stroke-width="6"/>
+              <line x1="106" y1="100" x2="115" y2="128" stroke="#22c55e" stroke-width="6"/>
+            </g>
+          </svg>
+        `;
+      }
+    }
+
+    function toggleSetCheck(checkId, restSeconds) {
+      const checkbox = document.getElementById(checkId);
+      localStorage.setItem(checkId, checkbox.checked);
+
+      // If user marks set as complete, auto trigger rest timer
+      if (checkbox.checked) {
+        startTimer(restSeconds);
+      }
+    }
+
+    // --- REST TIMER CONTROLLER ---
+    function startTimer(seconds) {
+      clearInterval(timerInterval);
+      timerSecondsLeft = seconds;
+      isTimerRunning = true;
+
+      const widget = document.getElementById('timerWidget');
+      widget.classList.remove('hidden');
+
+      updateTimerDisplay();
+
+      timerInterval = setInterval(() => {
+        if (isTimerRunning) {
+          timerSecondsLeft--;
+          updateTimerDisplay();
+
+          if (timerSecondsLeft <= 0) {
+            clearInterval(timerInterval);
+            timerFinished();
+          }
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(timerSecondsLeft / 60);
+      const secs = timerSecondsLeft % 60;
+      document.getElementById('timerDisplay').textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function toggleTimer() {
+      isTimerRunning = !isTimerRunning;
+      document.getElementById('btnTimerToggle').textContent = isTimerRunning ? 'Pausar' : 'Retomar';
+    }
+
+    function adjustTimer(amount) {
+      timerSecondsLeft = Math.max(0, timerSecondsLeft + amount);
+      updateTimerDisplay();
+    }
+
+    function closeTimer() {
+      clearInterval(timerInterval);
+      document.getElementById('timerWidget').classList.add('hidden');
+    }
+
+    function timerFinished() {
+      // Gentle vibration feedback on mobile if supported
+      if ('vibrate' in navigator) {
+        navigator.vibrate([200, 100, 200]);
+      }
+      document.getElementById('timerDisplay').textContent = "00:00";
+      document.getElementById('btnTimerToggle').textContent = 'Concluído!';
+    }
+
+    // --- RECONFIGURE / RESET ---
+    function resetAndReconfigure() {
+      if (confirm("Deseja criar um novo plano de treino com a IA? Seu plano atual será substituído.")) {
+        localStorage.removeItem(STORAGE_PLAN_KEY);
+        currentWorkoutPlan = null;
+        showView('onboardingView');
+        goToStep(1);
+      }
+    }
+
+    // --- PWA MODAL TOGGLE ---
+    function togglePwaModal() {
+      const modal = document.getElementById('pwaModal');
+      modal.classList.toggle('hidden');
+    }
+
+    // --- SETTINGS MODAL ---
+    function openSettingsModal() {
+      document.getElementById('settingsModal').classList.remove('hidden');
+    }
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.add('hidden');
+    }
+    function saveApiKey() {
+      const key = document.getElementById('customApiKey').value.trim();
+      localStorage.setItem(STORAGE_APIKEY_KEY, key);
+      closeSettingsModal();
+      showToast("Chave da API atualizada com sucesso!");
+    }
+
+    // --- UTILS ---
+    function showToast(msg) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed top-16 left-1/2 -translate-x-1/2 bg-gray-900 border border-brand-neon text-white text-xs px-4 py-2.5 rounded-full shadow-2xl z-50 transition-all duration-300 font-semibold';
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+  </script>
+</body>
+</html>

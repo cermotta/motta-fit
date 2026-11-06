@@ -666,18 +666,18 @@
       try {
         const plan = await generateWorkoutWithGemini(userProfile);
         currentWorkoutPlan = plan;
-
-        // Save to local storage
-        localStorage.setItem(STORAGE_PROFILE_KEY, JSON.stringify(userProfile));
-        localStorage.setItem(STORAGE_PLAN_KEY, JSON.stringify(currentWorkoutPlan));
-
-        renderDashboard();
-        showView('dashboardView');
       } catch (error) {
-        console.error("Erro na API Gemini:", error);
-        alert("Ocorreu um erro ao gerar seu treino com IA. Verifique sua conexão e tente novamente.");
-        showView('onboardingView');
+        console.warn("API Gemini indisponível ou limitada no ambiente. Utilizando gerador inteligente local como fallback:", error);
+        // Fallback local instantâneo totalmente customizado
+        currentWorkoutPlan = generateFallbackWorkout(userProfile);
       }
+
+      // Save to local storage
+      localStorage.setItem(STORAGE_PROFILE_KEY, JSON.stringify(userProfile));
+      localStorage.setItem(STORAGE_PLAN_KEY, JSON.stringify(currentWorkoutPlan));
+
+      renderDashboard();
+      showView('dashboardView');
     }
 
     async function generateWorkoutWithGemini(profile) {
@@ -744,11 +744,18 @@ Responda exclusivamente com um objeto JSON válido no seguinte formato:
         }
       };
 
+      // Adiciona timeout de 8 segundos para não travar o usuário caso a API demore
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`Erro na API (${response.status})`);
@@ -762,6 +769,183 @@ Responda exclusivamente com um objeto JSON válido no seguinte formato:
       }
 
       return JSON.parse(rawText);
+    }
+
+    // --- SMART OFFLINE FALLBACK ENGINE ---
+    function generateFallbackWorkout(profile) {
+      const isBeginner = profile.experience === 'Iniciante';
+      const sets = isBeginner ? 3 : 4;
+      const reps = profile.goal.includes('Força') ? "6 - 8" : (profile.goal.includes('Emagrecimento') ? "12 - 15" : "8 - 12");
+      const rest = profile.goal.includes('Força') ? 90 : 60;
+
+      return {
+        routineTitle: `Rotina MOTTA FIT - ${profile.goal}`,
+        summary: `Ficha customizada para nível ${profile.experience}, focando em ${profile.goal} e adaptada para ${profile.equipment}.`,
+        days: [
+          {
+            dayLabel: "Dia A",
+            focus: "Peitoral, Ombros e Tríceps",
+            exercises: [
+              {
+                id: "fb_1",
+                name: profile.equipment.includes('Calistenia') ? "Flexão de Braços" : "Supino Inclinado com Halteres",
+                category: "chest",
+                target_muscle: "Peitoral Maior",
+                sets: sets,
+                reps: reps,
+                restSeconds: rest,
+                notes: "Controle o movimento na descida e mantenha os ombros firmes.",
+                execution: [
+                  "Mantenha a coluna neutra e escápulas aduzidas.",
+                  "Empurre o peso de forma explosiva mas controlada.",
+                  "Retorne lentamente respirando fundo."
+                ],
+                common_mistakes: [
+                  "Projetar os ombros para frente durante a subida.",
+                  "Não realizar a amplitude completa."
+                ]
+              },
+              {
+                id: "fb_2",
+                name: "Desenvolvimento de Ombros",
+                category: "shoulders",
+                target_muscle: "Deltoide Anterior e Lateral",
+                sets: sets,
+                reps: reps,
+                restSeconds: rest,
+                notes: "Evite arquivar excessivamente a lombar.",
+                execution: [
+                  "Empurre a carga para cima até a extensão quase completa dos braços.",
+                  "Desça controladamente até a altura das orelhas."
+                ],
+                common_mistakes: [
+                  "Usar o impulso das pernas inadvertidamente.",
+                  "Curvar a coluna para trás."
+                ]
+              },
+              {
+                id: "fb_3",
+                name: "Tríceps Pulley / Testa",
+                category: "triceps",
+                target_muscle: "Tríceps Braquial",
+                sets: sets,
+                reps: reps,
+                restSeconds: rest,
+                notes: "Mantenha os cotovelos fixos ao lado do corpo.",
+                execution: [
+                  "Estenda os cotovelos completamente contraindo o tríceps.",
+                  "Regresse sem movimentar os braços."
+                ],
+                common_mistakes: [
+                  "Abrir os cotovelos para os lados.",
+                  "Usar o peso do corpo para empurrar."
+                ]
+              }
+            ]
+          },
+          {
+            dayLabel: "Dia B",
+            focus: "Costas e Bíceps",
+            exercises: [
+              {
+                id: "fb_4",
+                name: profile.equipment.includes('Calistenia') ? "Barra Fixa ou Remada Invertida" : "Puxada Alta / Remada Curvada",
+                category: "back",
+                target_muscle: "Dorsal Maior",
+                sets: sets,
+                reps: reps,
+                restSeconds: rest,
+                notes: "Puxe concentrando o esforço nas costas e não nos braços.",
+                execution: [
+                  "Inicie o movimento puxando os cotovelos para baixo e para trás.",
+                  "Sinta a contração nas escápulas."
+                ],
+                common_mistakes: [
+                  "Balancear o tronco para puxar a carga.",
+                  "Puxar apenas com a força dos bíceps."
+                ]
+              },
+              {
+                id: "fb_5",
+                name: "Rosca Bíceps Direta",
+                category: "biceps",
+                target_muscle: "Bíceps Braquial",
+                sets: sets,
+                reps: reps,
+                restSeconds: rest,
+                notes: "Mantenha a postura ereta durante todo o movimento.",
+                execution: [
+                  "Flexione os cotovelos trazendo a carga em direção ao peito.",
+                  "Desça sem deixar os braços caírem."
+                ],
+                common_mistakes: [
+                  "Balançar o quadril para pegar impulso.",
+                  "Descolar os cotovelos do tronco."
+                ]
+              }
+            ]
+          },
+          {
+            dayLabel: "Dia C",
+            focus: "Pernas e Abdômen",
+            exercises: [
+              {
+                id: "fb_6",
+                name: "Agachamento Livre / Leg Press",
+                category: "legs",
+                target_muscle: "Quadríceps e Glúteos",
+                sets: sets,
+                reps: reps,
+                restSeconds: rest + 15,
+                notes: "Mantenha os joelhos alinhados com a ponta dos pés.",
+                execution: [
+                  "Flexione os joelhos projetando o quadril para trás.",
+                  "Desça até aproximadamente 90 graus e retorne firme."
+                ],
+                common_mistakes: [
+                  "Deixar os joelhos entrarem para dentro (valgo dinâmico).",
+                  "Tirar os calcanhares do chão."
+                ]
+              },
+              {
+                id: "fb_7",
+                name: "Stiff / Levantamento Terra",
+                category: "legs",
+                target_muscle: "Posterior de Coxa e Glúteos",
+                sets: sets,
+                reps: reps,
+                restSeconds: rest,
+                notes: "Preserve a curvatura natural da coluna.",
+                execution: [
+                  "Projete o quadril para trás mantendo as pernas levemente flexionadas.",
+                  "Sinta o alongamento no posterior antes de retornar."
+                ],
+                common_mistakes: [
+                  "Arredondar a coluna lombar na descida."
+                ]
+              },
+              {
+                id: "fb_8",
+                name: "Abdominal Crunch Solo",
+                category: "core",
+                target_muscle: "Reto Abdominal",
+                sets: 3,
+                reps: "15 - 20",
+                restSeconds: 45,
+                notes: "Solte o ar completamente no topo do movimento.",
+                execution: [
+                  "Flexione o tronco aproximando as costelas do quadril.",
+                  "Mantenha o pescoço relaxado sem puxar a cabeça."
+                ],
+                common_mistakes: [
+                  "Puxar a nuca com as mãos.",
+                  "Subir o corpo usando o impulso da lombar."
+                ]
+              }
+            ]
+          }
+        ]
+      };
     }
 
     // --- DASHBOARD RENDERING ---

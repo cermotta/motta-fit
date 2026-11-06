@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MOTTA FIT — Treinador Personalizado</title>
 
+    <!-- ---------------------------------------------------- -->
+    <!-- CONFIGURAÇÃO OFICIAL DO ÍCONE DO HALTER COM M       -->
+    <!-- ---------------------------------------------------- -->
+    
+    <!-- Este SVG gera o ícone do halter prateado com M preto para a tela de início -->
+    <script>
+        const iconSvg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'><rect width='400' height='200' fill='%23090d16'/><g transform='translate(50, 25)'><rect x='0' y='65' width='20' height='20' rx='5' fill='%2371717a'/><rect x='280' y='65' width='20' height='20' rx='5' fill='%2371717a'/><rect x='20' y='30' width='35' height='90' rx='10' fill='%2371717a'/><rect x='245' y='30' width='35' height='90' rx='10' fill='%2371717a'/><rect x='55' y='10' width='25' height='130' rx='10' fill='%2371717a'/><rect x='220' y='10' width='25' height='130' rx='10' fill='%2371717a'/><rect x='80' y='65' width='140' height='20' fill='%2371717a'/><text x='150' y='110' font-family='serif, Times New Roman' font-weight='900' font-size='110' fill='%23000000' text-anchor='middle'>M</text></g></svg>`;
+        const iconUrl = 'data:image/svg+xml;base64,' + btoa(iconSvg);
+    </script>
+
     <!-- App Web & PWA Configuration -->
     <meta name="application-name" content="MOTTA FIT">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,10 +22,35 @@
     <meta name="apple-mobile-web-app-title" content="MOTTA FIT">
     <meta name="theme-color" content="#090d16">
 
-    <!-- Ícone Oficial -->
-    <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=180&h=180&fit=crop&q=80">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'><rect width='400' height='200' fill='%23090d16'/><g transform='translate(50, 25)'><rect x='0' y='65' width='20' height='20' rx='5' fill='%2371717a'/><rect x='280' y='65' width='20' height='20' rx='5' fill='%2371717a'/><rect x='20' y='30' width='35' height='90' rx='10' fill='%2371717a'/><rect x='245' y='30' width='35' height='90' rx='10' fill='%2371717a'/><rect x='55' y='10' width='25' height='130' rx='10' fill='%2371717a'/><rect x='220' y='10' width='25' height='130' rx='10' fill='%2371717a'/><rect x='80' y='65' width='140' height='20' fill='%2371717a'/><text x='150' y='110' font-family='serif, Times New Roman' font-weight='900' font-size='110' fill='%23000000' text-anchor='middle'>M</text></g></svg>">
+    <!-- Meta Tags de Ícone Dinâmicas -->
+    <script>
+        document.write(`<link rel="apple-touch-icon" href="${iconUrl}">`);
+        document.write(`<link rel="icon" type="image/svg+xml" href="${iconUrl}">`);
+    </script>
+    
+    <!-- Manifesto da Web App Inline para garantir o ícone correto -->
+    <script>
+        const manifest = {
+            "name": "MOTTA FIT",
+            "short_name": "MOTTA FIT",
+            "start_url": "./index.html",
+            "display": "standalone",
+            "background_color": "#090d16",
+            "theme_color": "#090d16",
+            "icons": [
+                {
+                    "src": iconUrl,
+                    "sizes": "192x192 512x512",
+                    "type": "image/svg+xml",
+                    "purpose": "any maskable"
+                }
+            ]
+        };
+        const manifestUrl = 'data:application/manifest+json;base64,' + btoa(JSON.stringify(manifest));
+        document.write(`<link rel="manifest" href="${manifestUrl}">`);
+    </script>
 
+    <!-- ---------------------------------------------------- -->
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -71,18 +106,8 @@
     <div id="splash-screen" class="fixed inset-0 z-50 bg-fit-bg flex flex-col items-center justify-center p-6 transition-opacity duration-1000">
         <div class="splash-animate flex flex-col items-center space-y-6 text-center max-w-xs w-full">
             <div class="w-24 h-24 bg-fit-card border-2 border-fit-accent/50 rounded-3xl flex items-center justify-center p-3 shadow-2xl shadow-fit-accent/20">
-                <svg viewBox="0 0 300 150" class="w-full h-full">
-                    <g fill="#a1a1aa">
-                        <rect x="0" y="65" width="20" height="20" rx="4"/>
-                        <rect x="280" y="65" width="20" height="20" rx="4"/>
-                        <rect x="20" y="30" width="35" height="90" rx="8"/>
-                        <rect x="245" y="30" width="35" height="90" rx="8"/>
-                        <rect x="55" y="10" width="25" height="130" rx="8"/>
-                        <rect x="220" y="10" width="25" height="130" rx="8"/>
-                        <rect x="80" y="65" width="140" height="20"/>
-                    </g>
-                    <text x="150" y="112" font-family="serif, Times New Roman" font-weight="900" font-size="115" fill="#000000" text-anchor="middle">M</text>
-                </svg>
+                <!-- LOGO SVG NO SPLASH SCREEN -->
+                <script>document.write(iconSvg);</script>
             </div>
             <div>
                 <h1 class="text-3xl font-black tracking-tight text-white">
@@ -107,18 +132,8 @@
     <header class="sticky top-0 z-40 bg-fit-bg/95 backdrop-blur border-b border-fit-border px-4 py-3 flex items-center justify-between">
         <div class="flex items-center space-x-3 cursor-pointer" onclick="resetFormToStart()">
             <div class="w-10 h-10 bg-fit-card border border-fit-border rounded-xl flex items-center justify-center p-1 shadow-lg">
-                <svg viewBox="0 0 300 150" class="w-full h-full">
-                    <g fill="#a1a1aa">
-                        <rect x="0" y="65" width="20" height="20" rx="4"/>
-                        <rect x="280" y="65" width="20" height="20" rx="4"/>
-                        <rect x="20" y="30" width="35" height="90" rx="8"/>
-                        <rect x="245" y="30" width="35" height="90" rx="8"/>
-                        <rect x="55" y="10" width="25" height="130" rx="8"/>
-                        <rect x="220" y="10" width="25" height="130" rx="8"/>
-                        <rect x="80" y="65" width="140" height="20"/>
-                    </g>
-                    <text x="150" y="112" font-family="serif, Times New Roman" font-weight="900" font-size="115" fill="#000000" text-anchor="middle">M</text>
-                </svg>
+                <!-- LOGO SVG NO HEADER -->
+                <script>document.write(iconSvg);</script>
             </div>
             <div>
                 <h1 class="font-black text-lg tracking-tight leading-none text-white flex items-center gap-1.5">
@@ -159,7 +174,7 @@
             </button>
         </div>
 
-        <!-- SEÇÃO DE AUTENTICAÇÃO (LOGIN / REGISTRO COM NOME) -->
+        <!-- SEÇÃO DE AUTENTICAÇÃO -->
         <section id="auth-section" class="bg-fit-card border border-fit-border rounded-2xl p-5 shadow-xl">
             <div class="flex items-center space-x-2 pb-4 border-b border-fit-border">
                 <i data-lucide="log-in" class="w-5 h-5 text-fit-accent"></i>
@@ -167,7 +182,6 @@
             </div>
 
             <form id="auth-form" onsubmit="handleAuth(event)" class="mt-4 space-y-4">
-                <!-- CAMPO NOME (VISÍVEL APENAS NO CADASTRO) -->
                 <div id="auth-name-container" class="hidden">
                     <label class="block text-xs font-semibold text-fit-subtext mb-1">Nome Completo</label>
                     <input type="text" id="auth-name" placeholder="Ex: Eduardo Motta" class="w-full bg-fit-bg border border-fit-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-fit-accent transition">
@@ -209,7 +223,6 @@
             </div>
 
             <form id="workout-form" onsubmit="event.preventDefault();" class="mt-4">
-                <!-- ETAPA 1 -->
                 <div id="step-1" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold text-fit-subtext mb-1">Seu Nome ou Apelido</label>
@@ -255,7 +268,6 @@
                     </button>
                 </div>
 
-                <!-- ETAPA 2 -->
                 <div id="step-2" class="space-y-4 hidden">
                     <div>
                         <label class="block text-xs font-semibold text-fit-subtext mb-1">Qual é o seu objetivo principal?</label>
@@ -307,7 +319,6 @@
                     </div>
                 </div>
 
-                <!-- ETAPA 3 -->
                 <div id="step-3" class="space-y-4 hidden">
                     <div>
                         <label class="block text-xs font-semibold text-fit-subtext mb-1">Possui alguma lesão ou limitação física?</label>
@@ -322,7 +333,7 @@
                     </div>
 
                     <div class="flex space-x-2 pt-2">
-                        <button type="button" onclick="goToStep(2)" class="w-1/3 bg-fit-bg border border-fit-border hover:bg-fit-border text-white font-semibold py-3 rounded-xl transition">
+                        <button type="button" onclick="goToStep(2)" class="w-1/3 bg-fit-bg border border-fit-border hover:border-fit-border text-white font-semibold py-3 rounded-xl transition">
                             Voltar
                         </button>
                         <button type="button" onclick="generateWorkoutWithAI()" class="w-2/3 bg-gradient-to-r from-fit-accent to-emerald-400 hover:opacity-95 text-black font-black py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-xl shadow-fit-accent/20">
@@ -479,9 +490,7 @@
 
     <!-- LÓGICA JAVASCRIPT INTEGRADA AO FIREBASE -->
     <script>
-        // ----------------------------------------------------
         // 1. CHAVES OFICIAIS DO SEU PROJETO FIREBASE (motta-fit)
-        // ----------------------------------------------------
         const firebaseConfig = {
             apiKey: "AIzaSyDxdtYxjSv6Y8pq8_80-_3Bm2Ts3LQCMlw",
             authDomain: "motta-fit.firebaseapp.com",
@@ -504,9 +513,7 @@
             console.error("Erro ao inicializar Firebase:", e);
         }
 
-        // ----------------------------------------------------
         // 2. VARIÁVEIS GLOBAIS DA APLICAÇÃO
-        // ----------------------------------------------------
         let currentStep = 1;
         let selectedExperience = 'Iniciante';
         let currentWorkoutPlan = null;
@@ -517,35 +524,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             
-            let progress = 0;
-            const progressBar = document.getElementById('splash-progress-bar');
-            const progressText = document.getElementById('splash-percentage');
-            const statusText = document.getElementById('splash-status-text');
-
-            const loadingInterval = setInterval(() => {
-                progress += 5;
-                if (progress > 100) progress = 100;
-                
-                progressBar.style.width = progress + '%';
-                progressText.innerText = progress + '%';
-
-                if (progress > 40 && progress <= 80) {
-                    statusText.innerText = "Sincronizando com o Firebase...";
-                } else if (progress > 80) {
-                    statusText.innerText = "Sistema pronto!";
-                }
-
-                if (progress >= 100) {
-                    clearInterval(loadingInterval);
-                }
-            }, 80);
-
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
-                setTimeout(() => splash.remove(), 1000);
-            }, 2500);
-
             // MONITORAR ESTADO DE AUTENTICAÇÃO DO USUÁRIO
             if (auth) {
                 auth.onAuthStateChanged(user => {
@@ -571,9 +549,7 @@
             }
         });
 
-        // ----------------------------------------------------
-        // 3. FLUXO DE AUTENTICAÇÃO (LOGIN / REGISTRO)
-        // ----------------------------------------------------
+        // 3. FLUXO DE AUTENTICAÇÃO
         function toggleAuthMode() {
             isSignUpMode = !isSignUpMode;
             const title = document.getElementById('auth-title');
@@ -633,9 +609,7 @@
             if (auth) auth.signOut();
         }
 
-        // ----------------------------------------------------
         // 4. INTEGRAÇÃO DE DADOS COM O FIRESTORE
-        // ----------------------------------------------------
         async function loadUserWorkoutFromFirebase(uid) {
             try {
                 const doc = await db.collection("workouts").doc(uid).get();
@@ -666,9 +640,7 @@
             }
         }
 
-        // ----------------------------------------------------
         // 5. LÓGICA DE GERAMENTO DE FICHA
-        // ----------------------------------------------------
         function selectExperience(exp) {
             selectedExperience = exp;
             document.querySelectorAll('.exp-btn').forEach(btn => {
@@ -729,8 +701,6 @@
             }
 
             currentWorkoutPlan = workoutResult;
-            
-            // Salvar no Firebase
             await saveUserWorkoutToFirebase(currentWorkoutPlan);
 
             setTimeout(() => {
@@ -776,9 +746,7 @@
             };
         }
 
-        // ----------------------------------------------------
         // 6. RENDERIZAÇÃO DA INTERFACE
-        // ----------------------------------------------------
         function renderWorkoutDashboard() {
             if (!currentWorkoutPlan) return;
             document.getElementById('workout-dashboard').classList.remove('hidden');
